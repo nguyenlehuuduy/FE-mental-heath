@@ -1,0 +1,1666 @@
+openapi: 3.0.0
+paths:
+  /auth/register:
+    post:
+      operationId: AuthController_register
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountForPost"
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+
+      tags:
+        - auth
+  /auth/login:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccountForLogin"
+      responses:
+        "201":
+          description: "return access token to authentication"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+                  expired:
+                    type: string
+      tags:
+        - auth
+  /auth/profile:
+    get:
+      operationId: AuthController_getProfile
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+      tags:
+        - auth
+      security:
+        - Authorization: []
+  /roles/create:
+    post:
+      summary: API create role
+      operationId: RoleController_createRole
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleForCreate"
+      responses:
+        "201":
+          description: "create a role successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+
+      tags:
+        - role
+      security:
+        - Authorization: []
+  /roles/{idRole}/update:
+    put:
+      summary: api update role by idRole
+      parameters:
+        - in: path
+          name: idRole
+          schema:
+            type: string
+          required: true
+          description: permission by admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleForPut"
+      tags:
+        - role
+      responses:
+        "201":
+          description: "update a role successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+      security:
+        - Authorization: []
+  /roles/{idRole}/delete:
+    delete:
+      summary: API delete a role by idRole
+      parameters:
+        - in: path
+          name: idRole
+          schema:
+            type: string
+          required: true
+          description: permission by admin
+      tags:
+        - role
+      responses:
+        "200":
+          description: "delete succesfully"
+      security:
+        - Authorization: []
+  /roles:
+    get:
+      summary: api get all role
+      parameters: []
+      responses:
+        "200":
+          description: "list all role"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Role"
+
+      tags:
+        - role
+      security:
+        - Authorization: []
+  /roles/{idRole}:
+    get:
+      summary: api get detail role by idRole
+      parameters:
+        - in: path
+          name: idRole
+          schema:
+            type: string
+          required: true
+      tags:
+        - role
+      responses:
+        "201":
+          description: "detail role of id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+      security:
+        - Authorization: []
+  /post/create:
+    post:
+      summary: Create a new post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostForCreate"
+      responses:
+        "201":
+          description: "create a post successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      tags:
+        - post
+      security:
+        - Authorization: []
+  /post:
+    get:
+      summary: Get all post
+      parameters:
+        - in: query
+          name: limit
+          description: The maximum number of posts to return
+          schema:
+            type: integer
+
+        - in: query
+          name: limit
+          description: page number
+          schema:
+            type: integer
+
+        - in: query
+          name: sortBy
+          description: key word to sort
+          schema:
+            type: integer
+
+        - in: query
+          name: orderBy
+          description: orderBy desc or asc
+          schema:
+            type: integer
+
+        - in: query
+          name: idUser
+          description: The name of the post author
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: date
+          description: current date to create a post
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: topic
+          description: filter list by topic
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: react
+          description: filter list by react
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: favorite
+          description: filter list by favorite
+          schema:
+            type: string
+            maxLength: 50
+      responses:
+        "200":
+          description: "list of post"
+          content:
+            # pagination nên làm kiểu này
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Post"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      tags:
+        - post
+      security:
+        - Authorization: []
+  /post/{idPost}/update:
+    put:
+      summary: Update a post by idPost
+      parameters:
+        - in: path
+          name: idPost
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostForPut"
+      tags:
+        - post
+      responses:
+        "201":
+          description: "update succesfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      security:
+        - Authorization: []
+  /post/{idPost}/delete:
+    delete:
+      summary: Delete a post by idPost
+      parameters:
+        - in: path
+          name: idPost
+          schema:
+            type: string
+          required: true
+      tags:
+        - post
+      responses:
+        "200":
+          description: "delete succesfully"
+
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      security:
+        - Authorization: []
+  /post/{idPost}:
+    get:
+      summary: api get post detail by id post
+      tags:
+        - post
+      parameters:
+        - in: path
+          name: idPost
+          schema:
+            type: string
+          description: id of post
+          required: true
+      responses:
+        "201":
+          description: "create a post successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      security:
+        - Authorization: []
+  /reuppost/create:
+    post:
+      summary: Create a new reup post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReupPostForCreate"
+      responses:
+        "201":
+          description: "create a reup post successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReupPost"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      tags:
+        - reup post
+      security:
+        - Authorization: []
+  /reuppost:
+    get:
+      summary: List all reup post
+      parameters:
+        - in: query
+          name: limit
+          description: The maximum number of posts to return
+          schema:
+            type: integer
+
+        - in: query
+          name: limit
+          description: page number
+          schema:
+            type: integer
+
+        - in: query
+          name: sortBy
+          description: key word to sort
+          schema:
+            type: integer
+
+        - in: query
+          name: orderBy
+          description: orderBy desc or asc
+          schema:
+            type: integer
+
+        - in: query
+          name: page_no
+          description: current_page
+          schema:
+            type: integer
+
+        - in: query
+          name: idUser
+          description: The name of the post author
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: date
+          description: current date to create a post
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: topic
+          description: filter list by topic
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: react
+          description: filter list by react
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: favorite
+          description: filter list by favorite
+          schema:
+            type: string
+            maxLength: 50
+      responses:
+        "200":
+          description: "list of reup post"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ReupPost"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                # api list get list mà trả về 1 object
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      tags:
+        - reup post
+      security:
+        - Authorization: []
+  /reuppost/{idReupPost}/update:
+    put:
+      summary: Update a reup post by idReupPost
+      parameters:
+        - in: path
+          name: idReupPost
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReupPostForPut"
+      tags:
+        - reup post
+      responses:
+        "201":
+          description: "update succesfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReupPost"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      security:
+        - Authorization: []
+  /reuppost/{idReupPost}/delete:
+    delete:
+      summary: Delete a reup post by idReupPost
+      parameters:
+        - in: path
+          name: idReupPost
+          schema:
+            type: string
+          required: true
+      tags:
+        - reup post
+      responses:
+        "200":
+          description: "delete succesfully"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      security:
+        - Authorization: []
+  /reuppost/{idReupPost}:
+    get:
+      parameters:
+        - in: path
+          name: idReupPost
+          required: true
+          schema:
+            type: string
+      summary: api get detail reup post
+      tags:
+        - reup post
+      responses:
+        "201":
+          description: "reuppost by id user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReupPost"
+
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      security:
+        - Authorization: []
+  /images/create:
+    post:
+      summary: Create a new image post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ImagesForCreate"
+      responses:
+        "201":
+          description: "create an images post successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Images"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      tags:
+        - images
+      security:
+        - Authorization: []
+  /images:
+    get:
+      summary: Get all images
+      parameters:
+        - in: query
+          name: limit
+          description: The maximum number of images to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - in: query
+          name: pageNo
+          description: current page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - in: query
+          name: create
+          description: date create image
+          schema:
+            type: string
+        - in: query
+          name: idUser
+          description: image of a specific user
+          schema:
+            type: string
+        - in: query
+          name: capacity
+          description: filter image by mb capacity
+          schema:
+            type: string
+        - in: query
+          name: sort_by
+          description: key to sort
+          schema:
+            type: string
+        - in: query
+          name: order_by
+          description: key to order
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Return a list of images
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Images"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      tags:
+        - images
+      security:
+        - Authorization: []
+  /images/{idImages}:
+    delete:
+      summary: Delete an images
+      parameters:
+        - name: idImages
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Delete an image successfully
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      security:
+        - Authorization: []
+      tags:
+        - images
+
+  /typeImages/create:
+    post:
+      summary: api to create type image
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TypeImagesForCreate"
+      responses:
+        "201":
+          description: "create an images post successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypeImage"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      tags:
+        - type image
+      security:
+        - Authorization: []
+  /typeImages/{idTypeImage}:
+    get:
+      summary: api get detail type image
+      tags:
+        - type image
+      parameters:
+        - in: path
+          name: idTypeImage
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: detail of type image
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypeImage"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      security:
+        - Authorization: []
+  /typeImages:
+    get:
+      summary: api get list type image
+      tags:
+        - type image
+      responses:
+        "200":
+          description: list type of image
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TypeImage"
+      security:
+        - Authorization: []
+  /typeImages/{idTypeImage}/delete:
+    delete:
+      summary: api delete type image by idType
+      tags:
+        - type image
+      parameters:
+        - in: path
+          required: true
+          name: idTypeImage
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "delete type image successfully"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      security:
+        - Authorization: []
+  /typeImages/{idTypeImage}/update:
+    put:
+      summary: api for update typeimage by id type
+      tags:
+        - type image
+      parameters:
+        - in: path
+          required: true
+          name: idTypeImage
+          schema:
+            type: string
+      responses:
+        "201":
+          description: "update type image successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TypeImage"
+
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      security:
+        - Authorization: []
+
+  /notifications:
+    get:
+      summary: Get notification
+      parameters:
+        - in: query
+          name: limit
+          description: page number
+          schema:
+            type: integer
+
+        - in: query
+          name: sortBy
+          description: key word to sort
+          schema:
+            type: integer
+
+        - in: query
+          name: orderBy
+          description: orderBy desc or asc
+          schema:
+            type: integer
+
+        - in: query
+          name: idUser
+          description: The name of the post author
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: date
+          description: current date to create a post
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: content
+          description: filter list by topic
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: page_no
+          description: current page
+          schema:
+            type: string
+            maxLength: 50
+      security:
+        - Authorization: []
+      responses:
+        "200":
+          description: A list of notifications
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Notification"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+
+      tags:
+        - notification
+
+  /reactions:
+    get:
+      summary: Get list reaction
+      parameters:
+        - in: query
+          name: idUser
+          description: The ID of the user
+          schema:
+            type: string
+        - in: query
+          name: idPost
+          description: The ID of the post
+          schema:
+            type: string
+        - in: query
+          name: limit
+          description: page number
+          schema:
+            type: integer
+
+        - in: query
+          name: sortBy
+          description: key word to sort
+          schema:
+            type: integer
+
+        - in: query
+          name: orderBy
+          description: orderBy desc or asc
+          schema:
+            type: integer
+
+        - in: query
+          name: idUser
+          description: The name of the post author
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: date
+          description: current date to create a post
+          schema:
+            type: string
+            maxLength: 50
+        - in: query
+          name: pageNo
+          description: current page
+          schema:
+            type: number
+      security:
+        - Authorization: []
+      responses:
+        "200":
+          description: "this is reaction"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Reaction"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+
+      tags:
+        - reaction
+  /reactions/{idReaction}:
+    delete:
+      summary: Cancel reaction
+      parameters:
+        - name: idReaction
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the reaction to cancel
+      responses:
+        "204":
+          description: Reaction cancelled successfully
+      security:
+        - Authorization: []
+      tags:
+        - reaction
+
+  /comments/create:
+    post:
+      operationId: CommentController_createComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentForCreate"
+      responses:
+        "201":
+          description: "create a comment successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        "400":
+          description: "create a comment failed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      tags:
+        - comment
+      security:
+        - Authorization: []
+  /comments/{idComment}/edit:
+    put:
+      operationId: CommentController_editComment
+      parameters:
+        - in: path
+          name: idComment
+          schema:
+            type: string
+          required: true
+          description: "id of comment"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentForEdit"
+      responses:
+        "200":
+          description: "edit a comment successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+        "400":
+          description: "edit a comment failed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      tags:
+        - comment
+      security:
+        - Authorization: []
+  /comments/{idComment}/delete:
+    delete:
+      operationId: CommentController_deleteComment
+      parameters:
+        - in: path
+          name: idComment
+          schema:
+            type: string
+          required: true
+          description: ""
+      responses:
+        "200":
+          description: "delete a comment successfully"
+        "400":
+          description: "delete a comment failed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+      tags:
+        - comment
+      security:
+        - Authorization: []
+  /comments:
+    get:
+      summary: api get all comment
+      tags:
+        - comment
+      parameters:
+        - in: query
+          name: limit
+          description: The maximum number of images to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - in: query
+          name: pageNo
+          description: current page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - in: query
+          name: create
+          description: date create image
+          schema:
+            type: string
+        - in: query
+          name: idUser
+          description: image of a specific user
+          schema:
+            type: string
+        - in: query
+          name: sort_by
+          description: key to sort
+          schema:
+            type: string
+        - in: query
+          name: order_by
+          description: key to order
+          schema:
+            type: string
+        - in: query
+          name: page_no
+          description: current page
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A list of comment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Comment"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorInfor"
+info:
+  title: mental heath
+  description: Một dự án phát triển bởi những developers đẳng cấp
+  version: 1.0.0
+  contact: {}
+tags:
+  - name: mental heath
+    description: ""
+servers: []
+components:
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Please enter token in following format: Bearer <JWT>"
+  schemas:
+    TypeImagesForCreate:
+      type: object
+      properties:
+        nameType:
+          type: string
+        desription:
+          type: string
+      required:
+        - nameType
+
+    TypeImage:
+      type: object
+      properties:
+        idType:
+          type: string
+        nameType:
+          type: string
+        decsription:
+          type: string
+      required:
+        - nameType
+        - idType
+
+    Notification:
+      type: object
+      properties:
+        content:
+          type: string
+        message:
+          type: string
+        inforUser:
+          type: object
+          properties:
+            nameUser:
+              type: string
+            idUser:
+              type: string
+        inforPost:
+          type: object
+          properties:
+            ownerPost:
+              type: string
+            idPost:
+              type: string
+
+        inforPostReup:
+          type: object
+          properties:
+            ownerReupPost:
+              type: string
+            idReupPost:
+              type: string
+        isRead:
+          type: boolean
+          default: false
+        expried:
+          type: integer
+        createAt:
+          type: string
+          format: date-time
+        updateAt:
+          type: string
+          format: date-time
+      required:
+        - inforUser
+        - content
+
+    Reaction:
+      type: object
+      properties:
+        inforUser:
+          type: object
+          properties:
+            name:
+              type: string
+            avata:
+              type: string
+            nickName:
+              type: string
+            idUser:
+              type: string
+        inforPost:
+          type: object
+          properties:
+            idPost:
+              type: string
+            titlePost:
+              type: string
+        inforReupPost:
+          type: object
+          properties:
+            idPost:
+              type: string
+            titlePost:
+              type: string
+        createAt:
+          type: string
+          format: date-time
+        updateAt:
+          type: string
+          format: date-time
+      required:
+        - inforUser
+
+    AccountForPost:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        myself:
+          type: string
+      required:
+        - name
+        - email
+        - password
+    AccountForLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: number
+        phone:
+          type: number
+        nickName:
+          type: string
+        email:
+          type: string
+        mySelf:
+          type: string
+        avata:
+          type: string
+        address:
+          type: string
+        role:
+          type: string
+      required:
+        - id
+        - name
+        - email
+
+    CommentForCreate:
+      type: object
+      properties:
+        content:
+          type: string
+        idPost:
+          type: string
+        idReupPost:
+          type: string
+      required:
+        - content
+        - idPost
+    CommentForEdit:
+      type: object
+      properties:
+        content:
+          type: string
+        idPost:
+          type: string
+        idReupPost:
+          type: string
+      required:
+        - content
+        - idPost
+    Role:
+      type: object
+      properties:
+        idRole:
+          type: string
+        nameRole:
+          type: string
+        description:
+          type: string
+        permission:
+          type: array
+          items:
+            type: number
+            default: 0
+      required:
+        - idRole
+        - nameRole
+    Comment:
+      type: object
+      properties:
+        idComment:
+          type: string
+        content:
+          type: string
+        inforUser:
+          type: object
+          properties:
+            name:
+              type: string
+            avata:
+              type: string
+            nickName:
+              type: string
+            idUser:
+              type: string
+        idPost:
+          type: string
+        idPostReup:
+          type: string
+        createAt:
+          type: string
+          format: date-time
+        updateAt:
+          type: string
+          format: date-time
+      required:
+        - idComment
+        - content
+        - inforUser
+        - idPost
+    RoleForCreate:
+      type: object
+      properties:
+        nameRole:
+          type: string
+        description:
+          type: string
+      required:
+        - nameRole
+    RoleForPut:
+      type: object
+      properties:
+        nameRoleForUpdate:
+          type: string
+        descriptionForUpdate:
+          type: string
+      required:
+        - nameRoleForUpdate
+    PostForCreate:
+      type: object
+      properties:
+        content:
+          type: string
+        image:
+          type: array
+          items:
+            type: string
+            format: byte
+      required:
+        - content
+    PostForPut:
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            type: string
+        contentForUpdate:
+          type: string
+      required:
+        - contentForUpdate
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        per_page:
+          type: integer
+          format: int64
+        current_page:
+          type: integer
+          format: int64
+        last_page:
+          type: integer
+          format: int64
+    Post:
+      type: object
+      properties:
+        content:
+          type: string
+        ownerUser:
+          type: object
+          properties:
+            idUserOwner:
+              type: string
+            nameUser:
+              type: string
+            nickName:
+              type: string
+            avataUserOwner:
+              type: string
+          required:
+            - idUserOwner
+            - nameUser
+        idPost:
+          type: string
+          # idAccountReup phải là 1 mảng string vì có thể có nhiều người reup lại baì viết
+        accountReup:
+          type: array
+          items:
+            type: object
+            properties:
+              idUserReupPost:
+                type: string
+              nameUser:
+                type: string
+              nickName:
+                type: string
+              avataUserReupPost:
+                type: string
+            required:
+              - idUserReupPost
+              - nameUser
+        # cần phải có thêm một mảng chứa thông tin comment
+        comment:
+          type: array
+          items:
+            type: object
+            properties:
+              idUserComment:
+                type: string
+              contentComment:
+                type: string
+              commentCreateAt:
+                type: string
+                format: date-time
+              commentUpdateAt:
+                type: string
+                format: date-time
+              nameUser:
+                type: string
+              nickName:
+                type: string
+              avataUserReupPost:
+                type: string
+            required:
+              - idUserComment
+              - contentComment
+              - nameUser
+        reaction:
+          type: object
+          properties:
+            total:
+              type: number
+            informationReact:
+              type: array
+              items:
+                type: object
+                properties:
+                  idUserReaction:
+                    type: string
+                  nameUser:
+                    type: string
+                  nickName:
+                    type: string
+                  avataUserReupPost:
+                    type: string
+                required:
+                  - idUserReaction
+                  - nameUser
+          required:
+            - total
+            - informationReact
+        createAt:
+          type: string
+          format: date-time
+        updateAt:
+          type: string
+          format: date-time
+        images:
+          type: array
+          items:
+            type: string
+      required:
+        - content
+        - ownerUser
+
+    ReupPost:
+      type: object
+      properties:
+        contentReupPost:
+          type: string
+        postInfo:
+          $ref: "#/components/schemas/Post"
+        accountReup:
+          type: object
+          properties:
+            idUserReupPost:
+              type: string
+            nameUser:
+              type: string
+            nickName:
+              type: string
+            avataUserReupPost:
+              type: string
+          required:
+            - idUserReupPost
+            - nameUser
+        comment:
+          type: array
+          items:
+            type: object
+            properties:
+              idUserComment:
+                type: string
+              contentComment:
+                type: string
+              commentCreateAt:
+                type: string
+                format: date-time
+              commentUpdateAt:
+                type: string
+                format: date-time
+              nameUser:
+                type: string
+              nickName:
+                type: string
+              avataUserReupPost:
+                type: string
+            required:
+              - idUserComment
+              - contentComment
+              - nameUser
+        reaction:
+          type: object
+          properties:
+            total:
+              type: number
+            informationReact:
+              type: array
+              items:
+                type: object
+                properties:
+                  idUserReaction:
+                    type: string
+                  nameUser:
+                    type: string
+                  nickName:
+                    type: string
+                  avataUserReupPost:
+                    type: string
+                required:
+                  - idUserReaction
+                  - nameUser
+          required:
+            - total
+            - informationReact
+        createAt:
+          type: string
+          format: date-time
+        updateAt:
+          type: string
+          format: date-time
+      required:
+        - postInfo
+        - accountReup
+
+    ReupPostForCreate:
+      type: object
+      properties:
+        content:
+          type: string
+        idPost:
+          type: string
+      required:
+        - idPost
+    ReupPostForPut:
+      type: object
+      properties:
+        contentForUpdate:
+          type: string
+      required:
+        - contentForUpdate
+    ImagesForCreate:
+      type: object
+      properties:
+        idType:
+          type: string
+        images:
+          type: string
+        description:
+          type: string
+          default: image for user up load
+      required:
+        - idType
+        - images
+    Images:
+      type: object
+      properties:
+        idImage:
+          type: string
+        typeImage:
+          type: object
+          properties:
+            nameType:
+              type: string
+            idType:
+              type: string
+            decription:
+              type: string
+          required:
+            - nameType
+            - idType
+        ownerImage:
+          type: object
+          properties:
+            nameUser:
+              type: string
+            idUser:
+              type: string
+            avataUser:
+              type: string
+            nickName:
+              type: string
+        capacity:
+          type: string
+          description: 10000kb
+        decription:
+          type: string
+          default: image for user up load
+        createAt:
+          type: string
+          format: date-time
+        updateAt:
+          type: string
+          format: date-time
+        images:
+          type: string
+          format: byte
+    ErrorInfor:
+      type: object
+      properties:
+        status:
+          type: string
+        decription:
+          type: string
