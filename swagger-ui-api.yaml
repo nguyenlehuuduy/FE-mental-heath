@@ -202,13 +202,6 @@ paths:
           description: The maximum number of posts to return
           schema:
             type: integer
-
-        - in: query
-          name: limit
-          description: page number
-          schema:
-            type: integer
-
         - in: query
           name: sortBy
           description: key word to sort
@@ -393,13 +386,6 @@ paths:
           description: The maximum number of posts to return
           schema:
             type: integer
-
-        - in: query
-          name: limit
-          description: page number
-          schema:
-            type: integer
-
         - in: query
           name: sortBy
           description: key word to sort
@@ -891,13 +877,6 @@ paths:
           description: orderBy desc or asc
           schema:
             type: integer
-
-        - in: query
-          name: idUser
-          description: The name of the post author
-          schema:
-            type: string
-            maxLength: 50
         - in: query
           name: date
           description: current date to create a post
@@ -1074,11 +1053,6 @@ paths:
           description: key to order
           schema:
             type: string
-        - in: query
-          name: page_no
-          description: current page
-          schema:
-            type: string
       responses:
         "200":
           description: A list of comment
@@ -1107,7 +1081,9 @@ info:
 tags:
   - name: mental heath
     description: ""
-servers: []
+servers:
+  - url: http://locahost:3000/api/
+
 components:
   securitySchemes:
     Authorization:
