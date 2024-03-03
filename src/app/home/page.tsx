@@ -1,16 +1,16 @@
-"use client"
-
-import appClient from "@/util/ApiService";
-
-
-export default async function Home() {
-  // dưới đây là lệnh call api
-  const listImage  = await appClient.images.getImages()
+import HomePageView from "./home-page-view";
+const listTest = "text data from server";
+type PropsComponent = {
+  searchParams: {
+    page_num: string;
+  };
+};
+export default async function Home(props: PropsComponent) {
   return (
     <div>
-      {listImage.data?.map((item, index) => {
-        return(<p key={index}>lấy từ db:  {item.decription}</p>)
-      })}
+      {/* /home?page_num=123 */}
+      <p>searchParams: {props.searchParams.page_num}</p>
+      <HomePageView listTest={listTest} />
     </div>
   );
 }
