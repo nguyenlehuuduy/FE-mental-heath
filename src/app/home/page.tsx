@@ -8,8 +8,8 @@ export default async function Home() {
   const listImage  = await appClient.images.getImages()
   return (
     <div>
-      {listImage.data?.map(item => {
-        return(<p>lấy từ db:  {item.decription}</p>)
+      {listImage.data?.map((item, index) => {
+        return(<p key={index}>lấy từ db:  {item.decription}</p>)
       })}
     </div>
   );
