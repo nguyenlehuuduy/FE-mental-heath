@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
-import ProviderRedux from "../../../redux/Provider";
 
 export const metadata: Metadata = {
   title: "metal-heath",
   description: "dự án phát triển cộng đồng",
 };
 
-export default function RootLayout({
+export default function LoginLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className="relative bg-white w-full h-full mx-auto">
-        <div className="w-full h-full bg-[url('/waves.png')] bg-cover">
-          {children}
-        </div>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
+      <body className="relative bg-white w-full h-full mx-auto bg-[url('/waves.png')] bg-cover">
+        {children}
       </body>
     </html>
   );

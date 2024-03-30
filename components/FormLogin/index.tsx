@@ -7,6 +7,22 @@ import InputControl from "../InputControl";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import CustomButton from "../CustomButton";
+import {
+  BT_LOGIN,
+  ERROR_EMAIL_FORMAT,
+  ERROR_EMAIL_NULL,
+  ERROR_PASSWORD_NULL,
+  LB_ALERT_ACCOUNT_YET,
+  LB_OR,
+  LB_WELCOME,
+  L_CONTENT_WEB,
+  L_FORGOT_PASS,
+  L_REGISTER,
+  PL_EMAIL,
+  PL_PASSWORD,
+  P_FORGOT_PASS,
+} from "@/util/TextContants";
+import { Button } from "antd";
 
 const FormLogin = () => {
   const schema = yup
@@ -14,17 +30,16 @@ const FormLogin = () => {
     .shape({
       email: yup
         .string()
-        .required("Bắt buộc phải nhập")
-        .email("Phải nhập đúng kiểu email")
+        .required(ERROR_EMAIL_NULL)
+        .email(ERROR_EMAIL_FORMAT)
         .trim(),
-      password: yup.string().required("Bắt buộc phải nhập").trim(),
+      password: yup.string().required(ERROR_PASSWORD_NULL).trim(),
     })
     .required();
 
   const {
     control,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<LoginTypes>({
     resolver: yupResolver(schema),
@@ -36,27 +51,30 @@ const FormLogin = () => {
 
   return (
     <div className="max-w-[600px]">
-      <div className="flex flex-col justify-center p-8 ">
-        {/* Title */}
-        <div className="flex flex-row items-center gap-2 mb-[90px]">
-          <p className="text-[#3D3D3D] text-[40px] font-bold text-center">
-            Welcome to{" "}
+      <div className="flex flex-col justify-center md:p-8">
+        <div className="flex flex-col items-start">
+          <p className="text-[#3D3D3D] text-[40px] font-bold w-full hidden md:block">
+            {LB_WELCOME}
           </p>
-          <p className="text-[#0F52BA] text-[45px] font-bold">
-            GenZ{" "}
-            <span className="rounded-[10px] bg-[#0F52BA] text-white px-2 py-1 text-center">
-              MH
-            </span>
-          </p>
+          <span className=" mt-[-2px] top-[55px] text-[#406aa7] hidden md:block">
+            {L_CONTENT_WEB}
+          </span>
+          <div className="relative aspect-video md:w-1/3 w-[150px] mx-auto">
+            <Image
+              className="object-contain"
+              alt="logo"
+              fill={true}
+              src={"/logo_mental_health.png"}
+            />
+          </div>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-5">
             <InputControl
               control={control}
               name="email"
-              placeHolder="Nhập email của bạn"
+              placeHolder={PL_EMAIL}
               error={errors.email}
             />
             <InputControl
@@ -64,25 +82,25 @@ const FormLogin = () => {
               name="password"
               isPass
               error={errors.password}
-              placeHolder="Nhập mật khẩu của bạn"
+              placeHolder={PL_PASSWORD}
             />
-            <button
-              className="px-2 py-4 bg-[#0A68EB] text-white font-bold rounded-[10px] text-2xl"
-              type="submit"
+            <Button
+              htmlType="submit"
+              className="bg-[#0A68EB] text-white text-xl h-[50px] md:h-[60px]"
             >
-              Đăng nhập
-            </button>
+              {BT_LOGIN}
+            </Button>
           </div>
         </form>
-        <p className="text-xl text-[#3D3D3D] text-center my-5">
-          Bạn quên mật khẩu ?{" "}
-          <span className="text-[#0F52BA] font-bold cursor-pointer">
-            Cập nhật lại ngay
+        <p className="md:text-xl text-[#3D3D3D] text-center my-5">
+          {P_FORGOT_PASS}
+          <span className="text-[#0F52BA] font-bold cursor-pointer ml-2">
+            {L_FORGOT_PASS}
           </span>
         </p>
         <div className="flex flex-row justify-center items-center gap-2 mb-5">
           <div className="w-full h-[1px] border border-[#00000080]"></div>
-          <p className="text-xl text-[#00000080] text-center">hoặc</p>
+          <p className="md:text-xl text-[#00000080] text-center">{LB_OR}</p>
           <div className="w-full h-[1px] border border-[#00000080]"></div>
         </div>
 
@@ -100,10 +118,10 @@ const FormLogin = () => {
           textStyles="text-[24px] font-bold text-[#3D3D3D]"
         />
 
-        <p className="text-xl text-[#3D3D3D] text-center my-5">
-          Bạn chưa có tài khoản ?{" "}
-          <span className="text-[#0F52BA] font-bold cursor-pointer">
-            Đăng ký ngay
+        <p className="md:text-xl text-[#3D3D3D] text-center my-10">
+          {LB_ALERT_ACCOUNT_YET}
+          <span className="md:text-[#0F52BA] font-bold cursor-pointer ml-2">
+            {L_REGISTER}
           </span>
         </p>
       </div>

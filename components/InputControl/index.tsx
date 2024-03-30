@@ -1,4 +1,4 @@
-import { Alert, Input } from "antd";
+import { Input } from "antd";
 import React from "react";
 import { Controller } from "react-hook-form";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
@@ -27,12 +27,12 @@ const InputControl = ({
                   size="large"
                   allowClear
                   status={error && "error"}
-                  className="h-[75px] text-2xl pl-8"
+                  className="h-[50px] md:h-[60px] md:text-xl pl-8"
                   iconRender={(visible) =>
                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                   }
                 />
-                {error && <Alert message={error.message} type="error" />}
+                {error && <p className="text-red-500">{error.message}</p>}
               </>
             ) : (
               <>
@@ -43,9 +43,9 @@ const InputControl = ({
                   size="large"
                   allowClear
                   status={error && "error"}
-                  className="h-[75px] text-2xl pl-8"
+                  className="h-[50px] md:h-[60px] md:text-xl pl-8"
                 />
-                {error && <Alert message={error.message} type="error" />}
+                {error && <p className="text-red-500">{error.message}</p>}
               </>
             )}
           </div>
