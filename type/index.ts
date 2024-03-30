@@ -24,6 +24,13 @@ export interface LoginTypes {
   password: string;
 }
 
+export interface RegisterType {
+  email: string;
+  password: string;
+  name: string;
+  rePassword: string;
+}
+
 export interface CustomButtonProps {
   isDisabled?: boolean;
   btnType?: "button" | "submit";
