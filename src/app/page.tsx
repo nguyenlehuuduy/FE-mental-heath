@@ -1,3 +1,3 @@
-export default function Home() {
-  return <div>hello trang đầu tiên xuất hiện</div>;
+export default function Intro() {
+  return <div>tôi la trang intro</div>;
 }
