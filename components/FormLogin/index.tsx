@@ -52,20 +52,20 @@ const FormLogin = () => {
   const routes = useRouter();
   return (
     <div className="max-w-[600px]">
-      <div className="flex flex-col justify-center md:p-8">
-        <div className="flex flex-col items-start">
-          <p className="text-[#3D3D3D] text-[35px] font-bold w-full hidden md:block">
-            {LB_WELCOME}
-          </p>
-          <div className="relative aspect-video md:w-1/3 w-[150px] mx-auto">
-            <Image
-              className="object-contain"
-              alt="logo"
-              fill={true}
-              src={"/logo_mental_health.png"}
-            />
+        <div className="flex flex-col justify-center md:p-8">
+          <div className="flex flex-col items-start">
+            <p className="text-[#3D3D3D] text-[35px] font-bold w-full hidden md:block">
+              {LB_WELCOME}
+            </p>
+            <div className="relative aspect-video md:w-1/3 w-[150px] mx-auto">
+              <Image
+                className="object-contain"
+                alt="logo"
+                fill={true}
+                src={"/logo_mental_health.png"}
+              />
+            </div>
           </div>
-        </div>
 
   
         <form onSubmit={handleSubmit(onSubmit)}>

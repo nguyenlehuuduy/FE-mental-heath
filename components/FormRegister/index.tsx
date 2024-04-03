@@ -60,89 +60,89 @@ const FormRegister = () => {
 
   const routes = useRouter();
   return (
-    <div className="max-w-[600px]">
-      <div className="flex flex-col justify-center md:p-8">
-        <div className="flex flex-col items-start">
-          <p className="text-[#3D3D3D] text-[35px] font-bold w-full hidden md:block">
-            {LB_WELCOME_REGISTER}
-          </p>
-          <div className="relative aspect-video md:w-1/3 w-[150px] mx-auto">
-            <Image
-              className="object-contain"
-              alt="logo"
-              fill={true}
-              src={"/logo_mental_health.png"}
-            />
+      <div className="max-w-[600px]">
+        <div className="flex flex-col justify-center md:p-8">
+          <div className="flex flex-col items-start">
+            <p className="text-[#3D3D3D] text-[35px] font-bold w-full hidden md:block">
+              {LB_WELCOME_REGISTER}
+            </p>
+            <div className="relative aspect-video md:w-1/3 w-[150px] mx-auto">
+              <Image
+                className="object-contain"
+                alt="logo"
+                fill={true}
+                src={"/logo_mental_health.png"}
+              />
+            </div>
           </div>
-        </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-4">
-            <InputControl
-              control={control}
-              name="name"
-              placeHolder={PL_NAME}
-              error={errors.name}
-            />
-            <InputControl
-              control={control}
-              name="email"
-              placeHolder={PL_EMAIL}
-              error={errors.email}
-            />
-            <InputControl
-              control={control}
-              name="password"
-              isPass
-              error={errors.password}
-              placeHolder={PL_PASSWORD}
-            />
-            <InputControl
-              control={control}
-              name="rePassword"
-              isPass
-              error={errors.rePassword}
-              placeHolder={PL_RE_PASSWORD}
-            />
-            <Button
-              htmlType="submit"
-              className="bg-[#0A68EB] text-white text-lg h-[50px] md:h-[50px]"
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-4">
+              <InputControl
+                control={control}
+                name="name"
+                placeHolder={PL_NAME}
+                error={errors.name}
+              />
+              <InputControl
+                control={control}
+                name="email"
+                placeHolder={PL_EMAIL}
+                error={errors.email}
+              />
+              <InputControl
+                control={control}
+                name="password"
+                isPass
+                error={errors.password}
+                placeHolder={PL_PASSWORD}
+              />
+              <InputControl
+                control={control}
+                name="rePassword"
+                isPass
+                error={errors.rePassword}
+                placeHolder={PL_RE_PASSWORD}
+              />
+              <Button
+                htmlType="submit"
+                className="bg-[#0A68EB] text-white text-lg h-[50px] md:h-[50px]"
+              >
+                {BT_REGISTER}
+              </Button>
+            </div>
+          </form>
+          <p className="md:text-lg text-[#3D3D3D] text-center my-4">
+            {LB_ALERT_ACCOUNT_LOGIN_YET}
+            <span
+              className="md:text-[#0F52BA] font-bold cursor-pointer ml-2"
+              onClick={() => {
+                routes.push("/login");
+              }}
             >
-              {BT_REGISTER}
-            </Button>
+              {L_LOGIN}
+            </span>
+          </p>
+          <div className="flex flex-row justify-center items-center gap-2 mb-4">
+            <div className="w-full h-[1px] border border-[#00000080]"></div>
+            <p className="md:text-lg text-[#00000080] text-center">{LB_OR}</p>
+            <div className="w-full h-[1px] border border-[#00000080]"></div>
           </div>
-        </form>
-        <p className="md:text-lg text-[#3D3D3D] text-center my-4">
-          {LB_ALERT_ACCOUNT_LOGIN_YET}
-          <span
-            className="md:text-[#0F52BA] font-bold cursor-pointer ml-2"
-            onClick={() => {
-              routes.push("/login");
-            }}
-          >
-            {L_LOGIN}
-          </span>
-        </p>
-        <div className="flex flex-row justify-center items-center gap-2 mb-4">
-          <div className="w-full h-[1px] border border-[#00000080]"></div>
-          <p className="md:text-lg text-[#00000080] text-center">{LB_OR}</p>
-          <div className="w-full h-[1px] border border-[#00000080]"></div>
+          <CustomButton
+            leftIcon={
+              <Image
+                src="/google_icon.png"
+                width={35}
+                height={35}
+                alt="google icon"
+              />
+            }
+            title="Tiếp tục với google"
+            containerStyles="py-6 rounded-[10px] bg-[#F9F9F9] border gap-2"
+            textStyles="text-[24px] font-bold text-[#3D3D3D]"
+          />
         </div>
-        <CustomButton
-          leftIcon={
-            <Image
-              src="/google_icon.png"
-              width={35}
-              height={35}
-              alt="google icon"
-            />
-          }
-          title="Tiếp tục với google"
-          containerStyles="py-6 rounded-[10px] bg-[#F9F9F9] border gap-2"
-          textStyles="text-[24px] font-bold text-[#3D3D3D]"
-        />
       </div>
-    </div>
   );
 };
 
