@@ -13,7 +13,7 @@ const InputControl = ({
 }: InputControlProps) => {
   return (
     <> 
-        <Controller
+      <Controller
           name={name}
           control={control}
           render={({ field: { onChange, value } }) => (
@@ -48,7 +48,7 @@ const InputControl = ({
                   {error && <p className="text-red-500">{error.message}</p>}
                 </>
               )}
-            </div>
+          </div>
           )}
         />
       </>

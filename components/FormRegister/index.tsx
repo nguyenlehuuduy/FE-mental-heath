@@ -60,7 +60,7 @@ const FormRegister = () => {
 
   const routes = useRouter();
   return (
-      <div className="max-w-[600px]">
+    <div className="max-w-[600px]">
         <div className="flex flex-col justify-center md:p-8">
           <div className="flex flex-col items-start">
             <p className="text-[#3D3D3D] text-[35px] font-bold w-full hidden md:block">
@@ -74,9 +74,9 @@ const FormRegister = () => {
                 src={"/logo_mental_health.png"}
               />
             </div>
-          </div>
+        </div>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-4">
               <InputControl
                 control={control}
@@ -111,8 +111,8 @@ const FormRegister = () => {
                 {BT_REGISTER}
               </Button>
             </div>
-          </form>
-          <p className="md:text-lg text-[#3D3D3D] text-center my-4">
+        </form>
+        <p className="md:text-lg text-[#3D3D3D] text-center my-4">
             {LB_ALERT_ACCOUNT_LOGIN_YET}
             <span
               className="md:text-[#0F52BA] font-bold cursor-pointer ml-2"
@@ -122,13 +122,13 @@ const FormRegister = () => {
             >
               {L_LOGIN}
             </span>
-          </p>
-          <div className="flex flex-row justify-center items-center gap-2 mb-4">
+        </p>
+        <div className="flex flex-row justify-center items-center gap-2 mb-4">
             <div className="w-full h-[1px] border border-[#00000080]"></div>
             <p className="md:text-lg text-[#00000080] text-center">{LB_OR}</p>
             <div className="w-full h-[1px] border border-[#00000080]"></div>
-          </div>
-          <CustomButton
+        </div>
+        <CustomButton
             leftIcon={
               <Image
                 src="/google_icon.png"
@@ -141,8 +141,8 @@ const FormRegister = () => {
             containerStyles="py-6 rounded-[10px] bg-[#F9F9F9] border gap-2"
             textStyles="text-[24px] font-bold text-[#3D3D3D]"
           />
-        </div>
       </div>
+    </div>
   );
 };
 

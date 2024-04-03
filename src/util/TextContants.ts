@@ -5,7 +5,7 @@ export const ERROR_EMAIL_DUPLICATE = "Email này đã tồn tại";
 export const ERROR_PASSWORD_NULL = "Vui lòng nhập mật khẩu";
 export const ERROR_ACCOUNT = "Tài khoản này không tồn tại, vui lòng kiểm tra lại";
 export const ERROR_NAME = "Vui lòng nhập tên của bạn";
-export const ERROR_REPASS = "Vui lòng nhập lại mật khẩu";
+export const ERROR_REPASS = "Vui lòng nhập xác nhận lại mật khẩu";
 export const ERROR_REPASS_VALID = "Mật khẩu của bạn không trùng khớp";
 
 

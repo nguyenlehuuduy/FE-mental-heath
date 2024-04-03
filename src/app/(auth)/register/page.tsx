@@ -9,7 +9,7 @@ const FormRegister = dynamic(
 );
 export default function Register() {
   return (
-      <div className="max-w-[1440px] h-full md:px-10 px-3 flex flex-row justify-center mx-auto">
+    <div className="max-w-[1440px] h-full md:px-10 px-3 flex flex-row justify-center mx-auto">
         <div className="md:ml-20">
           <FormRegister />
         </div>
@@ -23,6 +23,6 @@ export default function Register() {
             quality={100}
           />
         </div>
-      </div>
+    </div>
   );
 }
