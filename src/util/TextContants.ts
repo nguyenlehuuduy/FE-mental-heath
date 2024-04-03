@@ -1,12 +1,12 @@
 //validation text
-export const ERROR_EMAIL_NULL = "vui lòng nhập email của bạn";
-export const ERROR_EMAIL_FORMAT = "email của bạn chưa đúng định dạng";
-export const ERROR_EMAIL_DUPLICATE = "email này đã tồn tại";
-export const ERROR_PASSWORD_NULL = "vui lòng nhập mật khẩu";
-export const ERROR_ACCOUNT = "tài khoản này không tồn tại, vui lòng kiểm tra lại";
-export const ERROR_NAME = "vui lòng nhập tên của bạn";
-export const ERROR_REPASS = "vui lòng nhập xác nhận lại mật khẩu";
-export const ERROR_REPASS_VALID = "mật khẩu của bạn không trùng khớp";
+export const ERROR_EMAIL_NULL = "Vui lòng nhập email của bạn";
+export const ERROR_EMAIL_FORMAT = "Email của bạn chưa đúng định dạng";
+export const ERROR_EMAIL_DUPLICATE = "Email này đã tồn tại";
+export const ERROR_PASSWORD_NULL = "Vui lòng nhập mật khẩu";
+export const ERROR_ACCOUNT = "Tài khoản này không tồn tại, vui lòng kiểm tra lại";
+export const ERROR_NAME = "Vui lòng nhập tên của bạn";
+export const ERROR_REPASS = "Vui lòng nhập xác nhận lại mật khẩu";
+export const ERROR_REPASS_VALID = "Mật khẩu của bạn không trùng khớp";
 
 
 //place holder text
@@ -22,7 +22,7 @@ export const LB_WELCOME = "Chào mừng bạn đến với";
 export const BT_LOGIN = "Đăng nhập";
 export const BT_REGISTER = "Đăng ký";
 export const P_FORGOT_PASS = "Bạn quên mật khẩu?";
-export const L_FORGOT_PASS = "Cập nhật lại ngay?";
+export const L_FORGOT_PASS = "Cập nhật ngay?";
 export const LB_OR = "hoặc";
 export const LB_ALERT_ACCOUNT_YET = "Bạn chưa có tài khoản";
 export const LB_ALERT_ACCOUNT_LOGIN_YET = "Bạn đã có có tài khoản";

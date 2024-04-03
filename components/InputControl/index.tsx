@@ -27,7 +27,7 @@ const InputControl = ({
                   size="large"
                   allowClear
                   status={error && "error"}
-                  className="h-[50px] md:h-[60px] md:text-xl pl-8"
+                  className="h-[50px] md:h-[50px] md:text-base pl-8"
                   iconRender={(visible) =>
                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                   }
@@ -43,7 +43,7 @@ const InputControl = ({
                   size="large"
                   allowClear
                   status={error && "error"}
-                  className="h-[50px] md:h-[60px] md:text-xl pl-8"
+                  className="h-[50px] md:h-[50px] md:text-base pl-8"
                 />
                 {error && <p className="text-red-500">{error.message}</p>}
               </>
