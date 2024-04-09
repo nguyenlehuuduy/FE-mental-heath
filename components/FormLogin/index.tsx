@@ -51,23 +51,23 @@ const FormLogin = () => {
 
   const routes = useRouter();
   return (
-  <div className="max-w-[600px]">
-        <div className="flex flex-col justify-center md:p-8">
-          <div className="flex flex-col items-start">
-            <p className="text-[#3D3D3D] text-[35px] font-bold w-full hidden md:block">
-              {LB_WELCOME}
-            </p>
-            <div className="relative aspect-video md:w-1/3 w-[150px] mx-auto">
-              <Image
-                className="object-contain"
-                alt="logo"
-                fill={true}
-                src={"/logo_mental_health.png"}
-              />
-            </div>
+    <div className="max-w-[700px] w-full mx-auto mt-10 md:mt-0">
+      <div className="flex flex-col justify-center mx-auto md:p-1 ">
+        <div className="flex flex-row items-center">
+          <p className="text-[#3D3D3D] text-[30px] font-bold w-[350px] hidden md:block">
+            {LB_WELCOME}
+          </p>
+          <div className="relative aspect-video md:w-[160px] w-[160px] md:mt-2 mx-auto">
+            <Image
+              className="object-contain"
+              alt="logo"
+              fill={true}
+              src={"/logo_mental_health.png"}
+            />
           </div>
-
-  
+        </div>
+      </div>
+      <div className="flex flex-col justify-center w-full md:w-[400px] max-sm:max-w-[400px] mx-auto ">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-4">
             <InputControl
@@ -91,13 +91,13 @@ const FormLogin = () => {
             </Button>
           </div>
         </form>
-        <p className="md:text-lg text-[#3D3D3D] text-center my-4">
+        <p className="md:text-lg text-[#3D3D3D] text-center my-3">
           {P_FORGOT_PASS}
           <span className="text-[#0F52BA] font-bold cursor-pointer ml-2">
             {L_FORGOT_PASS}
           </span>
         </p>
-        <div className="flex flex-row justify-center items-center gap-2 mb-4">
+        <div className="flex flex-row justify-center items-center gap-2 mb-3">
           <div className="w-full h-[1px] border border-[#00000080]"></div>
           <p className="md:text-lg text-[#00000080] text-center">{LB_OR}</p>
           <div className="w-full h-[1px] border border-[#00000080]"></div>
