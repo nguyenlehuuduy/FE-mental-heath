@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Footer, Header, SideBar } from "../../../components";
+import { Header, RecommendFeature, PostFeature,SideBar, RadioFeature } from "../../../components";
 
 export const metadata: Metadata = {
   title: "metal-heath",
@@ -16,11 +16,20 @@ export default function UserLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className="relative bg-white w-full h-full mx-auto bg-[url('/waves.png')] bg-cover">
+      <body className="relative bg-[#F5F6F8]">
         <Header />
-        {children}
-        <Footer />
-        <SideBar />
+        <div className="max-w-[1440px] pt-[75px] overflow-hidden mx-auto flex">
+          <div className="max-w-[720px] bg-blue-50">
+            <SideBar />
+          </div>
+          <div className="max-w-[720px] mx-auto">
+            {children}
+            </div>
+          <div className="max-w-[300px] bg-white">
+            <RecommendFeature />
+            <RadioFeature />
+          </div>
+        </div>
       </body>
     </html>
   );

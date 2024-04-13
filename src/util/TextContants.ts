@@ -30,3 +30,6 @@ export const L_REGISTER = "Đăng ký ngay";
 export const L_LOGIN = "Đăng nhập ngay";
 export const L_CONTENT_WEB = " Nơi chia sẻ, kết nối và hỗ trợ nhau về sức khỏe tinh thần.";
 export const LB_WELCOME_REGISTER = "Trở thành thành viên của ";
+
+export const Recommend = "Đề xuất cho bạn";
+export const Radio = "Radio";

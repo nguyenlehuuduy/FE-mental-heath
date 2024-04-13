@@ -1,3 +1,5 @@
+import { PostFeature } from "../../../../components";
+
 export default function Home() {
-  return <div>tôi la trang chủ</div>;
+  return <div><PostFeature/></div>;
 }
