@@ -42,8 +42,8 @@ const MockData = {
 };
 export default function PostContent() {
   return (
-    <div className="w-full pb-10 bg-white p-4 rounded-sm mt-2">
-      <div className="flex items-center justify-between">
+    <div className="w-full bg-white rounded-md px-5 pt-8">
+      <div className="flex items-start justify-between">
         <div className="flex items-center min-w-[200px] gap-4 rounded-sm">
           <Image
             src={MockData.avata}
@@ -58,23 +58,23 @@ export default function PostContent() {
           </div>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex gap-4">
           <Image
             src="/save_icon.svg"
-            width={14}
-            height={14}
+            width={20}
+            height={20}
             alt="icon save post"
           />
           <Image
             src="/more_icon.svg"
-            width={14}
-            height={14}
+            width={20}
+            height={20}
             alt="icon save post"
           />
           <Image
             src="/cancel_icon.svg"
-            width={14}
-            height={14}
+            width={20}
+            height={20}
             alt="icon save post"
           />
         </div>
@@ -86,10 +86,10 @@ export default function PostContent() {
           width={500}
           height={500}
           alt="avata"
-          className="object-contain w-full aspect-video"
+          className="object-contain w-full h-auto aspect-video"
         />
-        <div className="flex items-center justify-evenly p-5 border-b-[1px]">
-          <div className="flex gap-3 items-center font-medium">
+        <div className="flex items-center justify-start gap-6 border-b-[1px]">
+          <div className="flex gap-3 items-center font-medium p-5">
             <Image
               src="/love_icon.svg"
               width={23}
@@ -98,7 +98,7 @@ export default function PostContent() {
             />
             <span className="opacity-70">{MockData.totalLike} thích</span>
           </div>
-          <div className="flex gap-3 items-center font-medium">
+          <div className="flex gap-3 items-center font-medium p-5">
             <Image
               src="/comment_icon.svg"
               width={23}
@@ -109,7 +109,7 @@ export default function PostContent() {
               {MockData.totalComment} nình luận
             </span>
           </div>
-          <div className="flex gap-3 items-center font-medium">
+          <div className="flex gap-3 items-center font-medium p-5">
             <Image
               src="/share_icon.svg"
               width={23}
@@ -147,7 +147,7 @@ export default function PostContent() {
               <div className="flex flex-col">
                 <p className="font-medium">{item.nameAccount}</p>
                 <span>{item.content}</span>
-                <div className="text-[14px] font-medium flex gap-5">
+                <div className="text-[14px] font-medium flex mt-2 gap-5">
                   <span>{item.createAt}</span>
                   <span>Thích</span>
                   <span>Trả lời</span>

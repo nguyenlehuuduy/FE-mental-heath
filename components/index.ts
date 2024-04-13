@@ -10,5 +10,16 @@ import PostFeature from "./PostFeature";
 import HotArea from "./HotArea";
 import Advertisement from "./Advertisement";
 
-
-export { Header, Footer, MenuList, FormLogin, RecommendFeature, PostFeature, HotArea, NavFeature, ChatRoomArea, PostContent, Advertisement };
+export {
+  Header,
+  Footer,
+  MenuList,
+  FormLogin,
+  NavFeature,
+  ChatRoomArea,
+  PostContent,
+  RecommendFeature,
+  PostFeature,
+  HotArea,
+  Advertisement,
+};
