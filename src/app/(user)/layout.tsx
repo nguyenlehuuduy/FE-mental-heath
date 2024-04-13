@@ -25,15 +25,15 @@ export default function UserLayout({
       </head>
       <body className="relative bg-[#F5F6F8] max-h-screen overflow-hidden">
         <Header />
-        <div className="max-w-[1440px] pt-1 overflow-hidden mx-auto flex justify-center">
-          <div className="max-w-[330px] bg-white p-5 max-h-screen overflow-y-scroll">
+        <div className="max-w-[1440px] pt-2 overflow-hidden mx-auto flex justify-between">
+          <div className="max-w-[330px] w-full bg-white p-5 max-h-screen overflow-y-scroll">
             <MenuList />
             <ChatRoomArea />
           </div>
-          <div className="max-w-[700px] mx-4  p-3 max-h-screen overflow-y-scroll">
+          <div className="max-w-[720px] max-h-screen overflow-y-scroll">
             {children}
           </div>
-          <div className="max-w-[290px] bg-white max-h-screen overflow-y-scroll">
+          <div className="max-w-[300px] w-full bg-white max-h-screen overflow-y-scroll">
             <NavFeature />
             <RecommendFeature />
             <HotArea />

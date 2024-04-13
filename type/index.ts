@@ -46,3 +46,8 @@ export interface CustomButtonProps {
   largeSize?: boolean;
   handleClick?: MouseEventHandler<HTMLButtonElement>;
 }
+
+export interface IconProps {
+  width?: number;
+  height?: number;
+}

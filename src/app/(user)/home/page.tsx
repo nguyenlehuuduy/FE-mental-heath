@@ -6,7 +6,7 @@ import {
 
 export default function Home() {
   return (
-    <div className="pb-20">
+    <div className="flex flex-col gap-4 pb-20">
       <Advertisement />
       <PostFeature />
       <PostContent />
