@@ -29,7 +29,10 @@ const NavFeature = () => {
     <div className="w-full px-7 py-5">
       <div className="flex flex-col gap-6">
         {listFeature.map((item: any) => (
-          <div key={item.id} className="flex flex-row items-center gap-7">
+          <div
+            key={item.id}
+            className="flex flex-row items-center gap-7 cursor-pointer"
+          >
             <Image
               src={item.image}
               width={60}
@@ -40,7 +43,7 @@ const NavFeature = () => {
             <p className="text-base font-bold text-[#000000B3]">{item.name}</p>
           </div>
         ))}
-        <p className="text-base font-bold text-[#00000099] text-center cursor-pointer">
+        <p className="text-base font-bold text-[#00000099] text-center">
           Xem thêm
         </p>
       </div>
