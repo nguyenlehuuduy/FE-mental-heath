@@ -30,7 +30,7 @@ const listRoomChat = [
 
 export default function ChatRoomArea() {
   return (
-    <div className="mt-[30px]">
+    <div className="mt-[30px] pb-20">
       <label className="font-bold">Trò chuyện</label>
       <div className="flex flex-col gap-4 mt-5">
         {listRoomChat.map((item, index) => (

@@ -60,13 +60,13 @@ const FormRegister = () => {
 
   const routes = useRouter();
   return (
-    <div className="max-w-[600px]">
-      <div className="flex flex-col justify-center md:p-8">
-        <div className="flex flex-col items-start">
-          <p className="text-[#3D3D3D] text-[40px] font-bold w-full hidden md:block">
+    <div>
+      <div className="flex flex-col justify-center mx-auto">
+        <div className="flex flex-row items-center">
+          <p className="text-[#3D3D3D] text-[30px] font-bold w-[360px] hidden md:block">
             {LB_WELCOME_REGISTER}
           </p>
-          <div className="relative aspect-video md:w-1/3 w-[150px] mx-auto">
+          <div className="relative aspect-video md:w-[160px] w-[160px] mt-2 mx-auto">
             <Image
               className="object-contain"
               alt="logo"
@@ -75,9 +75,10 @@ const FormRegister = () => {
             />
           </div>
         </div>
-
+      </div>
+      <div className="flex flex-col justify-center w-full md:w-[400px] mx-auto ">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-3">
             <InputControl
               control={control}
               name="name"
@@ -106,13 +107,13 @@ const FormRegister = () => {
             />
             <Button
               htmlType="submit"
-              className="bg-[#0A68EB] text-white text-xl h-[50px] md:h-[60px]"
+              className="bg-[#0A68EB] text-white text-lg h-[50px] md:h-[50px]"
             >
               {BT_REGISTER}
             </Button>
           </div>
         </form>
-        <p className="md:text-xl text-[#3D3D3D] text-center my-10">
+        <p className="md:text-lg text-[#3D3D3D] text-center my-3">
           {LB_ALERT_ACCOUNT_LOGIN_YET}
           <span
             className="md:text-[#0F52BA] font-bold cursor-pointer ml-2"
@@ -123,22 +124,22 @@ const FormRegister = () => {
             {L_LOGIN}
           </span>
         </p>
-        <div className="flex flex-row justify-center items-center gap-2 mb-5">
+        <div className="flex flex-row justify-center items-center gap-2 mb-3">
           <div className="w-full h-[1px] border border-[#00000080]"></div>
-          <p className="md:text-xl text-[#00000080] text-center">{LB_OR}</p>
+          <p className="md:text-lg text-[#00000080] text-center">{LB_OR}</p>
           <div className="w-full h-[1px] border border-[#00000080]"></div>
         </div>
         <CustomButton
           leftIcon={
             <Image
               src="/google_icon.png"
-              width={40}
-              height={40}
+              width={35}
+              height={35}
               alt="google icon"
             />
           }
           title="Tiếp tục với google"
-          containerStyles="py-9 rounded-[10px] bg-[#F9F9F9] border gap-2"
+          containerStyles="py-6 rounded-[10px] bg-[#F9F9F9] border gap-2"
           textStyles="text-[24px] font-bold text-[#3D3D3D]"
         />
       </div>
