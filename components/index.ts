@@ -5,7 +5,8 @@ import FormLogin from "./FormLogin";
 import NavFeature from "./NavFeature";
 import ChatRoomArea from "./ChatRoomArea";
 import PostContent from "./PostContent";
+import RecommendFeature from "./RecommendFeature";
+import PostFeature from "./PostFeature";
+import RadioFeature from "./RadioFeature";
 
-
-
-export { Header, Footer, MenuList, FormLogin, NavFeature, ChatRoomArea, PostContent };
+export { Header, Footer, MenuList, FormLogin, RecommendFeature, PostFeature, RadioFeature, NavFeature, ChatRoomArea, PostContent };

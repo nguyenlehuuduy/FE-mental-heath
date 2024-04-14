@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import {
   ChatRoomArea,
   Footer,
+  RecommendFeature,
+  RadioFeature,
   Header,
   MenuList,
   NavFeature,
@@ -24,16 +26,18 @@ export default function UserLayout({
       </head>
       <body className="relative bg-[#F5F6F8] max-h-screen overflow-hidden">
         <Header />
-        <div className="max-w-[1440px] pt-2 overflow-hidden mx-auto flex justify-center">
+        <div className="max-w-[1440px] pt-1 overflow-hidden mx-auto flex justify-center">
           <div className="max-w-[330px] bg-white p-5 max-h-screen overflow-y-scroll">
             <MenuList />
             <ChatRoomArea />
           </div>
-          <div className="max-w-[650px] mx-4 bg-white p-3 max-h-screen overflow-y-scroll">
+          <div className="max-w-[700px] mx-4 bg-white p-3 max-h-screen overflow-y-scroll">
             {children}
           </div>
           <div className="max-w-[290px] bg-white max-h-screen overflow-y-scroll">
             <NavFeature />
+            <RecommendFeature />
+            <RadioFeature />
           </div>
         </div>
       </body>
