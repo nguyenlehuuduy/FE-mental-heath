@@ -42,7 +42,7 @@ const MockData = {
 };
 export default function PostContent() {
   return (
-    <div className="w-full pb-10">
+    <div className="w-full pb-10 bg-white p-4 rounded-sm mt-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center min-w-[200px] gap-4 rounded-sm">
           <Image

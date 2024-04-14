@@ -28,13 +28,13 @@ const listRadio = [
   },
 ];
 
-const RadioFeatures = () => {
+const HotArea = () => {
   return (
     <div className="w-full px-4 mx-auto pb-20 ">
       <span className="text-[#0F52BA] font-bold cursor-pointer">
         Đáng chú ý
       </span>
-      <div className="grid grid-cols-2 gap-6 justify-items-center py-4">
+      <div className="grid grid-cols-2 justify-items-center">
         {listRadio.map((item, index) => (
           <Link
             href={item.url}
@@ -56,4 +56,4 @@ const RadioFeatures = () => {
   );
 };
 
-export default RadioFeatures;
+export default HotArea;

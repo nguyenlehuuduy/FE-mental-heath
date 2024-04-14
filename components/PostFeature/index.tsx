@@ -5,7 +5,7 @@ import TextArea from "antd/es/input/TextArea";
 
 const PostFeature = () => {
   return (
-    <div className="w-full my-10">
+    <div className="w-full p-4 rounded-sm mt-2 bg-white">
       <div className="flex gap-2 items-start">
         <Image
           src={"/nav_feature.png"}

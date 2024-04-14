@@ -28,9 +28,7 @@ const RecommendFeature = () => {
     <div className="w-full px-4 py-2 ">
       <div className="w-full h-[1px] border border-[#cccccc80]"></div>
       <div className="w-full py-5">
-        <span className="text-[#0F52BA]  font-bold cursor-pointer">
-          {Recommend}
-        </span>
+        <span className="text-[#0F52BA]  font-bold">{Recommend}</span>
         <div className="flex flex-col gap-4 pt-4">
           {listRecommend.map((item) => (
             <div key={item.id} className="flex items-center gap-2">
@@ -48,9 +46,7 @@ const RecommendFeature = () => {
             </div>
           ))}
         </div>
-        <p className="py-5 font-medium text-[#0F52BA] text-center cursor-pointer">
-          Xem thêm
-        </p>
+        <p className="py-5 font-medium text-center cursor-pointer">Xem thêm</p>
         <div className="w-full h-[1px] border border-[#cccccc80]"></div>
       </div>
     </div>

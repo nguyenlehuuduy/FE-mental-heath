@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import {
   ChatRoomArea,
-  Footer,
   RecommendFeature,
-  RadioFeature,
   Header,
   MenuList,
   NavFeature,
+  HotArea,
 } from "../../../components";
 
 export const metadata: Metadata = {
@@ -31,13 +30,13 @@ export default function UserLayout({
             <MenuList />
             <ChatRoomArea />
           </div>
-          <div className="max-w-[700px] mx-4 bg-white p-3 max-h-screen overflow-y-scroll">
+          <div className="max-w-[700px] mx-4  p-3 max-h-screen overflow-y-scroll">
             {children}
           </div>
           <div className="max-w-[290px] bg-white max-h-screen overflow-y-scroll">
             <NavFeature />
             <RecommendFeature />
-            <RadioFeature />
+            <HotArea />
           </div>
         </div>
       </body>
