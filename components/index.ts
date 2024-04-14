@@ -1,9 +1,12 @@
 import Header from "./partial/header";
 import Footer from "./partial/footer";
-import SideBar from "./partial/side-menu";
+import MenuList from "./partial/menu-list";
 import FormLogin from "./FormLogin";
+import NavFeature from "./NavFeature";
+import ChatRoomArea from "./ChatRoomArea";
+import PostContent from "./PostContent";
 import RecommendFeature from "./RecommendFeature";
 import PostFeature from "./PostFeature";
 import RadioFeature from "./RadioFeature";
 
-export { Header, Footer, SideBar, FormLogin, RecommendFeature, PostFeature,RadioFeature };
+export { Header, Footer, MenuList, FormLogin, RecommendFeature, PostFeature, RadioFeature, NavFeature, ChatRoomArea, PostContent };

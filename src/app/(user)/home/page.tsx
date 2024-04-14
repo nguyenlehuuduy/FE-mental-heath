@@ -1,5 +1,13 @@
-import { PostFeature } from "../../../../components";
+import { PostFeature, PostContent } from "../../../../components";
 
 export default function Home() {
-  return <div><PostFeature/></div>;
+  return (
+    <div className="pb-20">
+      <PostFeature />
+      <PostContent />
+      <span className="text-center w-full block font-medium">
+        Bạn đã xem hết tin ngày hôm nay
+      </span>
+    </div>
+  );
 }
