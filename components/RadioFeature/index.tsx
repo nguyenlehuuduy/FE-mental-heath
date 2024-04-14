@@ -1,45 +1,59 @@
-import Image from "next/image"; 
+import Image from "next/image";
+import Link from "next/link";
 
 const listRadio = [
   {
     id: 1,
-    image: "/images.jpg",
+    image: "/nav_feature.png",
+    url: "/",
+    title: "radio tam su",
   },
   {
     id: 2,
-    image: "/images.jpg",
+    image: "/nav_feature.png",
+    url: "/",
+    title: "radio chia se",
   },
   {
     id: 3,
-    image: "/images.jpg",
+    image: "/nav_feature.png",
+    url: "/",
+    title: "Cach chua lanh",
   },
   {
     id: 4,
-    image: "/images.jpg",
+    image: "/nav_feature.png",
+    url: "/",
+    title: "chua lanh la gi",
   },
 ];
 
 const RadioFeatures = () => {
   return (
-    <div className="w-full px-4">
-      <span className="text-[#0F52BA] text-lg font-bold cursor-pointer">
-        Radio
+    <div className="w-full px-4 mx-auto pb-20 ">
+      <span className="text-[#0F52BA] font-bold cursor-pointer">
+        Đáng chú ý
       </span>
-      <div className="grid grid-cols-2 gap-6 pt-4 px-6">
-        {listRadio.map((item) => (
-          <div key={item.id} className="flex flex-col items-center">
+      <div className="grid grid-cols-2 gap-6 justify-items-center py-4">
+        {listRadio.map((item, index) => (
+          <Link
+            href={item.url}
+            key={index}
+            className="flex flex-col items-center w-[120px] p-3"
+          >
             <Image
               src={item.image}
-              width={80}
-              height={80}
-              alt="logo"
-              className="rounded-[10px]"
+              width={100}
+              height={100}
+              alt="image"
+              className="aspect-square w-full h-auto object-cover rounded-[5px]"
             />
-          </div>
+            <span className="text-[14px] font-medium mt-2">{item.title}</span>
+          </Link>
         ))}
       </div>
     </div>
   );
 };
 
-export default RadioFeatures; 
+export default RadioFeatures;

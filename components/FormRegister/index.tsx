@@ -60,7 +60,7 @@ const FormRegister = () => {
 
   const routes = useRouter();
   return (
-    <div className="max-w-[700px] h-full mx-auto mt-10 md:mt-0 ">
+    <div>
       <div className="flex flex-col justify-center mx-auto">
         <div className="flex flex-row items-center">
           <p className="text-[#3D3D3D] text-[30px] font-bold w-[360px] hidden md:block">
@@ -76,7 +76,7 @@ const FormRegister = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center w-full md:w-[400px] max-sm:max-w-[400px] mx-auto ">
+      <div className="flex flex-col justify-center w-full md:w-[400px] mx-auto ">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-3">
             <InputControl

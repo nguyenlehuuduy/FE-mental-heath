@@ -51,13 +51,13 @@ const FormLogin = () => {
 
   const routes = useRouter();
   return (
-    <div className="max-w-[700px] w-full mx-auto mt-10 md:mt-0">
-      <div className="flex flex-col justify-center mx-auto md:p-1 ">
-        <div className="flex flex-row items-center">
+    <div>
+      <div className="flex flex-col justify-center mx-auto">
+        <div className="flex flex-row items-center justify-center">
           <p className="text-[#3D3D3D] text-[30px] font-bold w-[350px] hidden md:block">
             {LB_WELCOME}
           </p>
-          <div className="relative aspect-video md:w-[160px] w-[160px] md:mt-2 mx-auto">
+          <div className="relative aspect-video md:w-[160px] w-[160px] md:mt-2 ">
             <Image
               className="object-contain"
               alt="logo"
@@ -67,7 +67,7 @@ const FormLogin = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center w-full md:w-[400px] max-sm:max-w-[400px] mx-auto ">
+      <div className="flex flex-col justify-center md:w-[400px] mx-auto ">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-4">
             <InputControl
