@@ -8,6 +8,7 @@ import {
   SearchIcon,
   SettingIcon,
 } from "../../icons";
+import NotifyPopup from "../NotifyPopup";
 
 export default function Header() {
   return (
@@ -39,9 +40,11 @@ export default function Header() {
           <div className="p-2 rounded-full border flex justify-center items-center">
             <MessageIcon width={25} height={25} />
           </div>
-          <div className="p-2 rounded-full border flex justify-center items-center">
-            <NotifyIcon width={25} height={25} />
-          </div>
+          <NotifyPopup>
+            <div className="p-2 rounded-full border flex justify-center items-center cursor-pointer">
+              <NotifyIcon width={25} height={25} />
+            </div>
+          </NotifyPopup>
           <div className="p-2 rounded-full border flex justify-center items-center">
             <SettingIcon width={25} height={25} />
           </div>
