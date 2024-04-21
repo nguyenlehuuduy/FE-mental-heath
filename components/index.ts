@@ -10,6 +10,7 @@ import PostFeature from "./PostFeature";
 import HotArea from "./HotArea";
 import Advertisement from "./Advertisement";
 import ModalPost from "./ModalPost";
+import NotifyPopup from "./NotifyPopup";
 
 export {
   Header,
@@ -24,4 +25,5 @@ export {
   HotArea,
   Advertisement,
   ModalPost,
+  NotifyPopup,
 };
