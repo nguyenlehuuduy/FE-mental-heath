@@ -10,6 +10,8 @@
     "api-gen": "openapi --input ../../../../swagger-ui-api.yaml --output ./src/api --name AppClient"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.19",
+    "@headlessui/tailwindcss": "^0.2.0",
     "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^2.2.1",
     "antd": "^5.14.2",

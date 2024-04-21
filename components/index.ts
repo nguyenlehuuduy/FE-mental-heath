@@ -9,6 +9,7 @@ import RecommendFeature from "./RecommendFeature";
 import PostFeature from "./PostFeature";
 import HotArea from "./HotArea";
 import Advertisement from "./Advertisement";
+import ModalPost from "./ModalPost";
 import NotifyPopup from "./NotifyPopup";
 
 export {
@@ -23,5 +24,6 @@ export {
   PostFeature,
   HotArea,
   Advertisement,
+  ModalPost,
   NotifyPopup,
 };
