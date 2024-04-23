@@ -51,3 +51,11 @@ export interface IconProps {
   width?: number;
   height?: number;
 }
+export interface Pagination {
+  pageNo?: number;
+  limit?: number;
+  totalPage?: number;
+  totalRecord?: number;
+  sortBy?: number;
+  orderBy?: number
+}

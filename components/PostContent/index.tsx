@@ -1,162 +1,144 @@
+import { PostForCard } from "@/service/postService";
 import { Input } from "antd";
 import Image from "next/image";
+import { Pagination } from "../../type";
+import { Fragment } from "react";
+import { abbreviateNumber, getTimeAgo } from "@/lib/utils";
 
-const MockData = {
-  avata: "/nav_feature.png",
-  name: "Nguyễn Lê Hưu Duy",
-  createAt: "30 phút trước",
-  title: `Tram cåm trong thé hé GenZ khöng chi lå mét vän dB cå nhån må cön lå mét vän dé
-  xä höi dång quan ngai. ép IWC tir xä höi, cöng nghé, vå nhüng Io ngai vb tucng
-  lai, nhibu thanh nién GenZ dang phåi d6i mät v6i tinh trang tram cåm. SV vong
-  tir gia dinh, åp lvc hoc tap, vå sv so sånh khöng lånh manh trén mang xä höi khién
-  ho cåm thäy bi bé buöc vå cö don....Dé giåi quyét vän dé nåy, can cé sq' hö trq tir cå
-  gia dinh, cong dbng vå Chinh phi. Cåi thién hé th6ng chäm soc s(rc khåe tåm thin
-  vå täng cu'öng giåo duc vb sirc khåe tåm thin tir khi cön tré lå rät cin thiét.`,
-  imageContent: "/nav_feature.png",
-  totalLike: "14.5",
-  totalComment: "123",
-  totleShare: "21",
-  recentComment: [
-    {
-      nameAccount: "Nguyễn Hải Dương",
-      avata: "/nav_feature.png",
-      content:
-        "Cuộc Đời thật lắm chông gai, If you’ve disabled Preflight in your project, you’ll need to include a border style utility any time you use one of the border-width utilities for the border to actually take effect:",
-      createAt: "5 phút",
-    },
-    {
-      nameAccount: "Nguyễn Hải Dương",
-      avata: "/nav_feature.png",
-      content:
-        "Cuộc Đời thật lắm chông gai, If you’ve disabled Preflight in your project, you’ll need to include a border style utility any time you use one of the border-width utilities for the border to actually take effect:",
-      createAt: "5 phút",
-    },
-    {
-      nameAccount: "Nguyễn Hải Dương",
-      avata: "/nav_feature.png",
-      content:
-        "Cuộc Đời thật lắm chông gai, If you’ve disabled Preflight in your project, you’ll need to include a border style utility any time you use one of the border-width utilities for the border to actually take effect:",
-      createAt: "5 phút",
-    },
-  ],
+type PropsComponent = {
+  listValidPostOfAccount: { data: PostForCard[]; pagination: Pagination };
 };
-export default function PostContent() {
+export default function PostContent(props: PropsComponent) {
   return (
-    <div className="w-full bg-white rounded-md px-5 pt-8">
-      <div className="flex items-start justify-between">
-        <div className="flex items-center min-w-[200px] gap-4 rounded-sm">
-          <Image
-            src={MockData.avata}
-            width={40}
-            height={40}
-            alt="avata"
-            className="rounded-[50%]"
-          />
-          <div>
-            <p className="font-bold">{MockData.name}</p>
-            <span>{MockData.createAt}</span>
-          </div>
-        </div>
-
-        <div className="flex gap-4">
-          <Image
-            src="/save_icon.svg"
-            width={20}
-            height={20}
-            alt="icon save post"
-          />
-          <Image
-            src="/more_icon.svg"
-            width={20}
-            height={20}
-            alt="icon save post"
-          />
-          <Image
-            src="/cancel_icon.svg"
-            width={20}
-            height={20}
-            alt="icon save post"
-          />
-        </div>
-      </div>
-      <div className="mt-3 flex flex-col gap-3">
-        <span>{MockData.title}</span>
-        <Image
-          src={MockData.imageContent}
-          width={500}
-          height={500}
-          alt="avata"
-          className="object-contain w-full h-auto aspect-video"
-        />
-        <div className="flex items-center justify-start gap-6 border-b-[1px]">
-          <div className="flex gap-3 items-center font-medium p-5">
-            <Image
-              src="/love_icon.svg"
-              width={23}
-              height={23}
-              alt="icon save post"
-            />
-            <span className="opacity-70">{MockData.totalLike} thích</span>
-          </div>
-          <div className="flex gap-3 items-center font-medium p-5">
-            <Image
-              src="/comment_icon.svg"
-              width={23}
-              height={23}
-              alt="icon save post"
-            />
-            <span className="opacity-70">
-              {MockData.totalComment} nình luận
-            </span>
-          </div>
-          <div className="flex gap-3 items-center font-medium p-5">
-            <Image
-              src="/share_icon.svg"
-              width={23}
-              height={23}
-              alt="icon save post"
-            />
-            <span className="opacity-70">{MockData.totleShare} chia sẻ</span>
-          </div>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex gap-4">
-            <Image
-              src={MockData.imageContent}
-              width={40}
-              height={40}
-              alt="avata"
-              className="aspect-square w-[50px] h-auto object-contain rounded-xl"
-            />
-
-            <Input placeholder="Viết bình luận của bạn" className="h-[54px]" />
-          </div>
-          <span className="font-medium my-5 cursor-pointer">
-            Tất cả bình luận
-          </span>
-          {MockData.recentComment.map((item, index) => (
-            <div className="flex gap-3 items-start mb-7" key={index}>
+    <Fragment>
+      {props.listValidPostOfAccount.data.map((item) => (
+        <div
+          className="w-full bg-white rounded-md px-5 pt-8"
+          key={item.post_id}
+        >
+          <div className="flex items-start justify-between">
+            <div className="flex items-center min-w-[200px] gap-4 rounded-sm">
               <Image
-                src={item.avata}
+                src={item.account.avata}
                 width={40}
                 height={40}
                 alt="avata"
-                className="aspect-square w-[50px] h-auto object-contain rounded-xl"
+                className="rounded-[50%]"
               />
-
-              <div className="flex flex-col">
-                <p className="font-medium">{item.nameAccount}</p>
-                <span>{item.content}</span>
-                <div className="text-[14px] font-medium flex mt-2 gap-5">
-                  <span>{item.createAt}</span>
-                  <span>Thích</span>
-                  <span>Trả lời</span>
-                </div>
+              <div>
+                <p className="font-bold">{item.account.name}</p>
+                <span>{getTimeAgo(item.created_at)}</span>
               </div>
             </div>
-          ))}
+
+            <div className="flex gap-4">
+              <Image
+                src="/save_icon.svg"
+                width={20}
+                height={20}
+                alt="icon save post"
+              />
+              <Image
+                src="/more_icon.svg"
+                width={20}
+                height={20}
+                alt="icon save post"
+              />
+              <Image
+                src="/cancel_icon.svg"
+                width={20}
+                height={20}
+                alt="icon save post"
+              />
+            </div>
+          </div>
+          <div className="mt-3 flex flex-col gap-3">
+            <span>{item.content_text}</span>
+            <Image
+              src={item.image_post[0]}
+              width={500}
+              height={500}
+              alt="avata"
+              className="object-contain w-full h-auto aspect-video"
+            />
+            <div className="flex items-center justify-start gap-6 border-b-[1px]">
+              <div className="flex gap-3 items-center font-medium p-5">
+                <Image
+                  src="/love_icon.svg"
+                  width={23}
+                  height={23}
+                  alt="icon save post"
+                />
+                <span className="opacity-70">
+                  {abbreviateNumber(item.total_reaction)} thích
+                </span>
+              </div>
+              <div className="flex gap-3 items-center font-medium p-5">
+                <Image
+                  src="/comment_icon.svg"
+                  width={23}
+                  height={23}
+                  alt="icon save post"
+                />
+                <span className="opacity-70">
+                  {abbreviateNumber(item.total_comment)} bình luận
+                </span>
+              </div>
+              <div className="flex gap-3 items-center font-medium p-5">
+                <Image
+                  src="/share_icon.svg"
+                  width={23}
+                  height={23}
+                  alt="icon save post"
+                />
+                <span className="opacity-70">
+                  {abbreviateNumber(item.total_share)} chia sẻ
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <div className="flex gap-4">
+                <Image
+                  src={item.account.avata}
+                  width={40}
+                  height={40}
+                  alt="avata"
+                  className="aspect-square w-[50px] h-auto object-contain rounded-xl"
+                />
+
+                <Input
+                  placeholder="Viết bình luận của bạn"
+                  className="h-[54px]"
+                />
+              </div>
+              <span className="font-medium my-5 cursor-pointer">
+                Tất cả bình luận
+              </span>
+              {item.comment_recent.map((it, index) => (
+                <div className="flex gap-3 items-start mb-7" key={index}>
+                  <Image
+                    src={item.account.avata}
+                    width={40}
+                    height={40}
+                    alt="avata"
+                    className="aspect-square w-[50px] h-auto object-contain rounded-xl"
+                  />
+
+                  <div className="flex flex-col">
+                    <p className="font-medium">{it.account.name}</p>
+                    <span>{it.content}</span>
+                    <div className="text-[14px] font-medium flex mt-2 gap-5">
+                      <span>{getTimeAgo(it.created_at)}</span>
+                      <span>Thích</span>
+                      <span>Trả lời</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      ))}
+    </Fragment>
   );
 }
