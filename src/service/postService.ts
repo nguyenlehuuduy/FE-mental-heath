@@ -62,12 +62,12 @@ export async function getListValidPostByAccount(query?: string): Promise<{ data:
           id: post.account.id,
           name: post.account.fullName,
           nick_name: post.account.nickName,
-          //TODO
+          //TODO:not_have_avata_in_response
           avata: "https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
         },
         content_text: post.contentText,
         created_at: post.created_at,
-        // TODO
+        // TODO:not_have_iamge_content
         image_post: ["https://cdn.dummyjson.com/cache/400x200/bitter-16/282828-white/918ca712a61b263dc1f9904dbef02560.png", "https://cdn.dummyjson.com/cache/400x200/bitter-16/282828-white/918ca712a61b263dc1f9904dbef02560.png"],
         //TODO
         is_like: true,

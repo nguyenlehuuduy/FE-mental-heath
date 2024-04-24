@@ -31,9 +31,9 @@ export interface LoginResponse {
 
 export async function loginAccount(body: LoginRequest): Promise<LoginResponse | undefined> {
   const result = await callPostRequest("/auth/login", body);
-  if (result.status === 201) {
+  if (result.status === 200) {
     return {
-      accessToken: result.response.accessToken,
+      accessToken: result.response.access_token,
     };
   }
 }
