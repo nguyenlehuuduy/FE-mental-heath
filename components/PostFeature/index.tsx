@@ -1,12 +1,18 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import ModalPost from "../ModalPost";
 
 const PostFeature = () => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="w-full p-4 rounded-sm mt-2 bg-white">
-      <div className="flex gap-2 items-start">
+      <div
+        className="flex gap-2 items-start cursor-pointer"
+        onClick={() => setIsOpen(true)}
+      >
         <Image
           src={"/nav_feature.png"}
           width={40}
@@ -56,6 +62,7 @@ const PostFeature = () => {
           </div>
         </div>
       </div>
+      <ModalPost isOpen={isOpen} closeModal={() => setIsOpen(false)} />
     </div>
   );
 };

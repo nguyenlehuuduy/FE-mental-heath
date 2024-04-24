@@ -1,11 +1,14 @@
+"use client"
 import { Input } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-
+import React, { useState } from "react";
+import ModalSetting from "../ModalSetting"
 export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <header className="border-b w-full z-10 bg-white px-4">
-      <div className="max-w-[1200px] h-[60px] mx-auto flex justify-between items-center py-3">
+      <div className="max-w-[1440px] h-[60px] mx-auto flex justify-between items-center py-3">
         <Link
           href="/home"
           className="flex items-center w-[230px] max-md:h-[28px]"
@@ -59,18 +62,22 @@ export default function Header() {
               alt="icon notification"
             />
           </div>
-          <div className="rounded-full border flex justify-center items-center p-2">
+          <div className="rounded-full border flex justify-center items-center p-2"
+            onClick={() => setIsOpen(true)}
+            >
             <Image
               src="/setting_icon.svg"
               width={20}
               height={20}
               alt="icon setting"
             />
+            
           </div>
           <div className="relative w-[34px] h-[34px] rounded-full flex justify-center items-center">
             <Image src="/big_logo.png" fill alt="icon avatar" />
           </div>
         </div>
+        <ModalSetting isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       </div>
     </header>
   );
