@@ -11,6 +11,10 @@ import HotArea from "./HotArea";
 import Advertisement from "./Advertisement";
 import ModalPost from "./ModalPost";
 import NotifyPopup from "./NotifyPopup";
+import SidebarChat from "./SidebarChat";
+import ChatList from "./ChatList";
+import MessageFrame from "./MessageFrame";
+import MessageShare from "./MessageShare";
 
 export {
   Header,
@@ -26,4 +30,8 @@ export {
   Advertisement,
   ModalPost,
   NotifyPopup,
+  SidebarChat,
+  ChatList,
+  MessageFrame,
+  MessageShare,
 };
