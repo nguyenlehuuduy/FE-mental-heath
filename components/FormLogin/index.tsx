@@ -1,17 +1,9 @@
 "use client";
 
-import * as yup from "yup";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { LoginTypes } from "../../type";
-import InputControl from "../InputControl";
-import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import CustomButton from "../CustomButton";
 import {
   BT_LOGIN,
-  ERROR_EMAIL_FORMAT,
-  ERROR_EMAIL_NULL,
-  ERROR_PASSWORD_NULL,
   LB_ALERT_ACCOUNT_YET,
   LB_OR,
   LB_WELCOME,
@@ -21,34 +13,22 @@ import {
   PL_PASSWORD,
   P_FORGOT_PASS,
 } from "@/util/TextContants";
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import { useRouter } from "next/navigation";
+import { useFormState } from "react-dom";
+import { ActionLoginState, login } from "./action";
+
+const defaultData = {
+  email: "",
+  password: "",
+};
+const initialState: ActionLoginState = {
+  validate: defaultData,
+  success: false,
+};
 
 const FormLogin = () => {
-  const schema = yup
-    .object()
-    .shape({
-      email: yup
-        .string()
-        .required(ERROR_EMAIL_NULL)
-        .email(ERROR_EMAIL_FORMAT)
-        .trim(),
-      password: yup.string().required(ERROR_PASSWORD_NULL).trim(),
-    })
-    .required();
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginTypes>({
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit: SubmitHandler<LoginTypes> = (data) => {
-    console.log(data);
-  };
-
+  const [{ validate }, formAction] = useFormState(login, initialState);
   const routes = useRouter();
   return (
     <div>
@@ -68,21 +48,24 @@ const FormLogin = () => {
         </div>
       </div>
       <div className="flex flex-col justify-center md:w-[400px] mx-auto ">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form action={formAction}>
           <div className="flex flex-col gap-4">
-            <InputControl
-              control={control}
+            <Input
               name="email"
-              placeHolder={PL_EMAIL}
-              error={errors.email}
+              placeholder={PL_EMAIL}
+              height={50}
+              className="h-[50px] text-base "
             />
-            <InputControl
-              control={control}
+            <span className="invalid_err">{validate?.email}</span>
+            <Input
               name="password"
-              isPass
-              error={errors.password}
-              placeHolder={PL_PASSWORD}
+              placeholder={PL_PASSWORD}
+              height={50}
+              type="password"
+              className="h-[50px] text-base"
             />
+            <span className="invalid_err">{validate?.password}</span>
+
             <Button
               htmlType="submit"
               className="bg-[#0A68EB] text-white text-lg h-[50px] md:h-[50px]"
