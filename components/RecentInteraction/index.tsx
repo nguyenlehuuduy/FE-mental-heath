@@ -7,8 +7,8 @@ const userData = {
 };
 const RecentInteractions = () => {
   return (
-    <div className="w-full px-5 ml-5 border-l-2 border-gray-500 pr-4">
-      <div className="flex flex-col gap-3 ">
+    <div className="w-full px-5 ml-5 border-l-2 border-gray-500  ">
+      <div className="flex flex-col">
         <p className="font-medium ">Tuong tác gần đây</p>
         <div className="w-full py-2">
           <p className="text-gray-500 ">

@@ -1,19 +1,20 @@
 "use client"
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState,MouseEventHandler } from "react";
 import { Button } from "antd";
 import ModalPost from "../ModalPost";
-import VideoProfile from "../VideoProfile";
-const AvatarProfile = () => {
+
+interface AvatarProfileProps {
+  onImageIconClick: MouseEventHandler<HTMLDivElement>;
+  onVideoIconClick: MouseEventHandler<HTMLDivElement>;
+}
+
+const AvatarProfile: React.FC<AvatarProfileProps> = ({ onImageIconClick,onVideoIconClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const userData = {
     name: "Nguyễn Lê Hữu Duy",
     bio: "Bạn nghĩ gì về chữa lành? Với tôi chữa lành chính là làm điều tôi cảm thấy là chính mình nhất",
     favorite: "Trò chuyện",
-  };
-  const [showVideo, setShowVideo] = useState(false);
-  const handleVideoIconClick = () => {
-    setShowVideo(!showVideo);
   };
 
   return (
@@ -57,7 +58,7 @@ const AvatarProfile = () => {
             
           </div>
           <ModalPost isOpen={isOpen} closeModal={() => setIsOpen(false)} />
-          <div className="flex items-center" onClick={handleVideoIconClick}>
+          <div className="flex items-center" onClick={onVideoIconClick}>
             <Image
               src={"/video_icon.svg"}
               width={25}
@@ -67,9 +68,9 @@ const AvatarProfile = () => {
               className="rounded"
             />
             <p className="px-4"> Video</p>
-            {showVideo && <VideoProfile/>}
+        
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center" onClick={onImageIconClick}>
             <Image
               src={"/picture_icon.svg"}
               width={25}
@@ -190,6 +191,8 @@ const AvatarProfile = () => {
       </div>
     </div>
   );
+  
 };
+
 
 export default AvatarProfile;

@@ -15,8 +15,8 @@ import AvatarProfile from "./AvatarProfile"
 import PostProfile from "./PostProfile";
 import RecentInteractions from "./RecentInteraction";
 import VideoProfile from "./VideoProfile";
-import PhotoProfile from "./PhotoProfile";
+import ListPhotoProfile from "./ListPhotoProfile";
 
 export { Header, Footer, MenuList, FormLogin, RecommendFeature, PostFeature, HotArea, NavFeature, ChatRoomArea, PostContent, Advertisement,
-    ModalSetting, CoverPhoto,AvatarProfile,PostProfile, RecentInteractions, VideoProfile, PhotoProfile,
+    ModalSetting, CoverPhoto,AvatarProfile,PostProfile, RecentInteractions, VideoProfile, ListPhotoProfile,
  };
