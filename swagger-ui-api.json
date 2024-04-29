@@ -301,10 +301,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PostForFullResponse"
-                  }
+                  "$ref": "#/components/schemas/PostForFullResponse"
                 }
               }
             }
@@ -323,43 +320,97 @@
         ]
       }
     },
-    "/api/user": {
-      "patch": {
-        "operationId": "UserController_updateUser",
+    "/api/post/get-all-post": {
+      "get": {
+        "operationId": "PostController_getAllPost",
         "parameters": [
           {
-            "name": "id",
+            "name": "limit",
             "required": true,
-            "in": "path",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageNo",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contentTextKey",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nameAccountKey",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "emailAccountKey",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "createdDateFrom",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "createdDateTo",
+            "required": true,
+            "in": "query",
             "schema": {
               "type": "string"
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserForUpdate"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserForResponse"
+                  "$ref": "#/components/schemas/PostForFullResponse"
                 }
               }
             }
           }
         },
         "tags": [
-          "user"
+          "post"
         ],
         "security": [
           {
@@ -404,13 +455,68 @@
         ]
       }
     },
-    "/api/user/suggestFollow": {
+    "/api/user/suggest-follow": {
       "get": {
         "operationId": "UserController_suggestFollowForAccount",
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserForResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/user/{id}": {
+      "patch": {
+        "operationId": "UserController_updateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserForUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserForResponse"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -691,7 +797,7 @@
     },
     "/api/hot-content": {
       "post": {
-        "operationId": "HotContentController_createNewFeature",
+        "operationId": "HotContentController_createNewHotContent",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -709,7 +815,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HotContentForGet"
+                  "$ref": "#/components/schemas/HotContentForResponse"
                 }
               }
             }
@@ -720,7 +826,7 @@
         ]
       },
       "get": {
-        "operationId": "HotContentController_getAllFeature",
+        "operationId": "HotContentController_getAllHotContent",
         "parameters": [],
         "responses": {
           "200": {
@@ -730,7 +836,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/HotContentForGet"
+                    "$ref": "#/components/schemas/HotContentForResponse"
                   }
                 }
               }
@@ -744,7 +850,7 @@
     },
     "/api/hot-content/{id}": {
       "patch": {
-        "operationId": "HotContentController_updateFeature",
+        "operationId": "HotContentController_updateHotContent",
         "parameters": [
           {
             "name": "id",
@@ -772,7 +878,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HotContentForGet"
+                  "$ref": "#/components/schemas/HotContentForResponse"
                 }
               }
             }
@@ -783,13 +889,13 @@
         ]
       },
       "delete": {
-        "operationId": "HotContentController_deleteFeature",
+        "operationId": "HotContentController_deleteHotContent",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "query",
-            "description": "id of feature",
+            "description": "id of HotContent",
             "schema": {
               "type": "string"
             }
@@ -801,7 +907,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HotContentForGet"
+                  "$ref": "#/components/schemas/HotContentForResponse"
                 }
               }
             }
@@ -814,7 +920,7 @@
     },
     "/api/tab-menu": {
       "post": {
-        "operationId": "TabMenuController_createNewFeature",
+        "operationId": "TabMenuController_createNewTabMenu",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -843,7 +949,7 @@
         ]
       },
       "get": {
-        "operationId": "TabMenuController_getAllFeature",
+        "operationId": "TabMenuController_getAllTabMenu",
         "parameters": [],
         "responses": {
           "200": {
@@ -906,7 +1012,7 @@
         ]
       },
       "delete": {
-        "operationId": "TabMenuController_deleteFeature",
+        "operationId": "TabMenuController_deleteTabMenu",
         "parameters": [
           {
             "name": "id",
@@ -932,6 +1038,403 @@
         },
         "tags": [
           "tab-menu"
+        ]
+      }
+    },
+    "/api/room-message": {
+      "post": {
+        "operationId": "RoomMessageController_createNewRoomMessage",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoomMessageForPost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomMessageForGet"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "room-message"
+        ]
+      },
+      "get": {
+        "operationId": "RoomMessageController_getAllValidRoomMessage",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RoomMessageForGet"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "room-message"
+        ]
+      }
+    },
+    "/api/likes": {
+      "post": {
+        "operationId": "LikeController_updateStatusLikes",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LikeForPost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/comment": {
+      "post": {
+        "operationId": "CommentController_createComment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentForCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentForResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "comment"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/comment/{id}": {
+      "patch": {
+        "operationId": "CommentController_updateComment",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentForUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentForResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "comment"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "CommentController_deleteComment",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentForResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "comment"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/api/file/post/image": {
+      "post": {
+        "operationId": "FileController_uploadPostImage",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/file/avata/image": {
+      "post": {
+        "operationId": "FileController_uploadAvataImage",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/follow": {
+      "post": {
+        "operationId": "FollowController_follow",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FollowForCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FollowForGet"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "follows"
+        ]
+      }
+    },
+    "/api/follow/{id}": {
+      "delete": {
+        "operationId": "FollowController_deleteRequestFollow",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "follows"
+        ]
+      }
+    },
+    "/api/follow/accept/{id}": {
+      "post": {
+        "operationId": "FollowController_acceptRequestFollow",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FollowForCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "follows"
+        ]
+      }
+    },
+    "/api/follow/unfollow/{id}": {
+      "delete": {
+        "operationId": "FollowController_unFollow",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "follows"
+        ]
+      }
+    },
+    "/api/follow/followings": {
+      "get": {
+        "operationId": "FollowController_getAllFollowingOfAccount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserForResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "follows"
+        ]
+      }
+    },
+    "/api/follow/followers": {
+      "get": {
+        "operationId": "FollowController_getAllFollowerOfAccount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserForResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "follows"
+        ]
+      }
+    },
+    "/api/follow/request-followers": {
+      "get": {
+        "operationId": "FollowController_getAllRequestFollowers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RequestFollowForResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "follows"
         ]
       }
     }
@@ -1264,42 +1767,6 @@
           "data"
         ]
       },
-      "UserForUpdate": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "fullName": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "aboutMe": {
-            "type": "string"
-          },
-          "nickName": {
-            "type": "string"
-          },
-          "birth": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "fullName",
-          "phone",
-          "aboutMe",
-          "nickName",
-          "birth",
-          "address"
-        ]
-      },
       "AdminAccountForPut": {
         "type": "object",
         "properties": {
@@ -1346,6 +1813,42 @@
           "updated_at"
         ]
       },
+      "UserForUpdate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "aboutMe": {
+            "type": "string"
+          },
+          "nickName": {
+            "type": "string"
+          },
+          "birth": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "fullName",
+          "phone",
+          "aboutMe",
+          "nickName",
+          "birth",
+          "address"
+        ]
+      },
       "RoleForPost": {
         "type": "object",
         "properties": {
@@ -1389,6 +1892,14 @@
           },
           "url": {
             "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
           }
         }
       },
@@ -1420,7 +1931,7 @@
           }
         }
       },
-      "HotContentForGet": {
+      "HotContentForResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -1479,6 +1990,14 @@
           },
           "url": {
             "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
           }
         }
       },
@@ -1495,6 +2014,203 @@
             "type": "string"
           }
         }
+      },
+      "RoomMessageForPost": {
+        "type": "object",
+        "properties": {
+          "accountInRoom": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "accountInRoom"
+        ]
+      },
+      "RoomMessageForGet": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "accountInRoom": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nameRoom": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "created_at",
+          "updated_at",
+          "accountInRoom",
+          "nameRoom"
+        ]
+      },
+      "LikeForPost": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "postId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "accountId",
+          "postId"
+        ]
+      },
+      "CommentForCreate": {
+        "type": "object",
+        "properties": {
+          "contentCmt": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string"
+          },
+          "postId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "contentCmt",
+          "accountId",
+          "postId"
+        ]
+      },
+      "CommentForResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "contentCmt": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "object"
+          },
+          "updated_at": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "contentCmt",
+          "accountId",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "CommentForUpdate": {
+        "type": "object",
+        "properties": {
+          "contentCmt": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "contentCmt",
+          "accountId"
+        ]
+      },
+      "FollowForCreate": {
+        "type": "object",
+        "properties": {
+          "senderId": {
+            "type": "string"
+          },
+          "reciverId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "senderId",
+          "reciverId"
+        ]
+      },
+      "FollowForGet": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "senderId": {
+            "type": "string"
+          },
+          "sender": {
+            "$ref": "#/components/schemas/UserForResponse"
+          },
+          "reciver": {
+            "$ref": "#/components/schemas/UserForResponse"
+          },
+          "reciverId": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "senderId",
+          "sender",
+          "reciver",
+          "reciverId",
+          "updated_at",
+          "created_at"
+        ]
+      },
+      "RequestFollowForResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "sender": {
+            "$ref": "#/components/schemas/UserForResponse"
+          },
+          "created_at": {
+            "type": "object"
+          },
+          "updated_at": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "sender",
+          "created_at",
+          "updated_at"
+        ]
       }
     }
   }
