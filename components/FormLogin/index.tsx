@@ -20,6 +20,7 @@ import {
   PL_EMAIL,
   PL_PASSWORD,
   P_FORGOT_PASS,
+  L_CONTENT_WEB,
 } from "@/util/TextContants";
 import { Button } from "antd";
 import { useRouter } from "next/navigation";
@@ -51,20 +52,15 @@ const FormLogin = () => {
 
   const routes = useRouter();
   return (
-    <div>
-      <div className="flex flex-col justify-center mx-auto">
-        <div className="flex flex-row items-center justify-center">
-          <p className="text-[#3D3D3D] text-[30px] font-bold w-[350px] hidden md:block">
+    <div className="max-w-[600px]">
+      <div className="flex flex-col justify-center md:p-8">
+        <div className="flex flex-col items-center md:mb-0 mb-10">
+          <p className="text-[#3D3D3D] text-[40px] font-bold items-center">
             {LB_WELCOME}
           </p>
-          <div className="relative aspect-video md:w-[160px] w-[160px] md:mt-2 ">
-            <Image
-              className="object-contain"
-              alt="logo"
-              fill={true}
-              src={"/logo_mental_health.png"}
-            />
-          </div>
+          <span className=" mt-[-2px] top-[55px] text-[#3D3D3D] ">
+            {L_CONTENT_WEB}
+          </span>
         </div>
       </div>
       <div className="flex flex-col justify-center md:w-[400px] mx-auto ">

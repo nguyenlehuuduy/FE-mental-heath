@@ -17,6 +17,7 @@ import {
   ERROR_REPASS_VALID,
   LB_ALERT_ACCOUNT_LOGIN_YET,
   LB_OR,
+  LB_WELCOME,
   LB_WELCOME_REGISTER,
   L_LOGIN,
   PL_EMAIL,
@@ -62,18 +63,13 @@ const FormRegister = () => {
   return (
     <div>
       <div className="flex flex-col justify-center mx-auto">
-        <div className="flex flex-row items-center">
-          <p className="text-[#3D3D3D] text-[30px] font-bold w-[360px] hidden md:block">
-            {LB_WELCOME_REGISTER}
+        <div className="flex flex-col items-center md:mb-0 mb-10 md:p-8">
+          <p className="text-[#3D3D3D] text-[40px] font-bold items-center">
+            {LB_WELCOME}
           </p>
-          <div className="relative aspect-video md:w-[160px] w-[160px] mt-2 mx-auto">
-            <Image
-              className="object-contain"
-              alt="logo"
-              fill={true}
-              src={"/logo_mental_health.png"}
-            />
-          </div>
+          <span className="mt-[-2px] top-[55px] text-[#3D3D3D]">
+            {LB_WELCOME_REGISTER}
+          </span>
         </div>
       </div>
       <div className="flex flex-col justify-center w-full md:w-[400px] mx-auto ">

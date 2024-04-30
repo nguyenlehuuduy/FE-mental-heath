@@ -16,7 +16,11 @@ import PostProfile from "./PostProfile";
 import RecentInteractions from "./RecentInteraction";
 import VideoProfile from "./VideoProfile";
 import ListPhotoProfile from "./ListPhotoProfile";
+import HeaderLogin from "./HeaderLogin";
+
+
 
 export { Header, Footer, MenuList, FormLogin, RecommendFeature, PostFeature, HotArea, NavFeature, ChatRoomArea, PostContent, Advertisement,
     ModalSetting, CoverPhoto,AvatarProfile,PostProfile, RecentInteractions, VideoProfile, ListPhotoProfile,
- };
+    HeaderLogin,
+};

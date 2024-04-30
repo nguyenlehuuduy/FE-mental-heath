@@ -18,7 +18,7 @@ export const PL_RE_PASSWORD = "Nhập lại mật khẩu";
 
 
 //button, link, p, ....(DOM element) text
-export const LB_WELCOME = "Chào mừng bạn đến với";
+export const LB_WELCOME = "Chào mừng bạn ";
 export const BT_LOGIN = "Đăng nhập";
 export const BT_REGISTER = "Đăng ký";
 export const P_FORGOT_PASS = "Bạn quên mật khẩu?";
@@ -28,8 +28,8 @@ export const LB_ALERT_ACCOUNT_YET = "Bạn chưa có tài khoản";
 export const LB_ALERT_ACCOUNT_LOGIN_YET = "Bạn đã có có tài khoản";
 export const L_REGISTER = "Đăng ký ngay";
 export const L_LOGIN = "Đăng nhập ngay";
-export const L_CONTENT_WEB = " Nơi chia sẻ, kết nối và hỗ trợ nhau về sức khỏe tinh thần.";
-export const LB_WELCOME_REGISTER = "Trở thành thành viên của ";
+export const L_CONTENT_WEB = " Bạn đã có tài khoản, đăng nhập ngay !";
+export const LB_WELCOME_REGISTER = "Bạn chưa có tài khoản, đăng ký ngay !";
 
 export const Recommend = "Đề xuất cho bạn";
 export const Radio = "Radio";
