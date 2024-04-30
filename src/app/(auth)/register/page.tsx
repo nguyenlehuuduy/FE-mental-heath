@@ -15,7 +15,7 @@ export default function Register() {
       <HeaderLogin />
       </div>
       <div className="flex">
-      <div className="md:mx-auto mt-10 md:mt-0 mx-auto">
+      <div className="md:mx-auto mt-10 md:mt-0 mx-auto ">
         <FormRegister />
       </div>
       <div className="md:mx-auto ">

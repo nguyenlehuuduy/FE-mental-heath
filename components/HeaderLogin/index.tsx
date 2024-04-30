@@ -45,7 +45,7 @@ const HeaderLogin = () => {
       <div className="flex items-center space-x-4">
         <Button
           htmlType="submit"
-          className="text-white text-base md:w-[150px] md:h-[40px] bg-[#0A68EB]  border border-solid border-[#0A68EB] rounded-full"
+          className="text-white text-base font-semibold md:w-[150px] md:h-[40px] bg-[#0A68EB]  border border-solid border-[#0A68EB] rounded-full"
           onClick={() => {
             routes.push("/register");
           }}
@@ -55,7 +55,7 @@ const HeaderLogin = () => {
 
         <Button
           htmlType="submit"
-          className="text-white text-base md:w-[150px] md:h-[40px] bg-[#0A68EB]  border border-solid border-[#0A68EB] rounded-full"
+          className="text-white text-base font-semibold md:w-[150px] md:h-[40px] bg-[#0A68EB]  border border-solid border-[#0A68EB] rounded-full"
           onClick={() => {
             routes.push("/login");
           }}

@@ -63,7 +63,7 @@ const FormRegister = () => {
   return (
     <div>
       <div className="flex flex-col justify-center mx-auto">
-        <div className="flex flex-col items-center md:mb-0 mb-10 md:p-8">
+        <div className="flex flex-col items-center md:mb-0  mb-10 md:p-8">
           <p className="text-[#3D3D3D] text-[40px] font-bold items-center">
             {LB_WELCOME}
           </p>

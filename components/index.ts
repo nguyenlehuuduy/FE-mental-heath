@@ -22,5 +22,5 @@ import HeaderLogin from "./HeaderLogin";
 
 export { Header, Footer, MenuList, FormLogin, RecommendFeature, PostFeature, HotArea, NavFeature, ChatRoomArea, PostContent, Advertisement,
     ModalSetting, CoverPhoto,AvatarProfile,PostProfile, RecentInteractions, VideoProfile, ListPhotoProfile,
-    HeaderLogin,
+    HeaderLogin ,
 };
