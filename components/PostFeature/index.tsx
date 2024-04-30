@@ -8,7 +8,7 @@ import ModalPost from "../ModalPost";
 const PostFeature = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="w-full p-4 rounded-sm mt-2 bg-white">
+    <div className="w-full p-4 rounded-sm bg-white">
       <div
         className="flex gap-2 items-start cursor-pointer"
         onClick={() => setIsOpen(true)}

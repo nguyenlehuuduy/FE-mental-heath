@@ -12,16 +12,13 @@ export default function PostContent(props: PropsComponent) {
   return (
     <Fragment>
       {props.listValidPostOfAccount.data.map((item) => (
-        <div
-          className="w-full bg-white rounded-md px-5 pt-8"
-          key={item.post_id}
-        >
-          <div className="flex items-start justify-between">
+        <div className="w-full bg-white rounded-md p-3" key={item.post_id}>
+          <div className="flex items-center justify-between">
             <div className="flex items-center min-w-[200px] gap-4 rounded-sm">
               <Image
                 src={item.account.avata}
-                width={40}
-                height={40}
+                width={45}
+                height={45}
                 alt="avata"
                 className="rounded-[50%]"
               />
@@ -31,28 +28,28 @@ export default function PostContent(props: PropsComponent) {
               </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-2 justify-center">
               <Image
                 src="/save_icon.svg"
-                width={20}
-                height={20}
+                width={14}
+                height={14}
                 alt="icon save post"
               />
               <Image
                 src="/more_icon.svg"
-                width={20}
-                height={20}
+                width={14}
+                height={14}
                 alt="icon save post"
               />
               <Image
                 src="/cancel_icon.svg"
-                width={20}
-                height={20}
+                width={14}
+                height={14}
                 alt="icon save post"
               />
             </div>
           </div>
-          <div className="mt-3 flex flex-col gap-3">
+          <div className="mt-3 flex flex-col">
             <span>{item.content_text}</span>
             <Image
               src={item.image_post[0]}
@@ -61,34 +58,34 @@ export default function PostContent(props: PropsComponent) {
               alt="avata"
               className="object-contain w-full h-auto aspect-video"
             />
-            <div className="flex items-center justify-start gap-6 border-b-[1px]">
-              <div className="flex gap-3 items-center font-medium p-5">
+            <div className="flex items-center justify-evenly">
+              <div className="flex gap-2 items-center font-medium">
                 <Image
                   src="/love_icon.svg"
-                  width={23}
-                  height={23}
+                  width={20}
+                  height={20}
                   alt="icon save post"
                 />
                 <span className="opacity-70">
                   {abbreviateNumber(item.total_reaction)} thích
                 </span>
               </div>
-              <div className="flex gap-3 items-center font-medium p-5">
+              <div className="flex gap-3 items-center font-medium">
                 <Image
                   src="/comment_icon.svg"
-                  width={23}
-                  height={23}
+                  width={20}
+                  height={20}
                   alt="icon save post"
                 />
                 <span className="opacity-70">
                   {abbreviateNumber(item.total_comment)} bình luận
                 </span>
               </div>
-              <div className="flex gap-3 items-center font-medium p-5">
+              <div className="flex gap-3 items-center font-medium">
                 <Image
                   src="/share_icon.svg"
-                  width={23}
-                  height={23}
+                  width={20}
+                  height={20}
                   alt="icon save post"
                 />
                 <span className="opacity-70">
@@ -96,7 +93,7 @@ export default function PostContent(props: PropsComponent) {
                 </span>
               </div>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col mt-5">
               <div className="flex gap-4">
                 <Image
                   src={item.account.avata}
@@ -108,7 +105,7 @@ export default function PostContent(props: PropsComponent) {
 
                 <Input
                   placeholder="Viết bình luận của bạn"
-                  className="h-[54px]"
+                  className="h-[45px]"
                 />
               </div>
               <span className="font-medium my-5 cursor-pointer">

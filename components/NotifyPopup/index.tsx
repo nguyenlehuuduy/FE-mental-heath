@@ -66,8 +66,8 @@ const NotifyPopup = ({
         <div
           id="scrollableDiv"
           style={{
-            width: 320,
-            height: 600,
+            width: 290,
+            height: 400,
             overflow: "auto",
           }}
         >

@@ -66,8 +66,8 @@ export function FilterIcon({ width, height }: IconProps) {
 export function SearchIcon({ width, height }: IconProps) {
   return (
     <svg
-      width={width ? width : 24}
-      height={height ? height : 24}
+      width={width ? width : 20}
+      height={height ? height : 20}
       viewBox="0 0 25 25"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
