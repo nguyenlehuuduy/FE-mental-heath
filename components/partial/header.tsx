@@ -9,11 +9,16 @@ import {
   SettingIcon,
 } from "../../icons";
 import NotifyPopup from "../NotifyPopup";
+import { MyselfForCard } from "@/service/accountService";
+import ProfilePopup from "../ProfilePopup";
 
-export default function Header() {
+type PropsComponent = {
+  profile: MyselfForCard;
+};
+export default function Header(props: PropsComponent) {
   return (
     <header className="border-b w-full z-10 bg-white px-4">
-      <div className="max-w-[1440px] h-[50px] mx-auto flex justify-evenly items-center py-3">
+      <div className="max-w-[1440px] h-[55px] mx-auto flex justify-evenly items-center py-3">
         <div className="max-w-[300px] w-full flex ">
           <Link
             href="/home"
@@ -48,9 +53,16 @@ export default function Header() {
           <div className="p-2 rounded-full border flex justify-center items-center">
             <SettingIcon width={20} height={20} />
           </div>
-          <div className="relative w-[34px] h-[34px] rounded-full flex justify-center items-center">
-            <Image src="/big_logo.png" fill alt="icon avatar" />
-          </div>
+          <ProfilePopup props={props}>
+            <div className="relative w-[45px] h-[45px]">
+              <Image
+                src={props.profile.avata}
+                fill
+                alt="icon avatar"
+                className="rounded-full"
+              />
+            </div>
+          </ProfilePopup>
         </div>
       </div>
     </header>

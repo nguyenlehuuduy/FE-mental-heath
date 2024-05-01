@@ -4,9 +4,11 @@ import Image from "next/image";
 import { Pagination } from "../../type";
 import { Fragment } from "react";
 import { abbreviateNumber, getTimeAgo } from "@/lib/utils";
+import { MyselfForCard } from "@/service/accountService";
 
 type PropsComponent = {
   listValidPostOfAccount: { data: PostForCard[]; pagination: Pagination };
+  profile: MyselfForCard;
 };
 export default function PostContent(props: PropsComponent) {
   return (
@@ -96,7 +98,7 @@ export default function PostContent(props: PropsComponent) {
             <div className="flex flex-col mt-5">
               <div className="flex gap-4">
                 <Image
-                  src={item.account.avata}
+                  src={props.profile.avata}
                   width={40}
                   height={40}
                   alt="avata"

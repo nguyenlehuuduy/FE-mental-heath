@@ -1,5 +1,6 @@
+import { unstable_cache } from "next/cache";
 import { Pagination } from "../../type";
-import { callGetRequest } from "./apiService";
+import { callGetRequest, callPostRequest } from "./apiService";
 
 interface PostModel {
   id: string;
@@ -51,7 +52,10 @@ export type PostForCard = {
 export async function getListValidPostByAccount(
   query?: string,
 ): Promise<{ data: PostForCard[]; pagination: Pagination } | undefined> {
-  const res = await callGetRequest(`/post/valid-post?${query}`);
+  const res = await callGetRequest(
+    `/post/valid-post?${query}`,
+    "get-valid-post-cache",
+  );
   if (res.status === 200) {
     const data: {
       data: PostModel[];
@@ -112,5 +116,19 @@ export async function getListValidPostByAccount(
       data: result,
       pagination: data.pagination,
     };
+  }
+}
+
+export type PostForRequest = {
+  contentText: string;
+  imagePaths?: Array<string>;
+};
+
+export async function uploadPost(
+  body: PostForRequest,
+): Promise<boolean | undefined> {
+  const result = await callPostRequest("/post", body);
+  if (result.status === 201) {
+    return true;
   }
 }

@@ -1238,11 +1238,37 @@
       "post": {
         "operationId": "FileController_uploadPostImage",
         "parameters": [],
-        "responses": {
-          "201": {
-            "description": ""
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
           }
-        }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageForResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "file"
+        ]
       }
     },
     "/api/file/avata/image": {
@@ -1253,7 +1279,10 @@
           "201": {
             "description": ""
           }
-        }
+        },
+        "tags": [
+          "file"
+        ]
       }
     },
     "/api/follow": {
@@ -1620,11 +1649,18 @@
           },
           "accountId": {
             "type": "string"
+          },
+          "imagePaths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
           "contentText",
-          "accountId"
+          "accountId",
+          "imagePaths"
         ]
       },
       "UserForResponse": {
@@ -1663,6 +1699,25 @@
           "address"
         ]
       },
+      "ImagePostForResponse": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "postId": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "accountId",
+          "postId",
+          "path"
+        ]
+      },
       "PostForResponse": {
         "type": "object",
         "properties": {
@@ -1694,6 +1749,12 @@
           },
           "totalShare": {
             "type": "number"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImagePostForResponse"
+            }
           }
         },
         "required": [
@@ -1705,7 +1766,8 @@
           "updated_at",
           "totalReaction",
           "totalComment",
-          "totalShare"
+          "totalShare",
+          "images"
         ]
       },
       "PostForUpdate": {
@@ -2135,6 +2197,33 @@
         "required": [
           "contentCmt",
           "accountId"
+        ]
+      },
+      "ImageForResponse": {
+        "type": "object",
+        "properties": {
+          "fieldname": {
+            "type": "string"
+          },
+          "originalname": {
+            "type": "string"
+          },
+          "size": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "mimetype": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "fieldname",
+          "originalname",
+          "size",
+          "filename",
+          "mimetype"
         ]
       },
       "FollowForCreate": {
