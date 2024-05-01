@@ -15,6 +15,7 @@ import SidebarChat from "./SidebarChat";
 import ChatList from "./ChatList";
 import MessageFrame from "./MessageFrame";
 import MessageShare from "./MessageShare";
+import Star from "./Star";
 
 export {
   Header,
@@ -34,4 +35,5 @@ export {
   ChatList,
   MessageFrame,
   MessageShare,
+  Star,
 };
