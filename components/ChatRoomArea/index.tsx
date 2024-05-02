@@ -1,54 +1,35 @@
+"use client";
+
+import { RoomMessageForCard } from "@/service/roomMessageService";
 import Image from "next/image";
 import Link from "next/link";
 
-const listRoomChat = [
-  {
-    image: "/nav_feature.png",
-    nameTarget: "Nguyễn Lê Hữu Duy",
-  },
-  {
-    image: "/nav_feature.png",
-    nameTarget: "Nguyễn Hải Dương",
-  },
-  {
-    image: "/nav_feature.png",
-    nameTarget: "Nguyễn Khắc Thịnh",
-  },
-  {
-    image: "/nav_feature.png",
-    nameTarget: "Nguyễn Thanh Cường",
-  },
-  {
-    image: "/nav_feature.png",
-    nameTarget: "Trần Kim Vũ",
-  },
-  {
-    image: "/nav_feature.png",
-    nameTarget: "Cao Sơn Hải",
-  },
-];
+type PropsComponent = {
+  listRoomChat: Array<RoomMessageForCard>;
+};
 
-export default function ChatRoomArea() {
+export default function ChatRoomArea(props: PropsComponent) {
   return (
-    <div className="mt-[30px] pb-20">
-      <label className="font-bold">Trò chuyện</label>
+    <div className="p-3 w-[50%]">
+      <div className="font-bold">Trò chuyện</div>
+
       <div className="flex flex-col gap-4 mt-5">
-        {listRoomChat.map((item, index) => (
+        {props.listRoomChat.map((item, index) => (
           <div
             key={index}
             className="flex items-center justify-start gap-2 cursor-pointer"
           >
             <Image
-              src={item.image}
+              src={item.image_room}
               width={50}
               height={50}
               alt="image user"
               className="rounded-[50%]"
             />
-            <p className="font-medium">{item.nameTarget}</p>
+            <p className="font-medium">{item.name_room}</p>
           </div>
         ))}
-        <Link className="font-bold text-blue-500 underline" href="">
+        <Link href={"/message"} className="font-bold underline text-[#3B82F6]">
           Xem tất cả
         </Link>
       </div>
