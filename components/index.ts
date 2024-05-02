@@ -15,6 +15,13 @@ import SidebarChat from "./SidebarChat";
 import ChatList from "./ChatList";
 import MessageFrame from "./MessageFrame";
 import MessageShare from "./MessageShare";
+import CoverPhoto from "./CoverPhoto";
+import AvatarProfile from "./AvatarProfile";
+import RecentInteractions from "./RecentInteraction";
+import VideoProfile from "./VideoProfile";
+import ListPhotoProfile from "./ListPhotoProfile";
+import PostProfile from "./PostProfile";
+
 
 export {
   Header,
@@ -34,4 +41,10 @@ export {
   ChatList,
   MessageFrame,
   MessageShare,
+  CoverPhoto,
+  VideoProfile,
+  RecentInteractions,
+  AvatarProfile,
+  ListPhotoProfile,
+  PostProfile,
 };
