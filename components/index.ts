@@ -21,6 +21,7 @@ import RecentInteractions from "./RecentInteraction";
 import VideoProfile from "./VideoProfile";
 import ListPhotoProfile from "./ListPhotoProfile";
 import PostProfile from "./PostProfile";
+import ModalSetting from "./ModalSetting";
 
 
 export {
@@ -47,4 +48,5 @@ export {
   AvatarProfile,
   ListPhotoProfile,
   PostProfile,
+  ModalSetting
 };

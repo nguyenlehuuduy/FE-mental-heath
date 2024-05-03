@@ -1,3 +1,4 @@
+"use client"
 import { Input } from "antd";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,11 +12,14 @@ import {
 import NotifyPopup from "../NotifyPopup";
 import { MyselfForCard } from "@/service/accountService";
 import ProfilePopup from "../ProfilePopup";
+import ModalSetting from "../ModalSetting";
+import React, { useState } from "react";
 
 type PropsComponent = {
   profile: MyselfForCard;
 };
 export default function Header(props: PropsComponent) {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <header className="border-b w-full z-10 bg-white px-4">
       <div className="max-w-[1440px] h-[55px] mx-auto flex justify-evenly items-center py-3">
@@ -50,7 +54,8 @@ export default function Header(props: PropsComponent) {
               <NotifyIcon width={20} height={20} />
             </div>
           </NotifyPopup>
-          <div className="p-2 rounded-full border flex justify-center items-center">
+          <div className="p-2 rounded-full border flex justify-center items-center"
+          onClick={() => setIsOpen(true)}>
             <SettingIcon width={20} height={20} />
           </div>
           <ProfilePopup props={props}>
@@ -64,6 +69,7 @@ export default function Header(props: PropsComponent) {
             </div>
           </ProfilePopup>
         </div>
+        <ModalSetting isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       </div>
     </header>
   );
