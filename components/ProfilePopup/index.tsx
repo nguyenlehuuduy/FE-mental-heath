@@ -4,6 +4,7 @@ import { Button, Popover } from "antd";
 import Image from "next/image";
 import { MyselfForCard } from "@/service/accountService";
 import { formatDate } from "@/lib/utils";
+import Link from "next/link";
 
 const ProfileCard = (props: PropsComponent) => {
   return (
@@ -34,7 +35,9 @@ const ProfileCard = (props: PropsComponent) => {
             <p>Số điện thoại: {props.profile.phone}</p>
           </div>
           <div className="w-full flex mt-5 justify-between">
-            <Button>Xem chi tiết</Button>
+            <Button>
+              <Link href={"/myself"}>Xem chi tiết</Link>
+            </Button>
             <Button danger>Đăng xuất</Button>
           </div>
         </div>
