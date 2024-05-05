@@ -20,44 +20,29 @@ import {
   LB_WELCOME_REGISTER,
   L_LOGIN,
   PL_EMAIL,
+  PL_FULLNAME,
   PL_NAME,
   PL_PASSWORD,
   PL_RE_PASSWORD,
 } from "@/util/TextContants";
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import { useRouter } from "next/navigation";
+import { useFormState } from "react-dom";
+import { ActionRegisterState, register } from "./action";
+
+const defaultData = {
+  fullName: "",
+  email: "",
+  password: "",
+};
+
+const initialState: ActionRegisterState = {
+  validate: defaultData,
+  success: false,
+};
 
 const FormRegister = () => {
-  const schema = yup
-    .object()
-    .shape({
-      email: yup
-        .string()
-        .required(ERROR_EMAIL_NULL)
-        .email(ERROR_EMAIL_FORMAT)
-        .trim(),
-      password: yup.string().required(ERROR_PASSWORD_NULL).trim(),
-      name: yup.string().required(ERROR_NAME),
-      rePassword: yup
-        .string()
-        .required(ERROR_REPASS)
-        .trim()
-        .oneOf([yup.ref("password")], ERROR_REPASS_VALID),
-    })
-    .required();
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterType>({
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit: SubmitHandler<RegisterType> = (data) => {
-    console.log(data);
-  };
-
+  const [{ validate }, formAction] = useFormState(register, initialState);
   const routes = useRouter();
   return (
     <div>
@@ -77,34 +62,38 @@ const FormRegister = () => {
         </div>
       </div>
       <div className="flex flex-col justify-center w-full md:w-[400px] mx-auto ">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form action={formAction}>
           <div className="flex flex-col gap-3">
-            <InputControl
-              control={control}
-              name="name"
-              placeHolder={PL_NAME}
-              error={errors.name}
+            <Input
+              name="fullName"
+              placeholder={PL_FULLNAME}
+              height={50}
+              className="h-[50px] text-base "
             />
-            <InputControl
-              control={control}
+            <span className="invalid_err">{validate?.fullName}</span>
+            <Input
               name="email"
-              placeHolder={PL_EMAIL}
-              error={errors.email}
+              placeholder={PL_EMAIL}
+              height={50}
+              className="h-[50px] text-base "
             />
-            <InputControl
-              control={control}
+            <span className="invalid_err">{validate?.email}</span>
+            <Input.Password
               name="password"
-              isPass
-              error={errors.password}
-              placeHolder={PL_PASSWORD}
+              placeholder={PL_PASSWORD}
+              height={50}
+              type="password"
+              className="h-[50px] text-base"
             />
-            <InputControl
-              control={control}
-              name="rePassword"
-              isPass
-              error={errors.rePassword}
-              placeHolder={PL_RE_PASSWORD}
+            <span className="invalid_err">{validate?.password}</span>
+            <Input.Password
+              name="confirmPassword"
+              placeholder={PL_RE_PASSWORD}
+              height={50}
+              type="password"
+              className="h-[50px] text-base"
             />
+            <span className="invalid_err">{validate?.confirmPassword}</span>
             <Button
               htmlType="submit"
               className="bg-[#0A68EB] text-white text-lg h-[50px] md:h-[50px]"
