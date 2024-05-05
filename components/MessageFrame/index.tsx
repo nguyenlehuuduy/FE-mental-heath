@@ -10,7 +10,6 @@ import {
   SearchIcon,
   SendIcon,
 } from "../../icons";
-import "react-chat-elements/dist/main.css";
 import { Input } from "antd";
 
 const MessageData = [

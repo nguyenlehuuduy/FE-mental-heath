@@ -16,6 +16,8 @@ import ChatList from "./ChatList";
 import MessageFrame from "./MessageFrame";
 import MessageShare from "./MessageShare";
 import ModalSetting from "./ModalSetting";
+import Star from "./Star";
+
 export {
   Header,
   Footer,
@@ -35,4 +37,5 @@ export {
   MessageFrame,
   MessageShare,
   ModalSetting,
+  Star,
 };
