@@ -82,6 +82,16 @@ export default function MySelfPageView(props: PropsComponent) {
                 <label className="text-sm cursor-pointer">Tạo bài viết</label>
               </div>
             </div>
+            <div className="flex w-full items-center gap-2 text-[14px] mb-2 justify-between px-2">
+              <div className="cursor-pointer">
+                <span className="text-[18px] font-medium">135 </span>
+                Đang theo dõi
+              </div>
+              <div className="cursor-pointer">
+                <span className="text-[18px] font-medium">100 </span>
+                Theo dõi bạn
+              </div>
+            </div>
             <div className="flex justify-between h-[40px] mb-4">
               <div
                 className={`flex items-center gap-2 w-[30%] cursor-pointer ${selectOptionNumber === 0 && "border-blue-500 border-b-2"} p-2`}
