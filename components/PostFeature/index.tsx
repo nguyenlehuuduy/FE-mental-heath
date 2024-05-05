@@ -4,24 +4,29 @@ import Image from "next/image";
 import { Button } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import ModalPost from "../ModalPost";
+import { MyselfForCard } from "@/service/accountService";
 
-const PostFeature = () => {
+type PropsComponent = {
+  profile: MyselfForCard;
+};
+
+const PostFeature = (props: PropsComponent) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="w-full p-4 rounded-sm mt-2 bg-white">
+    <div className="w-full p-4 rounded-sm bg-white">
       <div
         className="flex gap-2 items-start cursor-pointer"
         onClick={() => setIsOpen(true)}
       >
         <Image
-          src={"/nav_feature.png"}
+          src={props.profile.avata}
           width={40}
           height={40}
           alt="logo"
           className="rounded-full"
         />
         <div className="flex flex-col justify-between w-full">
-          <TextArea rows={2} size="large" placeholder="Bạn đang nghĩ gì vậy?" />
+          <TextArea rows={2} size="large" value={"Bạn đang nghĩ gì vậy?"} />
 
           <div className="flex flex-row flex-grow items-center justify-between py-2 space-x-3">
             <div className="flex gap-6">
@@ -62,7 +67,13 @@ const PostFeature = () => {
           </div>
         </div>
       </div>
-      <ModalPost isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+      {isOpen && (
+        <ModalPost
+          profile={props.profile}
+          isOpen={isOpen}
+          closeModal={() => setIsOpen(false)}
+        />
+      )}
     </div>
   );
 };

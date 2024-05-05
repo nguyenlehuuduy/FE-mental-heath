@@ -15,6 +15,7 @@ import SidebarChat from "./SidebarChat";
 import ChatList from "./ChatList";
 import MessageFrame from "./MessageFrame";
 import MessageShare from "./MessageShare";
+import ModalSetting from "./ModalSetting";
 import Star from "./Star";
 
 export {
@@ -35,5 +36,6 @@ export {
   ChatList,
   MessageFrame,
   MessageShare,
+  ModalSetting,
   Star,
 };

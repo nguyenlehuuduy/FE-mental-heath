@@ -8,8 +8,9 @@ type PropsComponent = {
 };
 const NavFeature = (props: PropsComponent) => {
   return (
-    <div className="w-full p-5">
+    <div className="w-full p-3 bg-white rounded-md">
       <div className="flex flex-col gap-3">
+        <span className="text-[#0F52BA] font-bold  pb-3">Tính năng</span>
         {props.listHotFeatureContent.map((item, index) => (
           <div
             key={index}
