@@ -61,8 +61,21 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface RegisterRequest {
+  fullName: string;
+  email: string;
+  password: string;
+}
+
 export interface LoginResponse {
   accessToken: string;
+}
+
+export interface DataResponse {
+  response: string;
+  status: number;
+  message: string;
+  name: string;
 }
 
 export async function loginAccount(
@@ -74,4 +87,11 @@ export async function loginAccount(
       accessToken: result.response.access_token,
     };
   }
+}
+
+export async function registerAccount(
+  body: LoginRequest,
+): Promise<DataResponse | undefined> {
+  const result = await callPostRequest("/auth/register", body);
+  return result.response;
 }

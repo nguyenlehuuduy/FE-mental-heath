@@ -26,6 +26,22 @@ const NavFeature = (props: PropsComponent) => {
             <p className="font-medium">{item.name}</p>
           </div>
         ))}
+        {props.listHotFeatureContent &&
+          props.listHotFeatureContent.map((item, index) => (
+            <div
+              key={index}
+              className="flex flex-row items-center gap-3 cursor-pointer"
+            >
+              <Image
+                src={item.thumbnail_file_name}
+                width={60}
+                height={60}
+                alt="tinn nang"
+                className="rounded-[10px]"
+              />
+              <p className="font-medium">{item.name}</p>
+            </div>
+          ))}
         <Link className="font-medium text-center mt-3" href={""}>
           Xem thêm
         </Link>
