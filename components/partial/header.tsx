@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Input } from "antd";
 import Image from "next/image";
 import Link from "next/link";
@@ -54,18 +54,33 @@ export default function Header(props: PropsComponent) {
               <NotifyIcon width={20} height={20} />
             </div>
           </NotifyPopup>
-          <div className="p-2 rounded-full border flex justify-center items-center"
-          onClick={() => setIsOpen(true)}>
+          <div
+            className="p-2 rounded-full border flex justify-center items-center"
+            onClick={() => setIsOpen(true)}
+          >
             <SettingIcon width={20} height={20} />
           </div>
           <ProfilePopup props={props}>
-            <div className="relative w-[45px] h-[45px]">
-              <Image
-                src={props.profile.avata}
-                fill
-                alt="icon avatar"
-                className="rounded-full"
-              />
+            <div className="relative w-[38px] h-[38px] cursor-pointer">
+              {props.profile.avata ? (
+                <Image
+                  src={props.profile.avata}
+                  fill
+                  sizes="(max-width: 38px) 100vw"
+                  alt="icon avatar"
+                  objectFit="cover"
+                  className="rounded-full"
+                />
+              ) : (
+                <Image
+                  src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
+                  fill
+                  sizes="(max-width: 38px) 100vw"
+                  alt="icon avatar"
+                  objectFit="cover"
+                  className="rounded-full"
+                />
+              )}
             </div>
           </ProfilePopup>
         </div>
