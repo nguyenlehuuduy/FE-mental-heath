@@ -32,24 +32,15 @@ export default function PostContent(props: PropsComponent) {
               </div>
 
               <div className="flex gap-2 justify-center">
-                <Image
-                  src="/save_icon.svg"
-                  width={14}
-                  height={14}
-                  alt="icon save post"
-                />
-                <Image
-                  src="/more_icon.svg"
-                  width={14}
-                  height={14}
-                  alt="icon save post"
-                />
-                <Image
-                  src="/cancel_icon.svg"
-                  width={14}
-                  height={14}
-                  alt="icon save post"
-                />
+                <div className="relative w-[20px] h-[20px]">
+                  <Image src="/save_icon.svg" fill alt="icon save post" />
+                </div>
+                <div className="relative w-[20px] h-[20px]">
+                  <Image src="/more_icon.svg" fill alt="icon save post" />
+                </div>
+                <div className="relative w-[20px] h-[20px]">
+                  <Image src="/cancel_icon.svg" fill alt="icon save post" />
+                </div>
               </div>
             </div>
             <div className="mt-3 flex flex-col">
@@ -63,12 +54,21 @@ export default function PostContent(props: PropsComponent) {
               />
               <div className="flex items-center justify-evenly">
                 <div className="flex gap-2 items-center font-medium">
-                  <Image
-                    src="/love_icon.svg"
-                    width={20}
-                    height={20}
-                    alt="icon save post"
-                  />
+                  {item.is_like ? (
+                    <Image
+                      src="/loved_icon.svg"
+                      width={20}
+                      height={20}
+                      alt="icon save post"
+                    />
+                  ) : (
+                    <Image
+                      src="/love_icon.svg"
+                      width={20}
+                      height={20}
+                      alt="icon save post"
+                    />
+                  )}
                   <span className="opacity-70">
                     {abbreviateNumber(item.total_reaction)} thích
                   </span>
@@ -98,13 +98,27 @@ export default function PostContent(props: PropsComponent) {
               </div>
               <div className="flex flex-col mt-5">
                 <div className="flex gap-4">
-                  <Image
-                    src={props.profile.avata}
-                    width={40}
-                    height={40}
-                    alt="avata"
-                    className="aspect-square w-[50px] h-auto object-contain rounded-xl"
-                  />
+                  <div className="relative w-[40px] h-[40px]">
+                    {props.profile.avata ? (
+                      <Image
+                        src={props.profile.avata}
+                        fill
+                        sizes="(max-width: 40px) 100vw"
+                        objectFit="cover"
+                        alt="avata"
+                        className="aspect-square w-[50px] h-auto rounded-xl"
+                      />
+                    ) : (
+                      <Image
+                        src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
+                        fill
+                        sizes="(max-width: 40px) 100vw"
+                        objectFit="cover"
+                        alt="avata"
+                        className="aspect-square w-[50px] h-auto rounded-xl"
+                      />
+                    )}
+                  </div>
 
                   <Input
                     placeholder="Viết bình luận của bạn"

@@ -18,13 +18,27 @@ const PostFeature = (props: PropsComponent) => {
         className="flex gap-2 items-start cursor-pointer"
         onClick={() => setIsOpen(true)}
       >
-        <Image
-          src={props.profile.avata}
-          width={40}
-          height={40}
-          alt="logo"
-          className="rounded-full"
-        />
+        <div className="relative w-[40px] h-[40px]">
+          {props.profile.avata ? (
+            <Image
+              src={props.profile.avata}
+              fill
+              sizes="(max-width: 40px) 100vw"
+              objectFit="cover"
+              alt="logo"
+              className="rounded-full"
+            />
+          ) : (
+            <Image
+              src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
+              fill
+              sizes="(max-width: 40px) 100vw"
+              objectFit="cover"
+              alt="logo"
+              className="rounded-full"
+            />
+          )}
+        </div>
         <div className="flex flex-col justify-between w-full">
           <TextArea rows={2} size="large" value={"Bạn đang nghĩ gì vậy?"} />
 
