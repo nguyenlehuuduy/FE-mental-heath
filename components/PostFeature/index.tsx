@@ -4,13 +4,11 @@ import Image from "next/image";
 import { Button } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import ModalPost from "../ModalPost";
-import { MyselfForCard } from "@/service/accountService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/configureStore";
 
-type PropsComponent = {
-  profile: MyselfForCard;
-};
-
-const PostFeature = (props: PropsComponent) => {
+const PostFeature = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="w-full p-4 rounded-sm bg-white">
@@ -19,11 +17,11 @@ const PostFeature = (props: PropsComponent) => {
         onClick={() => setIsOpen(true)}
       >
         <div className="relative w-[40px] h-[40px]">
-          {props.profile.avata ? (
+          {user?.avata ? (
             <Image
-              src={props.profile.avata}
+              src={user?.avata}
               fill
-              sizes="(max-width: 40px) 100vw"
+              sizes="(max-width: 40px)"
               objectFit="cover"
               alt="logo"
               className="rounded-full"
@@ -32,13 +30,14 @@ const PostFeature = (props: PropsComponent) => {
             <Image
               src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
               fill
-              sizes="(max-width: 40px) 100vw"
+              sizes="(max-width: 40px)"
               objectFit="cover"
               alt="logo"
               className="rounded-full"
             />
           )}
         </div>
+
         <div className="flex flex-col justify-between w-full">
           <TextArea rows={2} size="large" value={"Bạn đang nghĩ gì vậy?"} />
 
@@ -82,11 +81,7 @@ const PostFeature = (props: PropsComponent) => {
         </div>
       </div>
       {isOpen && (
-        <ModalPost
-          profile={props.profile}
-          isOpen={isOpen}
-          closeModal={() => setIsOpen(false)}
-        />
+        <ModalPost isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       )}
     </div>
   );

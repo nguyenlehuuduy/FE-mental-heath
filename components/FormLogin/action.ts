@@ -59,10 +59,12 @@ export async function login(_: ActionLoginState, formData: FormData) {
     password: password!,
   };
   const loginResult = await loginAccount(body);
+  console.log("login result", loginResult);
+
   if (loginResult) {
     setCookie(COOKIE_ACCESS_TOKEN_KEY, loginResult.accessToken);
-    const rs = await getLoginAccount();
-    rs && redirect("/home");
+    await getLoginAccount();
+    redirect("/home");
   }
   return {
     validate: {

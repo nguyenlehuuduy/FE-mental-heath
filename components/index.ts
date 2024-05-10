@@ -17,6 +17,9 @@ import MessageFrame from "./MessageFrame";
 import MessageShare from "./MessageShare";
 import ModalSetting from "./ModalSetting";
 import Star from "./Star";
+import PostCard from "./PostCard";
+import CommentItem from "./CommentItem";
+import PostWrap from "./PostWrap";
 
 export {
   Header,
@@ -38,4 +41,7 @@ export {
   MessageShare,
   ModalSetting,
   Star,
+  PostCard,
+  CommentItem,
+  PostWrap,
 };

@@ -6,27 +6,26 @@ import {
   NavFeature,
   RecommendFeature,
   HotArea,
+  PostWrap,
 } from "../../../../components";
 import { getLoginAccount } from "@/service/accountService";
 import { getListHotFeature } from "@/service/featureService";
 import { getListHotContent } from "@/service/hotContentService";
 import { getAllSuggestFollowAccount } from "@/service/followService";
+import { Suspense } from "react";
 
 export default async function Home() {
   const listHotFeatureContent = await getListHotFeature();
   const listHotContent = await getListHotContent();
   const suggestFollow = await getAllSuggestFollowAccount();
   const listValidPostOfAccount = await getListValidPostByAccount();
-  const profile = await getLoginAccount();
+
   return (
     <div className="w-full flex justify-between gap-2">
       <div className="flex flex-col gap-1 pb-20 w-[68%]">
         <Advertisement />
-        <PostFeature profile={profile!} />
-        <PostContent
-          profile={profile!}
-          listValidPostOfAccount={listValidPostOfAccount!}
-        />
+        <PostFeature />
+        <PostWrap listValidPostOfAccount={listValidPostOfAccount!} />
         <span className="text-center w-full block font-medium">
           Bạn đã xem hết tin ngày hôm nay
         </span>

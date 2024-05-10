@@ -14,11 +14,15 @@ import { MyselfForCard } from "@/service/accountService";
 import ProfilePopup from "../ProfilePopup";
 import ModalSetting from "../ModalSetting";
 import React, { useState } from "react";
+import { RootState } from "../../redux/configureStore";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentUser } from "../../redux/actions/auth";
 
-type PropsComponent = {
-  profile: MyselfForCard;
-};
-export default function Header(props: PropsComponent) {
+export default function Header({ profile }: { profile: MyselfForCard }) {
+  const dispatch = useDispatch();
+  dispatch(getCurrentUser(profile));
+  const user = useSelector((state: RootState) => state.auth.user);
+
   const [isOpen, setIsOpen] = useState(false);
   return (
     <header className="border-b w-full z-10 bg-white px-4">
@@ -60,13 +64,12 @@ export default function Header(props: PropsComponent) {
           >
             <SettingIcon width={20} height={20} />
           </div>
-          <ProfilePopup props={props}>
-            <div className="relative w-[38px] h-[38px] cursor-pointer">
-              {props.profile.avata ? (
+          <ProfilePopup>
+            <div className="relative w-[45px] h-[45px] cursor-pointer">
+              {user?.avata ? (
                 <Image
-                  src={props.profile.avata}
+                  src={user?.avata}
                   fill
-                  sizes="(max-width: 38px) 100vw"
                   alt="icon avatar"
                   objectFit="cover"
                   className="rounded-full"
@@ -75,7 +78,6 @@ export default function Header(props: PropsComponent) {
                 <Image
                   src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
                   fill
-                  sizes="(max-width: 38px) 100vw"
                   alt="icon avatar"
                   objectFit="cover"
                   className="rounded-full"

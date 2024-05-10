@@ -8,11 +8,12 @@ import { MyselfForCard } from "@/service/accountService";
 import { useFormState } from "react-dom";
 import { ActionPostState, post } from "./action";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/configureStore";
 
 interface Modal {
   isOpen: boolean;
   closeModal: () => void;
-  profile: MyselfForCard;
 }
 const defaultData = {
   contentText: "",
@@ -22,7 +23,8 @@ const initialState: ActionPostState = {
   success: false,
 };
 
-const ModalPost = ({ isOpen, closeModal, profile }: Modal) => {
+const ModalPost = ({ isOpen, closeModal }: Modal) => {
+  const user = useSelector((state: RootState) => state.auth.user);
   const [{ validate, success }, formAction] = useFormState(post, initialState);
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -75,11 +77,10 @@ const ModalPost = ({ isOpen, closeModal, profile }: Modal) => {
           <div className="w-full px-4 pb-4 flex flex-col gap-4">
             <div className="flex flex-row gap-3 items-center">
               <div className="relative w-[60px] h-[60px]">
-                {profile.avata ? (
+                {user?.avata ? (
                   <Image
-                    src={profile.avata}
+                    src={user?.avata}
                     fill
-                    sizes="(max-width: 60px) 100vw"
                     objectFit="cover"
                     alt="logo"
                     className="rounded-full"
@@ -88,14 +89,14 @@ const ModalPost = ({ isOpen, closeModal, profile }: Modal) => {
                   <Image
                     src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
                     fill
-                    sizes="(max-width: 60px) 100vw"
                     objectFit="cover"
                     alt="logo"
                     className="rounded-full"
                   />
                 )}
               </div>
-              <p className="text-xl font-medium ">{profile.full_name}</p>
+
+              <p className="text-xl font-medium ">{user?.full_name}</p>
             </div>
             <TextArea
               rows={6}

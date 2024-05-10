@@ -1,6 +1,8 @@
 import { unstable_cache } from "next/cache";
 import { Pagination } from "../../type";
 import { callGetRequest, callPostRequest } from "./apiService";
+import { store } from "../../redux/configureStore";
+import { addPostValid } from "../../redux/actions/post";
 
 interface PostModel {
   id: string;
@@ -15,6 +17,7 @@ interface PostModel {
     birth: string;
     address: string;
   };
+  is_liked: boolean;
   created_at: string;
   updated_at: string;
   totalReaction: number;
@@ -49,18 +52,19 @@ export type PostForCard = {
   }>;
 };
 
-export async function getListValidPostByAccount(
-  query?: string,
-): Promise<{ data: PostForCard[]; pagination: Pagination } | undefined> {
+export async function getListValidPostByAccount(query?: string) {
   const res = await callGetRequest(
     `/post/valid-post?${query}`,
     "get-valid-post-cache",
   );
+  console.log("result fetch post", res.response.data);
+
   if (res.status === 200) {
     const data: {
       data: PostModel[];
       pagination: Pagination;
     } = res.response;
+
     const result: PostForCard[] = [];
     for (const post of data.data) {
       result.push({
@@ -79,8 +83,7 @@ export async function getListValidPostByAccount(
           "https://cdn.dummyjson.com/cache/400x200/bitter-16/282828-white/918ca712a61b263dc1f9904dbef02560.png",
           "https://cdn.dummyjson.com/cache/400x200/bitter-16/282828-white/918ca712a61b263dc1f9904dbef02560.png",
         ],
-        //TODO_1201430: is_like to know this account like this post yet
-        is_like: true,
+        is_like: post.is_liked,
         post_id: post.id,
         total_comment: post.totalComment,
         total_reaction: post.totalReaction,
@@ -130,5 +133,29 @@ export async function uploadPost(
   const result = await callPostRequest("/post", body);
   if (result.status === 201) {
     return true;
+  }
+}
+
+export async function likePost(postId: string) {
+  const result = await callPostRequest("/likes", { postId: postId });
+  if (result.status === 201) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export async function commentPost(postId: string, contentComment: string) {
+  const result = await callPostRequest("/comment", {
+    accountId: "4bb557e2-b278-4d00-91f2-540ab85d2021",
+    postId: postId,
+    contentCmt: contentComment,
+  });
+  console.log("result comment", result);
+
+  if (result.status === 201) {
+    return true;
+  } else {
+    return false;
   }
 }
