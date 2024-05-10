@@ -1,5 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { callGetRequest, callPostRequest } from "./apiService";
+import { store } from "../../redux/configureStore";
+import { getCurrentUser } from "../../redux/actions/auth";
 
 interface MyselfResponse {
   id: string;
@@ -29,9 +31,12 @@ export type MyselfForCard = {
   phone: string;
 };
 
-export async function getLoginAccount(): Promise<MyselfForCard | undefined> {
+const getUser = async () => {};
+
+export const getLoginAccount = async () => {
   const result = await callGetRequest("/auth/profile");
   const data: MyselfResponse = result.response;
+
   if (result.status === 200) {
     return {
       about_me: data.aboutMe,
@@ -50,7 +55,7 @@ export async function getLoginAccount(): Promise<MyselfForCard | undefined> {
       phone: data.phone,
     };
   }
-}
+};
 
 const cachedProfile = unstable_cache(getLoginAccount, ["profile-cache"], {
   revalidate: 3600,
