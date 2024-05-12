@@ -2,19 +2,20 @@
 
 import { MyselfForCard } from "@/service/accountService";
 import Image from "next/image";
-import { PostContent } from "../../../../components";
+import { PostByAccount, PostContent } from "../../../../components";
 import { PostForCard } from "@/service/postService";
 import { Pagination } from "../../../../type";
 import RecentActionList from "../../../../components/RecentActionList";
 import { useState } from "react";
 import ListImageAccount from "../../../../components/ListImageAccount";
 import ListVideoAccount from "../../../../components/ListVideoAccount";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "../../../../redux/actions/auth";
+import { RootState } from "../../../../redux/configureStore";
 
 type PropsComponent = {
   profile: MyselfForCard;
-  listValidPostOfAccount: { data: PostForCard[] };
+  listValidPostOfAccount: PostForCard[];
 };
 
 export default function MySelfPageView(props: PropsComponent) {
@@ -68,7 +69,7 @@ export default function MySelfPageView(props: PropsComponent) {
             </div>
           </div>
           <div className="flex flex-col gap-1 pb-20">
-            <PostContent />
+            <PostByAccount listValidPost={props.listValidPostOfAccount} />
           </div>
         </div>
         <div className="w-[33%]">

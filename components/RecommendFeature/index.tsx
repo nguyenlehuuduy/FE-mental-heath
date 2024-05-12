@@ -9,10 +9,10 @@ type PropsComponent = {
 };
 const RecommendFeature = (props: PropsComponent) => {
   return (
-    <div className="w-full bg-white p-3 rounded-md h-[calc(100vh-60px)]">
+    <div className="w-full bg-white p-3 rounded-md ">
       <div className="w-full">
         <span className="text-[#0F52BA] font-bold">{Recommend}</span>
-        <div className="flex flex-col gap-4 pt-4">
+        <div className="flex flex-col gap-4 pt-4 max-h-[300px] overflow-y-auto">
           {props.suggestFollow &&
             props.suggestFollow.map((item) => (
               <div key={item.id} className="flex items-center gap-2">
