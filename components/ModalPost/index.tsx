@@ -8,8 +8,10 @@ import { MyselfForCard } from "@/service/accountService";
 import { useFormState } from "react-dom";
 import { ActionPostState, post } from "./action";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
+import { getValidPost } from "../PostCard/action";
+import { addPostValid, clearPostValid } from "../../redux/actions/post";
 
 interface Modal {
   isOpen: boolean;
@@ -28,6 +30,7 @@ const ModalPost = ({ isOpen, closeModal }: Modal) => {
   const [{ validate, success }, formAction] = useFormState(post, initialState);
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
   const onImageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const files = event.target.files;
     if (files) {
@@ -44,13 +47,21 @@ const ModalPost = ({ isOpen, closeModal }: Modal) => {
       }
     }
   };
+
+  const getNewPost = async () => {
+    const initPost = await getValidPost(1);
+    dispatch(clearPostValid());
+    dispatch(addPostValid(initPost));
+  };
+
   useEffect(() => {
     if (success) {
       openNotification();
+      getNewPost();
       setLoading(true);
       setTimeout(() => {
         closeModal();
-      }, 3000);
+      }, 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [success]);

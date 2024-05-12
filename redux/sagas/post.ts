@@ -4,6 +4,8 @@ import { PostForCard, likePost } from "@/service/postService";
 import {
   addPostValid,
   addPostValidSuccess,
+  clearPostValid,
+  clearPostValidSuccess,
   setCommentPost,
   setCommentPostSuccess,
   setLikePost,
@@ -16,6 +18,10 @@ function* handleAddPostValid(action: PayloadAction<PostForCard[]>) {
 
 function* handleSetLikePost(action: PayloadAction<string>) {
   yield put(setLikePostSuccess(action.payload));
+}
+
+function* handleClearPostValid() {
+  yield put(clearPostValidSuccess());
 }
 
 function* handleSetCommentPost(
@@ -37,4 +43,5 @@ export default function* post() {
   yield takeEvery(addPostValid.type, handleAddPostValid);
   yield takeEvery(setLikePost.type, handleSetLikePost);
   yield takeEvery(setCommentPost.type, handleSetCommentPost);
+  yield takeEvery(clearPostValid.type, handleClearPostValid);
 }
