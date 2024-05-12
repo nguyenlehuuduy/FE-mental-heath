@@ -18,6 +18,11 @@ const post = createSlice({
       state.posts = [...state.posts, ...action.payload];
     },
 
+    clearPostValid: (state) => {},
+    clearPostValidSuccess: (state) => {
+      state.posts = [];
+    },
+
     setLikePost: (state, action) => {},
     setLikePostSuccess: (state, action: PayloadAction<string>) => {
       const updatedPosts = state.posts.map((post) => {
@@ -87,5 +92,7 @@ export const {
   setLikePostSuccess,
   setCommentPost,
   setCommentPostSuccess,
+  clearPostValid,
+  clearPostValidSuccess,
 } = post.actions;
 export default post.reducer;

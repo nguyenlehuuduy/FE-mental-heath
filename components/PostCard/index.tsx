@@ -4,7 +4,7 @@ import { abbreviateNumber, getTimeAgo } from "@/lib/utils";
 import { PostForCard } from "@/service/postService";
 import { Input } from "antd";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
 import CommentItem from "../CommentItem";
@@ -48,8 +48,22 @@ const PostCard = ({ item }: { item: PostForCard }) => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleCommentPost(item.post_id, commentContent);
+    }
+  };
+
+  // const [timeAgo, setTimeAgo] = useState("");
+
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     setTimeAgo(getTimeAgo(item.created_at));
+  //   }
+  // }, [item.created_at]);
+
   return (
-    <div className="w-full bg-white rounded-md p-3">
+    <div className="w-full bg-white rounded-md p-3 mb-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center min-w-[200px] gap-4 rounded-sm">
           <Image
@@ -171,6 +185,7 @@ const PostCard = ({ item }: { item: PostForCard }) => {
               type="text"
               value={commentContent}
               onChange={handleCommentChange}
+              onKeyDown={handleKeyPress}
               placeholder="Viết bình luận của bạn"
               className="h-[45px]"
             />

@@ -3,6 +3,7 @@ import { Pagination } from "../../type";
 import { callGetRequest, callPostRequest } from "./apiService";
 import { store } from "../../redux/configureStore";
 import { addPostValid } from "../../redux/actions/post";
+import { getTimeAgo } from "@/lib/utils";
 
 interface PostModel {
   id: string;
@@ -52,18 +53,14 @@ export type PostForCard = {
   }>;
 };
 
-export async function getListValidPostByAccount(query?: string) {
+export async function getListValidPostByAccount(page?: number | 1) {
   const res = await callGetRequest(
-    `/post/valid-post?${query}`,
+    `/post/valid-post?pageNo=${page}&limit=2`,
     "get-valid-post-cache",
   );
-  console.log("result fetch post", res.response.data);
 
   if (res.status === 200) {
-    const data: {
-      data: PostModel[];
-      pagination: Pagination;
-    } = res.response;
+    const data = res.response;
 
     const result: PostForCard[] = [];
     for (const post of data.data) {
@@ -117,7 +114,6 @@ export async function getListValidPostByAccount(query?: string) {
     }
     return {
       data: result,
-      pagination: data.pagination,
     };
   }
 }
@@ -147,12 +143,10 @@ export async function likePost(postId: string) {
 
 export async function commentPost(postId: string, contentComment: string) {
   const result = await callPostRequest("/comment", {
-    accountId: "4bb557e2-b278-4d00-91f2-540ab85d2021",
+    accountId: "d551133f-f39e-4735-b10c-55b8ad8939c3",
     postId: postId,
     contentCmt: contentComment,
   });
-  console.log("result comment", result);
-
   if (result.status === 201) {
     return true;
   } else {
