@@ -63,8 +63,8 @@ export async function login(_: ActionLoginState, formData: FormData) {
 
   if (loginResult) {
     setCookie(COOKIE_ACCESS_TOKEN_KEY, loginResult.accessToken);
-    await getLoginAccount();
-    redirect("/home");
+    const rs = await getLoginAccount();
+    rs && redirect("/home");
   }
   return {
     validate: {

@@ -51,8 +51,6 @@ export async function register(_: ActionRegisterState, formData: FormData) {
     confirmPassword: formData.get("confirmPassword"),
   });
 
-  console.log(validatedFields.error);
-
   if (!validatedFields.success) {
     return {
       validate: {
@@ -84,6 +82,9 @@ export async function register(_: ActionRegisterState, formData: FormData) {
       },
     };
   } else {
-    redirect("/login");
+    // redirect("/landingpage");
+    return {
+      success: true,
+    };
   }
 }

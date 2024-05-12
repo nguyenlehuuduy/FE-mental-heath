@@ -15,7 +15,7 @@ export default function LoginLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className="relative bg-white w-full h-screen bg-[url('/waves.png')] bg-cover bg-no-repeat bg-bottom ">
+      <body className="relative bg-white w-full h-screen ">
         {children}
       </body>
     </html>
