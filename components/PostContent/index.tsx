@@ -5,11 +5,9 @@ import PostCard from "../PostCard";
 import { getValidPost } from "../PostCard/action";
 import { Skeleton } from "antd";
 import { PostForCard } from "@/service/postService";
-import { MyselfForCard } from "@/service/accountService";
 
 type PropsComponent = {
   listValidPost: PostForCard[];
-  accountInf: MyselfForCard;
 };
 
 export default function PostContent(props: PropsComponent) {
@@ -53,9 +51,11 @@ export default function PostContent(props: PropsComponent) {
 
     return () => {
       if (scrollTrigger.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         observer.unobserve(scrollTrigger.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return (
@@ -64,7 +64,7 @@ export default function PostContent(props: PropsComponent) {
         <PostCard
           item={item}
           key={item.post_id}
-          accountInf={props.accountInf}
+          // accountInf={props.accountInf}
         />
       ))}
       <div className="text-center text-slate-600 mt-5">

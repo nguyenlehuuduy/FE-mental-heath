@@ -22,6 +22,7 @@ export async function callGetRequest(url: string, tag?: string) {
     method: "GET",
     headers: { Authorization: `Bearer ${sessionKey?.value}` },
     next: { revalidate: revalidateSeconds, tags: ["all", tag ?? ""] },
+    // cache: "no-store",
   });
   const jo = await res.json();
 
@@ -51,8 +52,14 @@ export async function callPostRequest(url: string, body: any) {
     },
     body: JSON.stringify(body),
   });
-  const jo = await res.json();
-  return { status: res.status, headers: res.headers, response: jo };
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    const jo = await res.json();
+    return { status: res.status, headers: res.headers, response: jo };
+  } else {
+    // Trả về một đối tượng chỉ có trạng thái và tiêu đề
+    return { status: res.status, headers: res.headers, response: null };
+  }
 }
 
 export async function callPutRequest<Response, Request>(
@@ -79,4 +86,25 @@ export async function callPutRequest<Response, Request>(
   const jo = await res.json();
 
   return { status: res.status, headers: res.headers, response: jo };
+}
+
+export async function callDeleteRequest(url: string) {
+  const cookieStore = cookies();
+  const sessionKey = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY);
+
+  const res = await fetch(`${API_PATH}${url}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${sessionKey?.value}`,
+    },
+  });
+
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    const jo = await res.json();
+    return { status: res.status, headers: res.headers, response: jo };
+  } else {
+    // Trả về một đối tượng chỉ có trạng thái và tiêu đề
+    return { status: res.status, headers: res.headers, response: null };
+  }
 }

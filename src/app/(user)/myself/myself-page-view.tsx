@@ -9,8 +9,9 @@ import RecentActionList from "../../../../components/RecentActionList";
 import { useState } from "react";
 import ListImageAccount from "../../../../components/ListImageAccount";
 import ListVideoAccount from "../../../../components/ListVideoAccount";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "../../../../redux/actions/auth";
+import { RootState } from "../../../../redux/configureStore";
 
 type PropsComponent = {
   profile: MyselfForCard;
@@ -68,7 +69,7 @@ export default function MySelfPageView(props: PropsComponent) {
             </div>
           </div>
           <div className="flex flex-col gap-1 pb-20">
-            <PostContent />
+            {/* <PostContent /> */}
           </div>
         </div>
         <div className="w-[33%]">

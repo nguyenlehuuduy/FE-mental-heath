@@ -78,6 +78,29 @@ export interface DataResponse {
   name: string;
 }
 
+export interface InfoAccountResponse {
+  profileOtherAccount: {
+    user: {
+      id: string;
+      fullName: string;
+      phone: string;
+      aboutMe: string;
+      nickName: string;
+      birth: string;
+      address: string;
+      avata: string;
+    };
+    followerCount: number;
+    followingsCount: number;
+  };
+  is_follow: {
+    status: number;
+    message: string;
+    followShipIdOfFollowing: string;
+    followShipIdOfFollower: string;
+  };
+}
+
 export async function loginAccount(
   body: LoginRequest,
 ): Promise<LoginResponse | undefined> {
@@ -93,5 +116,13 @@ export async function registerAccount(
   body: LoginRequest,
 ): Promise<DataResponse | undefined> {
   const result = await callPostRequest("/auth/register", body);
+  return result.response;
+}
+
+export async function getProfile(accountId: string) {
+  const result = await callGetRequest(
+    `/user/other-account-profile/${accountId}`,
+    "get-account-profile",
+  );
   return result.response;
 }

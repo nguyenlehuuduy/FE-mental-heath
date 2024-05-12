@@ -1,5 +1,5 @@
 "use client";
-import { Input } from "antd";
+import { Dropdown, Input, Popover } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -13,10 +13,14 @@ import NotifyPopup from "../NotifyPopup";
 import { MyselfForCard } from "@/service/accountService";
 import ProfilePopup from "../ProfilePopup";
 import ModalSetting from "../ModalSetting";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RootState } from "../../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "../../redux/actions/auth";
+import useDebounce from "../UseDebounce";
+import SearchWrapper from "../SearchWrapper";
+import { getAccountsByName, getPostsByName } from "../SearchWrapper/action";
+import { SearchAccountType, SearchPostType } from "@/service/searchService";
 import AvatarAccount from "../Avata";
 
 export default function Header({ profile }: { profile: MyselfForCard }) {
@@ -25,6 +29,49 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
   const user = useSelector((state: RootState) => state.auth.user);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [open, setOpen] = useState(false);
+  const [searchAccountResult, setSearchAccountResult] = useState<
+    SearchAccountType[]
+  >([]);
+  const [searchPostResult, setSearchPostResult] = useState<SearchPostType[]>(
+    [],
+  );
+
+  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
+
+  const debounced = useDebounce(searchValue, 800);
+
+  useEffect(() => {
+    if (!debounced) {
+      setOpen(false);
+      setSearchAccountResult([]);
+      return;
+    }
+
+    const fetchApi = async () => {
+      const resultAccounts = await getAccountsByName(debounced);
+      const resultPosts = await getPostsByName(debounced);
+
+      setSearchAccountResult(resultAccounts);
+      setSearchPostResult(resultPosts);
+      setOpen(true);
+    };
+    fetchApi();
+  }, [debounced]);
+
+  const handleVisibleChange = (visible: boolean) => {
+    setOpen(visible);
+  };
+
+  const handleInputOpen = () => {
+    if (searchValue) {
+      setOpen(true);
+    }
+  };
+
   return (
     <header className="border-b w-full z-10 bg-white px-4">
       <div className="max-w-[1440px] h-[60px] mx-auto flex justify-evenly items-center py-3">
@@ -42,14 +89,32 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
             />
           </Link>
         </div>
-        <Input
-          className="max-w-[500px] h-[40px] text-[#00000066]"
-          size="middle"
-          placeholder="Khám phá về GenZ Mental Health"
-          prefix={<SearchIcon />}
-          suffix={<FilterIcon />}
-          style={{ paddingLeft: "24px", paddingRight: "24px" }}
-        />
+        <Popover
+          title=""
+          trigger="contextMenu"
+          className="w-[500px]"
+          content={
+            <SearchWrapper
+              listAccounts={searchAccountResult}
+              listPosts={searchPostResult}
+            />
+          }
+          open={open}
+          onOpenChange={handleVisibleChange}
+        >
+          <Input
+            className="max-w-[500px] h-[40px] text-[#00000066]"
+            value={searchValue}
+            onChange={onSearchChange}
+            onFocus={handleInputOpen}
+            onClick={handleInputOpen}
+            size="middle"
+            placeholder="Khám phá về GenZ Mental Health"
+            prefix={<SearchIcon />}
+            suffix={<FilterIcon />}
+            style={{ paddingLeft: "24px", paddingRight: "24px" }}
+          />
+        </Popover>
         <div className="flex flex-row gap-3 max-w-[300px] w-full h-full justify-end items-center">
           <div className="p-2 rounded-full border flex justify-center items-center">
             <MessageIcon width={20} height={20} />

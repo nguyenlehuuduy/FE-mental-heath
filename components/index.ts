@@ -26,6 +26,15 @@ import LandingPage3 from "./LandingPage3";
 import LandingPage4 from "./LandingPage4";
 import LandingPage5 from "./LandingPage5";
 import LandingPage6 from "./LandingPage6";
+import RequestFollowers from "./RequestFollowers";
+import RequestFollowerWrap from "./RequestFollowerWrap";
+import useDebounce from "./UseDebounce";
+import SearchWrapper from "./SearchWrapper";
+import SearchAccount from "./SearchAccount";
+import SearchPost from "./SearchPost";
+import MySelfWrap from "./MySelfWrap";
+import ProfileBanner from "./ProfileBanner";
+import AvatarAccount from "./Avata";
 
 export {
   Header,
@@ -56,4 +65,13 @@ export {
   LandingPage4,
   LandingPage5,
   LandingPage6,
+  RequestFollowers,
+  RequestFollowerWrap,
+  useDebounce,
+  SearchWrapper,
+  SearchAccount,
+  SearchPost,
+  MySelfWrap,
+  ProfileBanner,
+  AvatarAccount,
 };
