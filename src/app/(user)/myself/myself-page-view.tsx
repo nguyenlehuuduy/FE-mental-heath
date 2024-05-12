@@ -9,43 +9,49 @@ import RecentActionList from "../../../../components/RecentActionList";
 import { useState } from "react";
 import ListImageAccount from "../../../../components/ListImageAccount";
 import ListVideoAccount from "../../../../components/ListVideoAccount";
+import { useDispatch } from "react-redux";
+import { getCurrentUser } from "../../../../redux/actions/auth";
 
 type PropsComponent = {
   profile: MyselfForCard;
-  listValidPostOfAccount: { data: PostForCard[]; pagination: Pagination };
+  listValidPostOfAccount: { data: PostForCard[] };
 };
 
 export default function MySelfPageView(props: PropsComponent) {
   const [selectOptionNumber, setSelectOptionNumber] = useState<number>(0);
+  const dispatch = useDispatch();
+  dispatch(getCurrentUser(props.profile));
   return (
     <div className="w-full p-2">
-      <div className="w-full h-[200px] rounded-md overflow-hidden">
+      <div className="relative w-full h-[200px] rounded-md overflow-hidden">
         <Image
           src={props.profile.banner}
-          width={300}
-          height={300}
-          className="w-full h-full object-cover"
+          fill
+          objectFit="cover"
+          quality={100}
           alt="banner account"
         />
       </div>
       <div className="w-full flex mt-2 justify-between">
         <div className="w-[65%] flex flex-col gap-y-1">
           <div className="flex w-full gap-4 bg-white rounded-md py-4 px-1">
-            <div className="w-[150px] h-[150px] rounded-full overflow-hidden">
+            <div className="relative w-[150px] h-[150px] rounded-full overflow-hidden">
               <Image
                 src={props.profile.avata}
                 alt="avata user"
-                width={500}
-                height={500}
+                fill
+                objectFit="cover"
                 className="aspect-square"
               />
             </div>
             <div className="flex flex-col justify-center w-[70%]">
               <p className="text-[18px] font-medium text-[#505050]">
-                {props.profile.full_name +
-                  " ( " +
-                  props.profile.nick_name +
-                  " ) "}
+                {props.profile.nick_name
+                  ? props.profile.full_name +
+                    "(" +
+                    props.profile.nick_name +
+                    ")"
+                  : props.profile.full_name}
               </p>
               <p className="text-[#666666]">
                 {props.profile.about_me}
@@ -62,10 +68,7 @@ export default function MySelfPageView(props: PropsComponent) {
             </div>
           </div>
           <div className="flex flex-col gap-1 pb-20">
-            <PostContent
-              profile={props.profile!}
-              listValidPostOfAccount={props.listValidPostOfAccount}
-            />
+            <PostContent />
           </div>
         </div>
         <div className="w-[33%]">
