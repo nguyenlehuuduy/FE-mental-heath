@@ -55,7 +55,7 @@ const FormRegister = () => {
   });
 
   const onSubmit: SubmitHandler<RegisterType> = (data) => {
-    console.log(data);
+    // console.log(data);
   };
 
   const routes = useRouter();

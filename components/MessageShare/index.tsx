@@ -39,12 +39,12 @@ const listImages = [
 
 const MessageShare = ({ handleClose }: { handleClose: () => void }) => {
   return (
-    <div className="flex flex-col max-w-[300px] h-screen bg-white border-l w-full">
+    <div className="flex flex-col max-w-[300px] bg-white border-l min-w-[300px] rounded-md">
       <div className="relative flex flex-row items-center py-5 px-6 border-b h-[76px] shrink-0">
         <div onClick={handleClose}>
           <RightArrowIcon />
         </div>
-        <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-xl text-[#666666]">
+        <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold text-[#666666]">
           Thông tin
         </p>
       </div>
@@ -62,7 +62,7 @@ const MessageShare = ({ handleClose }: { handleClose: () => void }) => {
             alt="image"
           />
         </div>
-        <p className="max-w-[180px] font-bold text-[18px] text-[#4E4F50] text-center">
+        <p className="max-w-[180px] font-medium  text-[#4E4F50] text-center">
           Trần Kim Vũ
         </p>
       </div>

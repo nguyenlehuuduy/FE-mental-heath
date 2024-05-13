@@ -49,25 +49,18 @@ const ChatList = () => {
     loadMoreData();
   }, []);
   return (
-    <div className="flex flex-col max-w-[320px] w-full h-screen bg-white rounded-md gap-5">
-      <div className="flex flex-col pt-[30px] px-5 gap-7">
-        <p className="text-2xl font-bold text-[#666666]">Tin nhắn</p>
+    <div className="flex flex-col  w-full h-screen">
+      <div className="flex flex-col gap-3">
+        <p className="font-medium text-[#666666]">Tin nhắn</p>
         <Input
           placeholder="Tìm kiếm"
           allowClear
           style={{
-            border: "none",
             background: "#FAFBFD",
-            borderRadius: 6,
-            paddingBottom: 8,
-            paddingTop: 8,
-            paddingRight: 24,
-            paddingLeft: 24,
-            fontSize: 18,
             color: "#666666",
             fontWeight: 500,
           }}
-          suffix={<SearchIcon />}
+          suffix={<SearchIcon width={14} height={14} />}
           variant="borderless"
         />
       </div>
