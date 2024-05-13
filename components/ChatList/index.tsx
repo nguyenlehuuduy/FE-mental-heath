@@ -47,6 +47,7 @@ const ChatList = () => {
 
   useEffect(() => {
     loadMoreData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="flex flex-col  w-full h-screen">

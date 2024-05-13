@@ -50,6 +50,7 @@ const ModalPost = ({ isOpen, closeModal, profile }: Modal) => {
         closeModal();
       }, 3000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [success]);
 
   const [api, contextHolder] = notification.useNotification();
@@ -73,13 +74,27 @@ const ModalPost = ({ isOpen, closeModal, profile }: Modal) => {
         <form action={formAction} className="flex flex-col">
           <div className="w-full px-4 pb-4 flex flex-col gap-4">
             <div className="flex flex-row gap-3 items-center">
-              <Image
-                src={profile.avata}
-                width={60}
-                height={60}
-                alt="logo"
-                className="rounded-full"
-              />
+              <div className="relative w-[60px] h-[60px]">
+                {profile.avata ? (
+                  <Image
+                    src={profile.avata}
+                    fill
+                    sizes="(max-width: 60px) 100vw"
+                    objectFit="cover"
+                    alt="logo"
+                    className="rounded-full"
+                  />
+                ) : (
+                  <Image
+                    src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
+                    fill
+                    sizes="(max-width: 60px) 100vw"
+                    objectFit="cover"
+                    alt="logo"
+                    className="rounded-full"
+                  />
+                )}
+              </div>
               <p className="text-xl font-medium ">{profile.full_name}</p>
             </div>
             <TextArea
@@ -112,8 +127,15 @@ const ModalPost = ({ isOpen, closeModal, profile }: Modal) => {
                     key={index}
                     className="w-[150px] h-[150px]  rounded-md relative pb-[1/2] overflow-hidden"
                   >
-                    <img
-                      className="absolute w-full h-full object-cover"
+                    <Image
+                      className="absolute w-full h-full"
+                      width={500}
+                      height={500}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                      }}
+                      objectFit="cover"
                       src={image}
                       alt={`preview image ${index + 1}`}
                       key={index}

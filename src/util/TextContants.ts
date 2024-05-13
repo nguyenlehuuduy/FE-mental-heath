@@ -1,8 +1,13 @@
 //validation text
+export const ERROR_NAME_NULL = "Vui lòng nhập họ tên";
+export const ERROR_NAME_SHORT = "Tên quá ngắn";
 export const ERROR_EMAIL_NULL = "Vui lòng nhập email của bạn";
 export const ERROR_EMAIL_FORMAT = "Email của bạn chưa đúng định dạng";
 export const ERROR_EMAIL_DUPLICATE = "Email này đã tồn tại";
 export const ERROR_PASSWORD_NULL = "Vui lòng nhập mật khẩu";
+export const ERROR_PASSWORD_SHORT = "Mật khẩu quá ngắn";
+export const ERROR_PASSWORD_LONG = "Mật khẩu quá dài";
+export const ERROR_PASSWORD_NOT_SAME = "Mật khẩu không trùng khớp";
 export const ERROR_ACCOUNT =
   "Tài khoản này không tồn tại, vui lòng kiểm tra lại";
 export const ERROR_NAME = "Vui lòng nhập tên của bạn";
@@ -11,6 +16,7 @@ export const ERROR_REPASS_VALID = "Mật khẩu của bạn không trùng khớp
 export const ERROR_ACCOUNT_VALID = "Tài khoản này không tồn tại";
 
 //place holder text
+export const PL_FULLNAME = "Nhập họ tên của bạn";
 export const PL_EMAIL = "Nhập email của bạn";
 export const PL_PASSWORD = "Nhập mật khẩu của bạn";
 export const PL_NAME = "Nhập tên của bạn";

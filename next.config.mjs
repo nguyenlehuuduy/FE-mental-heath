@@ -2,7 +2,20 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ['cdn.dummyjson.com', 'themoviedb.org'],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.pinimg.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.dummyjson.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
   async redirects() {
     return [

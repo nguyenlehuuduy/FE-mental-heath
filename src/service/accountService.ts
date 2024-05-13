@@ -38,10 +38,10 @@ export async function getLoginAccount(): Promise<MyselfForCard | undefined> {
       address: data.address,
       //TODO_1158430:not_have_avata_in_response
       avata:
-        "https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp",
+        "https://i.pinimg.com/564x/93/ed/71/93ed71f506e89bc5adc32020056afe97.jpg",
       //TODO_2133430:not_have_banner_account
       banner:
-        "https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp",
+        "https://i.pinimg.com/564x/73/3c/68/733c688bf6f725345c18190da00e159b.jpg",
       birth: data.birth,
       email: data.email,
       full_name: data.fullName,
@@ -61,8 +61,21 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface RegisterRequest {
+  fullName: string;
+  email: string;
+  password: string;
+}
+
 export interface LoginResponse {
   accessToken: string;
+}
+
+export interface DataResponse {
+  response: string;
+  status: number;
+  message: string;
+  name: string;
 }
 
 export async function loginAccount(
@@ -74,4 +87,11 @@ export async function loginAccount(
       accessToken: result.response.access_token,
     };
   }
+}
+
+export async function registerAccount(
+  body: LoginRequest,
+): Promise<DataResponse | undefined> {
+  const result = await callPostRequest("/auth/register", body);
+  return result.response;
 }
