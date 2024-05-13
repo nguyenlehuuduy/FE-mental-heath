@@ -24,16 +24,20 @@ async function getAllMessageOfRoom(idRoom: string) {
 }
 
 export default async function ChatboxPage(props: PropsComponent) {
-  const listMessage = await getAllMessageOfRoom(props.searchParams.idBotRoom);
+  const listMessage =
+    props.searchParams.idBotRoom &&
+    (await getAllMessageOfRoom(props.searchParams.idBotRoom));
   const listBotRoomChat = await getAllValidRoomChatBot();
   const profile = await getLoginAccount();
-  const infRoom = await getInfRoomMessage(props.searchParams.idBotRoom);
+  const infRoom =
+    props.searchParams.idBotRoom &&
+    (await getInfRoomMessage(props.searchParams.idBotRoom));
   revalidateTag("get-valid-message-chat");
   return (
     <main className="flex w-full gap-1">
-      {listMessage?.length ? (
+      {listMessage && infRoom ? (
         <MessageFrame
-          infRoom={infRoom!}
+          infRoom={infRoom}
           profile={profile!}
           listMessage={listMessage}
           idBotRoom={props.searchParams.idBotRoom}

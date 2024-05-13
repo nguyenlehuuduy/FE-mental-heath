@@ -51,7 +51,7 @@ export default function ModalCreateRoomChatBot(props: PropsComponent) {
         <p className="invalid_err">{validate?.nameRoom}</p>
         <Button
           loading={loading}
-          className="text-white cursor-pointer font-medium bg-blue-500 mt-3"
+          className="text-white cursor-pointer font-medium bg-blue-500 mt-6"
           htmlType="submit"
         >
           Tạo
