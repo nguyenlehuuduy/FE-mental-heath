@@ -31,12 +31,9 @@ export type MyselfForCard = {
   phone: string;
 };
 
-const getUser = async () => {};
-
-export const getLoginAccount = async () => {
+export async function getLoginAccount(): Promise<MyselfForCard | undefined> {
   const result = await callGetRequest("/auth/profile");
   const data: MyselfResponse = result.response;
-
   if (result.status === 200) {
     return {
       about_me: data.aboutMe,
@@ -55,7 +52,7 @@ export const getLoginAccount = async () => {
       phone: data.phone,
     };
   }
-};
+}
 
 const cachedProfile = unstable_cache(getLoginAccount, ["profile-cache"], {
   revalidate: 3600,

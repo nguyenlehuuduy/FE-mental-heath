@@ -24,6 +24,21 @@ interface PostModel {
   totalReaction: number;
   totalComment: number;
   totalShare: number;
+  images: Array<{
+    accountId: string;
+    postId: string;
+    path: string;
+  }>;
+  comment_recent: Array<{
+    account: {
+      id: string;
+      name: string;
+      nick_name: string;
+      avata: string;
+    };
+    created_at: string;
+    content: string;
+  }>;
 }
 
 export type PostForCard = {
@@ -60,7 +75,10 @@ export async function getListValidPostByAccount(page?: number | 1) {
   );
 
   if (res.status === 200) {
-    const data = res.response;
+    const data: {
+      data: PostModel[];
+      pagination: Pagination;
+    } = res.response;
 
     const result: PostForCard[] = [];
     for (const post of data.data) {
@@ -75,41 +93,15 @@ export async function getListValidPostByAccount(page?: number | 1) {
         },
         content_text: post.contentText,
         created_at: post.created_at,
-        // TODO_1159430:not_have_iamge_content
-        image_post: [
-          "https://cdn.dummyjson.com/cache/400x200/bitter-16/282828-white/918ca712a61b263dc1f9904dbef02560.png",
-          "https://cdn.dummyjson.com/cache/400x200/bitter-16/282828-white/918ca712a61b263dc1f9904dbef02560.png",
-        ],
+        image_post: post.images.map(
+          (item) => `${process.env.API_BASE_URL}${item.path}`,
+        ),
         is_like: post.is_liked,
         post_id: post.id,
         total_comment: post.totalComment,
         total_reaction: post.totalReaction,
         total_share: post.totalShare,
-        //TODO_1200430:not have comment recent in api
-        comment_recent: [
-          {
-            account: {
-              avata:
-                "https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp",
-              id: "1312312",
-              name: "Nguyễn Hải Dương",
-              nick_name: "kaka",
-            },
-            content: "tôi thấy bài viết này thú vị",
-            created_at: new Date().toString(),
-          },
-          {
-            account: {
-              avata:
-                "https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp",
-              id: "1312312",
-              name: "Nguyễn Lê Hữu Duy",
-              nick_name: "huhu",
-            },
-            content: "tôi cũng như bạn Hải Dương",
-            created_at: new Date().toString(),
-          },
-        ],
+        comment_recent: post.comment_recent ?? [],
       });
     }
     return {
@@ -141,9 +133,13 @@ export async function likePost(postId: string) {
   }
 }
 
-export async function commentPost(postId: string, contentComment: string) {
+export async function commentPost(
+  postId: string,
+  accountId: string,
+  contentComment: string,
+) {
   const result = await callPostRequest("/comment", {
-    accountId: "d551133f-f39e-4735-b10c-55b8ad8939c3",
+    accountId: accountId,
     postId: postId,
     contentCmt: contentComment,
   });

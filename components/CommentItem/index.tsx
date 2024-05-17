@@ -18,7 +18,7 @@ const CommentItem = ({ comment }: { comment: CommentType }) => {
     <div className="flex gap-3 items-start mb-7">
       <div className="relative w-[40px] h-[40px]">
         <Image
-          src={comment.account.avata}
+          src={comment.account.avata || "/123"}
           fill
           alt="avata"
           objectFit="cover"

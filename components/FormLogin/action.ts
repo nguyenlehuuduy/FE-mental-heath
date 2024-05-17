@@ -59,7 +59,6 @@ export async function login(_: ActionLoginState, formData: FormData) {
     password: password!,
   };
   const loginResult = await loginAccount(body);
-  console.log("login result", loginResult);
 
   if (loginResult) {
     setCookie(COOKIE_ACCESS_TOKEN_KEY, loginResult.accessToken);

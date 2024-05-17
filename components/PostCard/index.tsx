@@ -1,51 +1,68 @@
 "use client";
 
-import { abbreviateNumber, getTimeAgo } from "@/lib/utils";
+import { abbreviateNumber, formatDate, getTimeAgo } from "@/lib/utils";
 import { PostForCard } from "@/service/postService";
 import { Input } from "antd";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/configureStore";
+import React, { useState } from "react";
 import CommentItem from "../CommentItem";
-import { setCommentPost, setLikePost } from "../../redux/actions/post";
 import { comment, like } from "./action";
 import { SendIcon } from "../../icons";
+import { MyselfForCard } from "@/service/accountService";
 
-const PostCard = ({ item }: { item: PostForCard }) => {
-  const user = useSelector((state: RootState) => state.auth.user);
-  const dispatch = useDispatch();
+const PostCard = ({
+  item,
+  accountInf,
+}: {
+  item: PostForCard;
+  accountInf: MyselfForCard;
+}) => {
   const [commentContent, setCommentContent] = useState<string>("");
+  const [isLike, setIsLike] = useState<boolean>(item.is_like);
+  const [totalLike, setTotalLike] = useState<number>(item.total_reaction || 0);
+  const [totalComment, setTotalComment] = useState<number>(
+    item.total_comment ?? 0,
+  );
+  const [recentComment, setRecentComment] = useState<
+    Array<{
+      account: {
+        id: string;
+        name: string;
+        nick_name: string;
+        avata: string;
+      };
+      created_at: string;
+      content: string;
+    }>
+  >(item.comment_recent);
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentContent(e.target.value);
   };
 
   const handleLikePost = async (idPost: string) => {
-    dispatch(setLikePost(idPost));
-    const resultLike = await like(idPost);
-    if (!resultLike) {
-      dispatch(setLikePost(idPost));
-    }
+    isLike ? setTotalLike(totalLike - 1) : setTotalLike(totalLike + 1);
+    await setIsLike(!isLike);
+    like(idPost);
   };
 
   const handleCommentPost = async (idPost: string, commentContent: string) => {
-    const resultComment = await comment(idPost, commentContent);
-    if (resultComment) {
-      dispatch(
-        setCommentPost({
-          postId: item.post_id,
-          comment: commentContent,
-          user: {
-            id: user?.id,
-            full_name: user?.full_name,
-            nick_name: user?.nick_name,
-            avata: user?.avata,
-          },
-        }),
-        setCommentContent(""),
-      );
-    }
+    accountInf?.id && (await comment(idPost, accountInf.id, commentContent));
+    setTotalComment(totalComment + 1);
+    setRecentComment([
+      {
+        content: commentContent,
+        account: {
+          avata: accountInf?.avata ?? "",
+          id: accountInf?.id ?? "",
+          name: accountInf?.full_name ?? "",
+          nick_name: accountInf?.nick_name ?? "",
+        },
+        created_at: formatDate(Date(), "DD-MM-YYYY"),
+      },
+      ...recentComment,
+    ]);
+    setCommentContent("");
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -53,14 +70,6 @@ const PostCard = ({ item }: { item: PostForCard }) => {
       handleCommentPost(item.post_id, commentContent);
     }
   };
-
-  // const [timeAgo, setTimeAgo] = useState("");
-
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     setTimeAgo(getTimeAgo(item.created_at));
-  //   }
-  // }, [item.created_at]);
 
   return (
     <div className="w-full bg-white rounded-md p-3 mb-2">
@@ -100,21 +109,32 @@ const PostCard = ({ item }: { item: PostForCard }) => {
           />
         </div>
       </div>
-      <div className="mt-3 flex flex-col">
+      <div className="mt-3 flex flex-col gap-4">
         <span>{item.content_text}</span>
-        <Image
-          src={item.image_post[0]}
-          width={500}
-          height={500}
-          alt="avata"
-          className="object-contain w-full h-auto aspect-video"
-        />
+        <div className="w-full h-[400px] flex mb-3 gap-3">
+          {item.image_post.map((image, index) => (
+            <div
+              key={index}
+              className={`relative  h-full ${item.image_post.length === 1 ? "w-full" : "w-1/2"}  rounded-md overflow-hidden `}
+            >
+              <Image
+                key={index}
+                src={image}
+                width={500}
+                height={500}
+                alt="avata"
+                className="absolute object-cover h-full w-full rounded-md -p-5"
+              />
+            </div>
+          ))}
+        </div>
+
         <div className="flex items-center justify-evenly">
           <button
             onClick={() => handleLikePost(item.post_id)}
             className="flex gap-2 items-center font-medium cursor-pointer"
           >
-            {item.is_like ? (
+            {isLike ? (
               <Image
                 src="/loved_icon.svg"
                 width={20}
@@ -130,8 +150,7 @@ const PostCard = ({ item }: { item: PostForCard }) => {
               />
             )}
             <span className="opacity-70">
-              {item.total_reaction ? abbreviateNumber(item.total_reaction) : 0}{" "}
-              Thích
+              {totalLike && abbreviateNumber(totalLike)} Thích
             </span>
           </button>
           <div className="flex gap-3 items-center font-medium cursor-pointer">
@@ -142,8 +161,7 @@ const PostCard = ({ item }: { item: PostForCard }) => {
               alt="icon save post"
             />
             <span className="opacity-70">
-              {item.total_comment ? abbreviateNumber(item.total_comment) : 0}{" "}
-              Bình luận
+              {totalComment && abbreviateNumber(totalComment)} Bình luận
             </span>
           </div>
           <div className="flex gap-3 items-center font-medium cursor-pointer">
@@ -162,9 +180,9 @@ const PostCard = ({ item }: { item: PostForCard }) => {
         <div className="flex flex-col mt-5">
           <div className="relative flex gap-4 ">
             <div className="relative w-[40px] h-[40px]">
-              {user?.avata ? (
+              {accountInf?.avata ? (
                 <Image
-                  src={user?.avata}
+                  src={accountInf?.avata}
                   fill
                   objectFit="cover"
                   alt="avata"
@@ -203,10 +221,9 @@ const PostCard = ({ item }: { item: PostForCard }) => {
               Tất cả bình luận
             </span>
           )}
-          {item.comment_recent &&
-            item.comment_recent.map((it, index) => (
-              <CommentItem comment={it} key={index} />
-            ))}
+          {recentComment.map((it, index) => (
+            <CommentItem comment={it} key={index} />
+          ))}
         </div>
       </div>
     </div>

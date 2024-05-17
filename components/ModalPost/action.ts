@@ -2,16 +2,10 @@
 
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "@/lib/constants";
 import { uploadImage } from "@/service/imageService";
-import {
-  PostForRequest,
-  getListValidPostByAccount,
-  uploadPost,
-} from "@/service/postService";
+import { PostForRequest, uploadPost } from "@/service/postService";
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
-import { store } from "../../redux/configureStore";
-import { addPostValid, clearPostValid } from "../../redux/actions/post";
-import { getValidPost } from "../PostCard/action";
 
 interface ValidateFromType {
   contentText?: string;
@@ -68,6 +62,7 @@ export async function post(_: ActionPostState, formData: FormData) {
     imagePaths: listImageFileNameUpload,
   };
   const result = await uploadPost(payload);
+  revalidateTag("get-valid-post-cache");
   return {
     success: result,
   };
