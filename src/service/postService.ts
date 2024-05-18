@@ -17,6 +17,7 @@ interface PostModel {
     nickName: string;
     birth: string;
     address: string;
+    avata: string;
   };
   is_liked: boolean;
   created_at: string;
@@ -87,9 +88,9 @@ export async function getListValidPostByAccount(page?: number | 1) {
           id: post.account.id,
           name: post.account.fullName,
           nick_name: post.account.nickName,
-          //TODO_1158430:not_have_avata_in_response
           avata:
-            "https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp",
+            post.account.avata &&
+            `${process.env.API_BASE_URL}${post.account.avata}`,
         },
         content_text: post.contentText,
         created_at: post.created_at,

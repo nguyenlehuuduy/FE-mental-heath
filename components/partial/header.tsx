@@ -17,6 +17,7 @@ import React, { useState } from "react";
 import { RootState } from "../../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "../../redux/actions/auth";
+import AvatarAccount from "../Avata";
 
 export default function Header({ profile }: { profile: MyselfForCard }) {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <header className="border-b w-full z-10 bg-white px-4">
-      <div className="max-w-[1440px] h-[55px] mx-auto flex justify-evenly items-center py-3">
+      <div className="max-w-[1440px] h-[60px] mx-auto flex justify-evenly items-center py-3">
         <div className="max-w-[300px] w-full flex ">
           <Link
             href="/home"
@@ -65,24 +66,11 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
             <SettingIcon width={20} height={20} />
           </div>
           <ProfilePopup>
-            <div className="relative w-[45px] h-[45px] cursor-pointer">
-              {user?.avata ? (
-                <Image
-                  src={user?.avata}
-                  fill
-                  alt="icon avatar"
-                  objectFit="cover"
-                  className="rounded-full"
-                />
-              ) : (
-                <Image
-                  src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
-                  fill
-                  alt="icon avatar"
-                  objectFit="cover"
-                  className="rounded-full"
-                />
-              )}
+            <div className="relative cursor-pointer">
+              <AvatarAccount
+                filePath={user?.avata}
+                name={user?.full_name ?? "D"}
+              />
             </div>
           </ProfilePopup>
         </div>

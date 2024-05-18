@@ -9,8 +9,7 @@ import { ActionPostState, post } from "./action";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
-import { revalidateTag } from "next/cache";
-import { useRouter } from "next/navigation";
+import AvatarAccount from "../Avata";
 
 interface Modal {
   isOpen: boolean;
@@ -89,24 +88,11 @@ const ModalPost = ({ isOpen, closeModal }: Modal) => {
         >
           <div className="w-full px-4 pb-4 flex flex-col gap-4">
             <div className="flex flex-row gap-3 items-center">
-              <div className="relative w-[60px] h-[60px]">
-                {user?.avata ? (
-                  <Image
-                    src={user?.avata}
-                    fill
-                    objectFit="cover"
-                    alt="logo"
-                    className="rounded-full"
-                  />
-                ) : (
-                  <Image
-                    src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
-                    fill
-                    objectFit="cover"
-                    alt="logo"
-                    className="rounded-full"
-                  />
-                )}
+              <div className="relative">
+                <AvatarAccount
+                  filePath={user?.avata}
+                  name={user?.full_name ?? "D"}
+                />
               </div>
 
               <p className="text-xl font-medium ">{user?.full_name}</p>

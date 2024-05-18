@@ -1,7 +1,6 @@
 import { getListValidPostByAccount } from "@/service/postService";
 import {
   PostFeature,
-  PostContent,
   Advertisement,
   NavFeature,
   RecommendFeature,
@@ -12,6 +11,14 @@ import { getListHotContent } from "@/service/hotContentService";
 import { getAllSuggestFollowAccount } from "@/service/followService";
 import { getLoginAccount } from "@/service/accountService";
 import { revalidateTag } from "next/cache";
+import dynamic from "next/dynamic";
+
+const DynamicPosts = dynamic(
+  () => import("../../../../components/PostContent"),
+  {
+    ssr: false,
+  },
+);
 
 export default async function Home() {
   revalidateTag("get-valid-post-cache");
@@ -20,12 +27,13 @@ export default async function Home() {
   const suggestFollow = await getAllSuggestFollowAccount();
   const listValidPostOfAccount = await getListValidPostByAccount();
   const accountInf = await getLoginAccount();
+
   return (
     <div className="w-full flex justify-between gap-2">
       <div className="flex flex-col gap-1 pb-20 w-[68%]">
         <Advertisement />
         <PostFeature />
-        <PostContent
+        <DynamicPosts
           accountInf={accountInf!}
           listValidPost={listValidPostOfAccount?.data ?? []}
         />

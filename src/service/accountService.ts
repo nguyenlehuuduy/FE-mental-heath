@@ -11,7 +11,6 @@ interface MyselfResponse {
   nickName: string;
   birth: string;
   address: string;
-  //TODO
   avata: string;
   phone: string;
 }
@@ -24,14 +23,11 @@ export type MyselfForCard = {
   nick_name: string;
   birth: string;
   address: string;
-  //TODO
   avata: string;
   //TODO_2133430:not_have_banner_account
   banner: string;
   phone: string;
 };
-
-const getUser = async () => {};
 
 export const getLoginAccount = async () => {
   const result = await callGetRequest("/auth/profile");
@@ -42,8 +38,7 @@ export const getLoginAccount = async () => {
       about_me: data.aboutMe,
       address: data.address,
       //TODO_1158430:not_have_avata_in_response
-      avata:
-        "https://i.pinimg.com/564x/93/ed/71/93ed71f506e89bc5adc32020056afe97.jpg",
+      avata: data.avata && process.env.API_BASE_URL + data.avata,
       //TODO_2133430:not_have_banner_account
       banner:
         "https://i.pinimg.com/564x/73/3c/68/733c688bf6f725345c18190da00e159b.jpg",

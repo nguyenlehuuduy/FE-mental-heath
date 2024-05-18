@@ -7,13 +7,14 @@ import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { RootState } from "../../redux/configureStore";
 import { useSelector } from "react-redux";
+import AvatarAccount from "../Avata";
 
 const ProfileCard = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   return (
     <div className="w-[250px] min-h-[400px]">
       <div className="relative">
-        {user?.avata ? (
+        {user?.banner ? (
           <Image
             src={user?.banner}
             width={200}
@@ -31,23 +32,13 @@ const ProfileCard = () => {
           />
         )}
         <div className="absolute m-auto right-0 left-0 top-[50px] flex flex-col justify-center items-center text-center">
-          {user?.avata ? (
-            <Image
-              src={user?.avata}
-              width={100}
-              height={100}
-              alt="image avata account"
-              className="w-[80px] object-cover h-[80px] rounded-full "
-            />
-          ) : (
-            <Image
-              src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
-              width={100}
-              height={100}
-              alt="icon avatar"
-              className="w-[80px] object-cover h-[80px] rounded-full "
-            />
-          )}
+          <AvatarAccount
+            width={80}
+            height={80}
+            filePath={user?.avata}
+            name={user?.full_name ?? "D"}
+          />
+
           <p className="font-medium text-[15px]">{user?.full_name}</p>
           <label>{user?.nick_name}</label>
           <div>{user?.about_me}</div>

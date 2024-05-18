@@ -69,6 +69,7 @@ export async function post(_: ActionPostState, formData: FormData) {
     imagePaths: listImageFileNameUpload,
   };
   const result = await uploadPost(payload);
+  revalidateTag("get-valid-post-cache");
   return {
     success: result,
   };

@@ -2,13 +2,14 @@
 
 import { abbreviateNumber, formatDate, getTimeAgo } from "@/lib/utils";
 import { PostForCard } from "@/service/postService";
-import { Input } from "antd";
+import { Avatar, Input } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 import CommentItem from "../CommentItem";
 import { comment, like } from "./action";
 import { SendIcon } from "../../icons";
 import { MyselfForCard } from "@/service/accountService";
+import AvatarAccount from "../Avata";
 
 const PostCard = ({
   item,
@@ -75,13 +76,11 @@ const PostCard = ({
     <div className="w-full bg-white rounded-md p-3 mb-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center min-w-[200px] gap-4 rounded-sm">
-          <Image
-            src={item.account.avata}
-            width={45}
-            height={45}
-            alt="avata"
-            className="rounded-[50%]"
+          <AvatarAccount
+            filePath={item.account.avata}
+            name={item.account.name}
           />
+
           <div>
             <p className="font-bold">{item.account.name}</p>
             <span>{getTimeAgo(item.created_at)}</span>
@@ -110,7 +109,7 @@ const PostCard = ({
         </div>
       </div>
       <div className="mt-3 flex flex-col gap-4">
-        <span>{item.content_text}</span>
+        <span className="whitespace-pre-wrap">{item.content_text}</span>
         <div className="w-full h-[400px] flex mb-3 gap-3">
           {item.image_post.map((image, index) => (
             <div
@@ -123,7 +122,7 @@ const PostCard = ({
                 width={500}
                 height={500}
                 alt="avata"
-                className="absolute object-cover h-full w-full rounded-md -p-5"
+                className="absolute object-contain h-auto w-full rounded-md -p-5"
               />
             </div>
           ))}

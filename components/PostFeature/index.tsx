@@ -6,6 +6,7 @@ import TextArea from "antd/es/input/TextArea";
 import ModalPost from "../ModalPost";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
+import AvatarAccount from "../Avata";
 
 const PostFeature = () => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -13,32 +14,14 @@ const PostFeature = () => {
   return (
     <div className="w-full p-4 rounded-sm bg-white">
       <div
-        className="flex gap-2 items-start cursor-pointer"
+        className="flex gap-2 items-start justify-between cursor-pointer"
         onClick={() => setIsOpen(true)}
       >
         <div className="relative w-[40px] h-[40px]">
-          {user?.avata ? (
-            <Image
-              src={user?.avata}
-              fill
-              sizes="(max-width: 40px)"
-              objectFit="cover"
-              alt="logo"
-              className="rounded-full"
-            />
-          ) : (
-            <Image
-              src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
-              fill
-              sizes="(max-width: 40px)"
-              objectFit="cover"
-              alt="logo"
-              className="rounded-full"
-            />
-          )}
+          <AvatarAccount filePath={user?.avata} name={user?.full_name ?? "D"} />
         </div>
 
-        <div className="flex flex-col justify-between w-full">
+        <div className="flex flex-col justify-between w-[90%]">
           <TextArea rows={2} size="large" value={"Bạn đang nghĩ gì vậy?"} />
 
           <div className="flex flex-row flex-grow items-center justify-between py-2 space-x-3">
