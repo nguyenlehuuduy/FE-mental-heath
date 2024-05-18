@@ -19,6 +19,13 @@ import ModalSetting from "./ModalSetting";
 import Star from "./Star";
 import PostCard from "./PostCard";
 import CommentItem from "./CommentItem";
+import PostWrap from "./PostWrap";
+import LandingPage1 from "./LandingPage1";
+import LandingPage2 from "./LandingPage2";
+import LandingPage3 from "./LandingPage3";
+import LandingPage4 from "./LandingPage4";
+import LandingPage5 from "./LandingPage5";
+import LandingPage6 from "./LandingPage6";
 
 export {
   Header,
@@ -42,4 +49,11 @@ export {
   Star,
   PostCard,
   CommentItem,
+  PostWrap,
+  LandingPage1,
+  LandingPage2,
+  LandingPage3,
+  LandingPage4,
+  LandingPage5,
+  LandingPage6,
 };

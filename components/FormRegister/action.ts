@@ -50,6 +50,7 @@ export async function register(_: ActionRegisterState, formData: FormData) {
     password: formData.get("password"),
     confirmPassword: formData.get("confirmPassword"),
   });
+
   if (!validatedFields.success) {
     return {
       validate: {

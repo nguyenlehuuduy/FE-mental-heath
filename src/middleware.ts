@@ -4,7 +4,7 @@ import { COOKIE_ACCESS_TOKEN_KEY } from "./lib/constants";
 export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get(COOKIE_ACCESS_TOKEN_KEY)?.value;
   if (!accessToken) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/landingpage", request.url));
   }
   const response = NextResponse.next();
 
