@@ -82,9 +82,6 @@ export async function register(_: ActionRegisterState, formData: FormData) {
       },
     };
   } else {
-    // redirect("/landingpage");
-    return {
-      success: true,
-    };
+    redirect("/login");
   }
 }

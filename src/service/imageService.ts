@@ -25,7 +25,7 @@ export async function uploadImage(
 ): Promise<ImageForCard | undefined> {
   const formData = new FormData();
   formData.append("image", image.image);
-  const result = await submitMultiForm("/file/post/image", formData);
+  const result = await submitMultiForm("/file/upload-posts", formData);
   const data: ImageForResponse = result.response;
   if (result.status === 201) {
     return {

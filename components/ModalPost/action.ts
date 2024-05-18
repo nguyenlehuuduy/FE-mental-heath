@@ -8,6 +8,7 @@ import {
   uploadPost,
 } from "@/service/postService";
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 import { store } from "../../redux/configureStore";
 import { addPostValid, clearPostValid } from "../../redux/actions/post";

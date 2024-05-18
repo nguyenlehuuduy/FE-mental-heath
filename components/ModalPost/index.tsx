@@ -3,15 +3,14 @@
 import Image from "next/image";
 import TextArea from "antd/es/input/TextArea";
 import { ImagesIcon, LinkIcon, ThreeDotIcon, VideoIcon } from "../../icons";
-import { Button, Modal, notification } from "antd";
-import { MyselfForCard } from "@/service/accountService";
+import { Button, Modal } from "antd";
 import { useFormState } from "react-dom";
 import { ActionPostState, post } from "./action";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
-import { getValidPost } from "../PostCard/action";
-import { addPostValid, clearPostValid } from "../../redux/actions/post";
+import { revalidateTag } from "next/cache";
+import { useRouter } from "next/navigation";
 
 interface Modal {
   isOpen: boolean;
@@ -27,56 +26,55 @@ const initialState: ActionPostState = {
 
 const ModalPost = ({ isOpen, closeModal }: Modal) => {
   const user = useSelector((state: RootState) => state.auth.user);
-  const [{ validate, success }, formAction] = useFormState(post, initialState);
+  const [data, formAction] = useFormState(post, initialState);
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const onImageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    if (files) {
-      const images: string[] = [];
-      for (let i = 0; i < files.length; i++) {
-        const reader = new FileReader();
-        reader.onload = (e: ProgressEvent<FileReader>) => {
-          if (e.target?.result && typeof e.target.result === "string") {
-            images.push(e.target.result);
-            setImages(images);
-          }
-        };
-        reader.readAsDataURL(files[i]);
+    if (!files) return;
+    const images: string[] = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (!isValidImage(file)) {
+        console.error("Invalid image file:", file.name);
+        continue;
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      try {
+        const dataUrl: string = await new Promise((resolve, reject) => {
+          reader.onload = (e: ProgressEvent<FileReader>) => {
+            if (e.target?.result && typeof e.target.result === "string") {
+              resolve(e.target.result);
+            } else {
+              reject(new Error("Failed to read image data"));
+            }
+          };
+          reader.onerror = reject;
+        });
+
+        images.length < 4 && images.push(dataUrl);
+      } catch (error) {
+        console.error("Error reading image:", file.name, error);
       }
     }
+    setImages(images);
   };
 
-  const getNewPost = async () => {
-    const initPost = await getValidPost(1);
-    dispatch(clearPostValid());
-    dispatch(addPostValid(initPost));
-  };
+  function isValidImage(file: File): boolean {
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/gif"];
+    return allowedMimeTypes.includes(file.type);
+  }
 
   useEffect(() => {
-    if (success) {
-      openNotification();
-      getNewPost();
-      setLoading(true);
-      setTimeout(() => {
-        closeModal();
-      }, 1000);
+    setLoading(false);
+    if (data.success) {
+      closeModal();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [success]);
-
-  const [api, contextHolder] = notification.useNotification();
-  const openNotification = () => {
-    api.open({
-      message: "Bài viết của bạn đã được tải lên",
-      description: "Cảm ơn vì bạn đã chia sẻ.",
-    });
-  };
+  }, [data]);
 
   return (
     <>
-      {contextHolder}
       <Modal
         open={isOpen}
         width={720}
@@ -84,7 +82,11 @@ const ModalPost = ({ isOpen, closeModal }: Modal) => {
         onCancel={closeModal}
         destroyOnClose
       >
-        <form action={formAction} className="flex flex-col">
+        <form
+          action={formAction}
+          className="flex flex-col"
+          onSubmit={() => setLoading(true)}
+        >
           <div className="w-full px-4 pb-4 flex flex-col gap-4">
             <div className="flex flex-row gap-3 items-center">
               <div className="relative w-[60px] h-[60px]">
@@ -118,8 +120,8 @@ const ModalPost = ({ isOpen, closeModal }: Modal) => {
               size="large"
               placeholder="Bạn muốn chia sẻ về vấn đề gì ?"
             />
-            <span>{validate?.contentText}</span>
-            <span>{validate?.image}</span>
+            <span>{data.validate?.contentText}</span>
+            <span>{data.validate?.image}</span>
           </div>
           <div>
             <input
@@ -137,16 +139,12 @@ const ModalPost = ({ isOpen, closeModal }: Modal) => {
                 {images.map((image, index) => (
                   <div
                     key={index}
-                    className="w-[150px] h-[150px]  rounded-md relative pb-[1/2] overflow-hidden"
+                    className="w-[100px] h-[100px] rounded-md relative overflow-hidden"
                   >
                     <Image
-                      className="absolute w-full h-full"
+                      className="absolute w-full h-full object-contain"
                       width={500}
                       height={500}
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                      }}
                       objectFit="cover"
                       src={image}
                       alt={`preview image ${index + 1}`}
