@@ -1,62 +1,63 @@
 "use client";
 
-import { MyselfForCard } from "@/service/accountService";
+import { DetailMyselfResponseForCard } from "@/service/accountService";
 import Image from "next/image";
-import { PostByAccount, PostContent } from "../../../../components";
+import { AvatarAccount, PostByAccount } from "../../../../components";
 import { PostForCard } from "@/service/postService";
-import { Pagination } from "../../../../type";
 import RecentActionList from "../../../../components/RecentActionList";
 import { useState } from "react";
 import ListImageAccount from "../../../../components/ListImageAccount";
 import ListVideoAccount from "../../../../components/ListVideoAccount";
-import { useDispatch, useSelector } from "react-redux";
-import { getCurrentUser } from "../../../../redux/actions/auth";
-import { RootState } from "../../../../redux/configureStore";
+import ModalListFollowShip from "../../../../components/ModalListFollowShip";
 
 type PropsComponent = {
-  profile: MyselfForCard;
+  profile: DetailMyselfResponseForCard;
   listValidPostOfAccount: PostForCard[];
 };
-
+type Follow = {
+  id: string,
+  full_name: string,
+  avata: string,
+  nick_name: string
+}
 export default function MySelfPageView(props: PropsComponent) {
   const [selectOptionNumber, setSelectOptionNumber] = useState<number>(0);
-  const dispatch = useDispatch();
-  dispatch(getCurrentUser(props.profile));
+  const [showFollowShip, setShowFollowShip] = useState<boolean>(false);
+  const [dataFollowShip, setDataFollowShip] = useState<Array<Follow>>([]);
+  const [typeFollowShip, setTypeFollowShip] = useState<"follower" | "following">('follower');
+  const { user, follower, followings, image, object_count } = props.profile
   return (
     <div className="w-full p-2">
       <div className="relative w-full h-[200px] rounded-md overflow-hidden">
         <Image
-          src={props.profile.banner}
+          src={user.banner}
           fill
-          objectFit="cover"
           quality={100}
+          className="object-cover"
           alt="banner account"
         />
       </div>
       <div className="w-full flex mt-2 justify-between">
         <div className="w-[65%] flex flex-col gap-y-1">
           <div className="flex w-full gap-4 bg-white rounded-md py-4 px-1">
-            <div className="relative w-[150px] h-[150px] rounded-full overflow-hidden">
-              <Image
-                src={props.profile.avata}
-                alt="avata user"
-                fill
-                objectFit="cover"
-                className="aspect-square"
-              />
-            </div>
+            <AvatarAccount
+              width={150}
+              height={150}
+              filePath={user.avata}
+              name={user.full_name}
+            />
             <div className="flex flex-col justify-center w-[70%]">
               <p className="text-[18px] font-medium text-[#505050]">
-                {props.profile.nick_name
-                  ? props.profile.full_name +
-                    "(" +
-                    props.profile.nick_name +
-                    ")"
-                  : props.profile.full_name}
+                {user.nick_name
+                  ? user.full_name +
+                  "(" +
+                  user.nick_name +
+                  ")"
+                  : user.full_name}
               </p>
               <p className="text-[#666666]">
-                {props.profile.about_me}
-                {props.profile.about_me}
+                {user.about_me}
+                {user.about_me}
               </p>
               {/* TODO: favorite subject of account */}
               <div className="flex gap-3 mt-3 text-[#666666]">
@@ -87,12 +88,21 @@ export default function MySelfPageView(props: PropsComponent) {
               </div>
             </div>
             <div className="flex w-full items-center gap-2 text-[14px] mb-2 justify-between px-2">
-              <div className="cursor-pointer">
-                <span className="text-[18px] font-medium">135 </span>
+              <div className="cursor-pointer" onClick={() => {
+                setDataFollowShip(followings)
+                setShowFollowShip(true)
+                setTypeFollowShip("following")
+              }
+              } >
+                <span className="text-[18px] font-medium">{object_count.followings ?? 0} </span>
                 Đang theo dõi
               </div>
-              <div className="cursor-pointer">
-                <span className="text-[18px] font-medium">100 </span>
+              <div className="cursor-pointer" onClick={() => {
+                setShowFollowShip(true)
+                setDataFollowShip(follower)
+                setTypeFollowShip("follower")
+              }}>
+                <span className="text-[18px] font-medium">{object_count.followers ?? 0} </span>
                 Theo dõi bạn
               </div>
             </div>
@@ -135,6 +145,7 @@ export default function MySelfPageView(props: PropsComponent) {
           </div>
         </div>
       </div>
+      {showFollowShip && <ModalListFollowShip followShip={typeFollowShip} listFollowShip={dataFollowShip} closeModal={() => setShowFollowShip(false)} isOpen={showFollowShip} />}
     </div>
   );
 }

@@ -1,12 +1,15 @@
-import { SearchAccountType } from "@/service/searchService";
-import Image from "next/image";
+import { SearchAccountForCard } from "@/service/searchService";
 import React from "react";
+import AvatarAccount from "../Avata";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const SearchAccount = ({
   listAccounts,
 }: {
-  listAccounts: SearchAccountType[];
+  listAccounts: SearchAccountForCard[];
 }) => {
+  const router = useRouter()
   return (
     <div className="w-full flex flex-col ">
       <p className="py-2 border-b text-base font-bold">Tài khoản</p>
@@ -22,15 +25,22 @@ const SearchAccount = ({
               className="flex flex-row w-full items-center gap-4 py-2 shadow-sm"
             >
               <div className="relative w-[40px] h-[40px] rounded-full">
-                <Image
-                  src="https://i.pinimg.com/564x/93/ed/71/93ed71f506e89bc5adc32020056afe97.jpg"
-                  fill
-                  alt={`avatar ${account.fullName}`}
-                  objectFit="cover"
-                  className="rounded-full"
-                />
+                <AvatarAccount
+                  name={account.full_name}
+                  filePath={account.avatar}
+                  height={40}
+                  width={40} key={index} />
               </div>
-              <p className="text-base font-semibold ">{account.fullName}</p>
+              <div className="flex flex-col">
+                <Link href={`/profile/${account.id}`} className="text-base underline font-semibold">{account.full_name}</Link>
+                <p className="">{account.nick_name}</p>
+                <div className="flex gap-3 text-sm">
+                  <p className="text-blue-600 cursor-pointer"
+                    onClick={() => router.push(`/profile/${account.id}`)}>Xem tài khoản</p>
+                </div>
+              </div>
+
+
             </div>
           ))
         )}

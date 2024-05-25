@@ -1,9 +1,8 @@
 "use client";
-import { Dropdown, Input, Popover } from "antd";
+import { Input, Popover } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  FilterIcon,
   MessageIcon,
   NotifyIcon,
   SearchIcon,
@@ -20,8 +19,8 @@ import { getCurrentUser } from "../../redux/actions/auth";
 import useDebounce from "../UseDebounce";
 import SearchWrapper from "../SearchWrapper";
 import { getAccountsByName, getPostsByName } from "../SearchWrapper/action";
-import { SearchAccountType, SearchPostType } from "@/service/searchService";
 import AvatarAccount from "../Avata";
+import { SearchAccountForCard, SearchPostTypeForCard } from "@/service/searchService";
 
 export default function Header({ profile }: { profile: MyselfForCard }) {
   const dispatch = useDispatch();
@@ -31,10 +30,11 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const [open, setOpen] = useState(false);
+
   const [searchAccountResult, setSearchAccountResult] = useState<
-    SearchAccountType[]
+    SearchAccountForCard[]
   >([]);
-  const [searchPostResult, setSearchPostResult] = useState<SearchPostType[]>(
+  const [searchPostResult, setSearchPostResult] = useState<SearchPostTypeForCard[]>(
     [],
   );
 
@@ -54,9 +54,8 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
     const fetchApi = async () => {
       const resultAccounts = await getAccountsByName(debounced);
       const resultPosts = await getPostsByName(debounced);
-
-      setSearchAccountResult(resultAccounts);
-      setSearchPostResult(resultPosts);
+      setSearchAccountResult(resultAccounts ?? []);
+      setSearchPostResult(resultPosts ?? []);
       setOpen(true);
     };
     fetchApi();
@@ -90,7 +89,6 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
           </Link>
         </div>
         <Popover
-          title=""
           trigger="contextMenu"
           className="w-[500px]"
           content={
@@ -109,9 +107,8 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
             onFocus={handleInputOpen}
             onClick={handleInputOpen}
             size="middle"
-            placeholder="Khám phá về GenZ Mental Health"
+            placeholder="tìm kiếm bài viết, tài khoản"
             prefix={<SearchIcon />}
-            suffix={<FilterIcon />}
             style={{ paddingLeft: "24px", paddingRight: "24px" }}
           />
         </Popover>

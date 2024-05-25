@@ -137,7 +137,5 @@ export async function refuseFollow(idRequest: string) {
 
 export async function unfollowAccount(idFollow: string) {
   const res = await callDeleteRequest(`/follow/unfollow/${idFollow}`);
-  console.log(res);
-
   return res.status;
 }

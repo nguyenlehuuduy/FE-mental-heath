@@ -73,102 +73,99 @@ const ModalPost = ({ isOpen, closeModal }: Modal) => {
   }, [data]);
 
   return (
-    <>
-      <Modal
-        open={isOpen}
-        width={720}
-        footer={false}
-        onCancel={closeModal}
-        destroyOnClose
+    <Modal
+      open={isOpen}
+      width={720}
+      footer={false}
+      onCancel={closeModal}
+      destroyOnClose
+    >
+      <form
+        action={formAction}
+        className="flex flex-col"
+        onSubmit={() => setLoading(true)}
       >
-        <form
-          action={formAction}
-          className="flex flex-col"
-          onSubmit={() => setLoading(true)}
-        >
-          <div className="w-full px-4 pb-4 flex flex-col gap-4">
-            <div className="flex flex-row gap-3 items-center">
-              <div className="relative">
-                <AvatarAccount
-                  filePath={user?.avata}
-                  name={user?.full_name ?? "D"}
-                />
-              </div>
-
-              <p className="text-xl font-medium ">{user?.full_name}</p>
+        <div className="w-full px-4 pb-4 flex flex-col gap-4">
+          <div className="flex flex-row gap-3 items-center">
+            <div className="relative">
+              <AvatarAccount
+                filePath={user?.avata}
+                name={user?.full_name ?? "D"}
+              />
             </div>
-            <TextArea
-              rows={6}
-              style={{
-                border: "none",
-              }}
-              name="contentText"
-              size="large"
-              placeholder="Bạn muốn chia sẻ về vấn đề gì ?"
-            />
-            <span>{data.validate?.contentText}</span>
-            <span>{data.validate?.image}</span>
-          </div>
-          <div>
-            <input
-              id="upload_image_multi"
-              className="hidden"
-              name="image"
-              type="file"
-              onChange={onImageChange}
-              multiple
-              accept="image/png, image/gif, image/jpeg"
-            />
 
-            {images.length > 0 && (
-              <div className="flex flex-wrap gap-3 items-center">
-                {images.map((image, index) => (
-                  <div
+            <p className="text-xl font-medium ">{user?.full_name}</p>
+          </div>
+          <TextArea
+            rows={6}
+            style={{
+              border: "none",
+            }}
+            name="contentText"
+            size="large"
+            placeholder="Bạn muốn chia sẻ về vấn đề gì ?"
+          />
+          <span>{data.validate?.contentText}</span>
+          <span>{data.validate?.image}</span>
+        </div>
+        <div>
+          <input
+            id="upload_image_multi"
+            className="hidden"
+            name="image"
+            type="file"
+            onChange={onImageChange}
+            multiple
+            accept="image/png, image/gif, image/jpeg"
+          />
+
+          {images.length > 0 && (
+            <div className="flex flex-wrap gap-3 items-center">
+              {images.map((image, index) => (
+                <div
+                  key={index}
+                  className="w-[100px] h-[100px] rounded-md relative overflow-hidden"
+                >
+                  <Image
+                    className="absolute w-full h-full object-contain"
+                    width={500}
+                    height={500}
+                    src={image}
+                    alt={`preview image ${index + 1}`}
                     key={index}
-                    className="w-[100px] h-[100px] rounded-md relative overflow-hidden"
-                  >
-                    <Image
-                      className="absolute w-full h-full object-contain"
-                      width={500}
-                      height={500}
-                      objectFit="cover"
-                      src={image}
-                      alt={`preview image ${index + 1}`}
-                      key={index}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-row justify-between pt-6 px-4">
-            <div className="flex flex-row gap-8 items-center">
-              <label className="cursor-pointer" htmlFor="upload_image_multi">
-                <ImagesIcon width={25} height={25} />
-              </label>
-              <VideoIcon width={25} height={25} />
-              <LinkIcon width={25} height={25} />
-              <ThreeDotIcon width={25} height={25} />
+                  />
+                </div>
+              ))}
             </div>
-            <Button
-              loading={loading}
-              size="middle"
-              htmlType="submit"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                border: "none",
-              }}
-              className="text-white cursor-pointer font-medium bg-blue-500"
-            >
-              Đăng bài
-            </Button>
+          )}
+        </div>
+
+        <div className="flex flex-row justify-between pt-6 px-4">
+          <div className="flex flex-row gap-8 items-center">
+            <label className="cursor-pointer" htmlFor="upload_image_multi">
+              <ImagesIcon width={25} height={25} />
+            </label>
+            <VideoIcon width={25} height={25} />
+            <LinkIcon width={25} height={25} />
+            <ThreeDotIcon width={25} height={25} />
           </div>
-        </form>
-      </Modal>
-    </>
+          <Button
+            loading={loading}
+            size="middle"
+            htmlType="submit"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              border: "none",
+            }}
+            className="text-white cursor-pointer font-medium bg-blue-500"
+          >
+            Đăng bài
+          </Button>
+        </div>
+      </form>
+    </Modal>
   );
 };
 

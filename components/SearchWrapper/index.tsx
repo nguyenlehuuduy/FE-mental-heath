@@ -1,18 +1,19 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import SearchAccount from "../SearchAccount";
 import SearchPost from "../SearchPost";
-import { getAccountsByName } from "./action";
-import { SearchAccountType, SearchPostType } from "@/service/searchService";
+import { SearchAccountForCard, SearchPostTypeForCard } from "@/service/searchService";
+
+type PropsComponent = {
+  listAccounts: SearchAccountForCard[];
+  listPosts: SearchPostTypeForCard[];
+}
 
 const SearchWrapper = ({
   listAccounts,
   listPosts,
-}: {
-  listAccounts: SearchAccountType[];
-  listPosts: SearchPostType[];
-}) => {
+}: PropsComponent) => {
   return (
     <div className="w-[480px]">
       <SearchAccount listAccounts={listAccounts} />

@@ -59,9 +59,8 @@ const RequestFollowers = ({
                       <Image
                         src={item.sender.avatar}
                         fill
-                        objectFit="cover"
                         alt="logo"
-                        className="rounded-full"
+                        className="rounded-full object-cover"
                       />
                     </div>
                     <div className="flex flex-col gap-2">

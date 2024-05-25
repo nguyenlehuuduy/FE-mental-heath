@@ -1,6 +1,7 @@
-import { callGetRequest, callPostRequest } from "./apiService";
+import { formatDate } from "@/lib/utils";
+import { callGetRequest } from "./apiService";
 
-export type SearchAccountType = {
+interface SearchAccountType {
   id: string;
   fullName: string;
   aboutMe: string;
@@ -9,44 +10,98 @@ export type SearchAccountType = {
   avatar: string;
 };
 
-export type SearchPostType = {
+interface SearchPostType {
   id: string;
   contentText: string;
-  accountId: string;
+  account: {
+    fullName: string,
+    id: string,
+    avata: string
+  };
   created_at: string;
   updated_at: string;
-  totalReaction: string;
-  totalComment: string;
-  totalShare: string;
   images: [
     {
-      accountId: string;
-      postId: string;
       path: string;
     },
   ];
 };
 
-export async function getSearchAccount(keyword: string) {
-  const res = await callGetRequest(
-    `/search/accounts?keyword=${keyword}`,
-    "get-search-accounts",
-  );
-  if (res.status === 200) {
-    return res.response;
-  } else {
-    return [];
-  }
+export type SearchPostTypeForCard = {
+  id: string;
+  contentText: string;
+  account: {
+    full_name: string,
+    id: string,
+    avata: string
+  };
+  created_at: string;
+  updated_at: string;
+  images: Array<string>;
 }
 
-export async function getSearchPost(keyword: string) {
-  const res = await callGetRequest(
-    `/search/posts?keyword=${keyword}`,
-    "get-search-posts",
-  );
-  if (res.status === 200) {
-    return res.response;
-  } else {
-    return [];
+export type SearchAccountForCard = {
+  id: string;
+  full_name: string;
+  about_me: string;
+  nick_name: string;
+  address: string;
+  avatar: string;
+}
+
+export async function getSearchAccount(keyword: string): Promise<Array<SearchAccountForCard> | undefined> {
+  try {
+    const result = await callGetRequest(
+      `/search/accounts?keyword=${keyword}`,
+      "get-search-accounts",
+    );
+    const data: Array<SearchAccountType> = result.response
+    const res: Array<SearchAccountForCard> = []
+    if (result.status === 200) {
+      for (const item of data) {
+        res.push({
+          about_me: item.aboutMe,
+          address: item.address,
+          avatar: item.avatar,
+          full_name: item.fullName,
+          id: item.id,
+          nick_name: item.nickName
+        })
+      }
+      return res;
+    }
+  } catch (error) {
+    console.error(error)
+  }
+
+}
+
+export async function getSearchPost(keyword: string): Promise<Array<SearchPostTypeForCard> | undefined> {
+  try {
+    const result = await callGetRequest(
+      `/search/posts?keyword=${keyword}`,
+      "get-search-posts",
+    );
+    const data: Array<SearchPostType> = result.response;
+    const res: Array<SearchPostTypeForCard> = []
+    if (result.status === 200) {
+      for (const item of data) {
+        res.push({
+          account: {
+            avata: item.account.avata && process.env.API_BASE_URL + item.account.avata,
+            id: item.account.id,
+            full_name: item.account.fullName
+          },
+          contentText: item.contentText,
+          created_at: formatDate(item.created_at, "DD/MM/YYYY HH:mm"),
+          id: item.id,
+          images: item.images.map(item => item.path && process.env.API_BASE_URL + item.path),
+          updated_at: formatDate(item.updated_at, "DD/MM/YYYY HH:mm")
+        })
+      }
+      return res;
+    }
+  } catch (error) {
+    console.error(error)
   }
 }

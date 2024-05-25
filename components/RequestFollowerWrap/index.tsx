@@ -24,8 +24,6 @@ const RequestFollowerWrap = () => {
 
   const handleGetRequestFollower = async () => {
     const listRequestFollowers = await getRequestFollowers();
-    console.log("list request follow", listRequestFollowers);
-
     setRequestFollowers(listRequestFollowers);
   };
 
