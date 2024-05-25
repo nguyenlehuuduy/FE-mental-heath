@@ -91,7 +91,7 @@ const ChatList = () => {
                       src="/big_logo.png"
                       fill
                       alt="icon avatar"
-                      objectFit="contain"
+                      className="object-contain"
                     />
                   </div>
                   <div className="flex flex-col justify-start gap-1 max-w-[170px]">

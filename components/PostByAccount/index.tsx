@@ -2,15 +2,17 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
 import PostCard from "../PostCard";
-import { getValidPost } from "../PostCard/action";
 import { Skeleton } from "antd";
 import { PostForCard } from "@/service/postService";
+import { MyselfForCard } from "@/service/accountService";
+import { getPostsMyAccount, getPostsOtherAccount } from "./action";
 
 type PropsComponent = {
+  idAccount?: string;
   listValidPost: PostForCard[];
 };
 
-export default function PostContent(props: PropsComponent) {
+export default function PostByAccount(props: PropsComponent) {
   const [hasMoreData, setHasMoreData] = useState(true);
   const [listValidPost, setListValidPost] = useState<PostForCard[]>(
     props.listValidPost,
@@ -24,7 +26,12 @@ export default function PostContent(props: PropsComponent) {
   const scrollTrigger = useRef(null);
   const loadMorePosts = async () => {
     if (hasMoreData) {
-      const apiPosts = (await getValidPost(page)) ?? [];
+      let apiPosts: PostForCard[] = [];
+      if (props.idAccount) {
+        apiPosts = (await getPostsOtherAccount(props.idAccount, page)) ?? [];
+      } else {
+        apiPosts = (await getPostsMyAccount(page)) ?? [];
+      }
       if (!apiPosts?.length) {
         setHasMoreData(false);
       }

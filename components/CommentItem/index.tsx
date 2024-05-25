@@ -21,7 +21,6 @@ const CommentItem = ({ comment }: { comment: CommentType }) => {
           src={comment.account.avata || "/123"}
           fill
           alt="avata"
-          objectFit="cover"
           className="aspect-square rounded-xl"
         />
       </div>

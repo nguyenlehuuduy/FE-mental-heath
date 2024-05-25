@@ -8,16 +8,12 @@ import React, { useState } from "react";
 import CommentItem from "../CommentItem";
 import { comment, like } from "./action";
 import { SendIcon } from "../../icons";
-import { MyselfForCard } from "@/service/accountService";
 import AvatarAccount from "../Avata";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/configureStore";
 
-const PostCard = ({
-  item,
-  accountInf,
-}: {
-  item: PostForCard;
-  accountInf: MyselfForCard;
-}) => {
+const PostCard = ({ item }: { item: PostForCard }) => {
+  const currentUser = useSelector((state: RootState) => state.auth.user);
   const [commentContent, setCommentContent] = useState<string>("");
   const [isLike, setIsLike] = useState<boolean>(item.is_like);
   const [totalLike, setTotalLike] = useState<number>(item.total_reaction || 0);
@@ -48,16 +44,16 @@ const PostCard = ({
   };
 
   const handleCommentPost = async (idPost: string, commentContent: string) => {
-    accountInf?.id && (await comment(idPost, accountInf.id, commentContent));
+    currentUser?.id && (await comment(idPost, currentUser.id, commentContent));
     setTotalComment(totalComment + 1);
     setRecentComment([
       {
         content: commentContent,
         account: {
-          avata: accountInf?.avata ?? "",
-          id: accountInf?.id ?? "",
-          name: accountInf?.full_name ?? "",
-          nick_name: accountInf?.nick_name ?? "",
+          avata: currentUser?.avata ?? "",
+          id: currentUser?.id ?? "",
+          name: currentUser?.full_name ?? "",
+          nick_name: currentUser?.nick_name ?? "",
         },
         created_at: formatDate(Date(), "DD-MM-YYYY"),
       },
@@ -179,23 +175,10 @@ const PostCard = ({
         <div className="flex flex-col mt-5">
           <div className="relative flex gap-4 ">
             <div className="relative w-[40px] h-[40px]">
-              {accountInf?.avata ? (
-                <Image
-                  src={accountInf?.avata}
-                  fill
-                  objectFit="cover"
-                  alt="avata"
-                  className="aspect-square w-[50px] h-auto rounded-xl"
-                />
-              ) : (
-                <Image
-                  src="https://cdn.dummyjson.com/cache/100x100/bitter-16/cccccc-black/2535838d9d0ccf91d287ae796ce1a914.webp"
-                  fill
-                  objectFit="cover"
-                  alt="avata"
-                  className="aspect-square w-[50px] h-auto rounded-xl"
-                />
-              )}
+              <AvatarAccount
+                filePath={currentUser?.avata}
+                name={currentUser?.full_name ?? "D"}
+              />
             </div>
 
             <Input

@@ -150,3 +150,80 @@ export async function commentPost(
     return false;
   }
 }
+
+export async function getPostMyProfile(page?: number | 1) {
+  const res = await callGetRequest(
+    `/post/get-posts-account?pageNo=${page}&limit=2`,
+    "get-post-my-account",
+  );
+
+  if (res.status === 200) {
+    const data: PostModel[] = res.response;
+
+    const result: PostForCard[] = [];
+    for (const post of data) {
+      result.push({
+        account: {
+          id: post.account.id,
+          name: post.account.fullName,
+          nick_name: post.account.nickName,
+          avata:
+            post.account.avata &&
+            `${process.env.API_BASE_URL}${post.account.avata}`,
+        },
+        content_text: post.contentText,
+        created_at: post.created_at,
+        image_post: post.images.map(
+          (item) => `${process.env.API_BASE_URL}${item.path}`,
+        ),
+        is_like: post.is_liked,
+        post_id: post.id,
+        total_comment: post.totalComment,
+        total_reaction: post.totalReaction,
+        total_share: post.totalShare,
+        comment_recent: post.comment_recent ?? [],
+      });
+    }
+    return result;
+  }
+}
+
+export async function getPostOtherAccount(
+  idAccount: string,
+  page?: number | 1,
+) {
+  const res = await callGetRequest(
+    `/post/get-posts-other-account/${idAccount}?pageNo=${page}&limit=2`,
+    "get-post-other-account",
+  );
+
+  if (res.status === 200) {
+    const data: PostModel[] = res.response;
+
+    const result: PostForCard[] = [];
+    for (const post of data) {
+      result.push({
+        account: {
+          id: post.account.id,
+          name: post.account.fullName,
+          nick_name: post.account.nickName,
+          avata:
+            post.account.avata &&
+            `${process.env.API_BASE_URL}${post.account.avata}`,
+        },
+        content_text: post.contentText,
+        created_at: post.created_at,
+        image_post: post.images.map(
+          (item) => `${process.env.API_BASE_URL}${item.path}`,
+        ),
+        is_like: post.is_liked,
+        post_id: post.id,
+        total_comment: post.totalComment,
+        total_reaction: post.totalReaction,
+        total_share: post.totalShare,
+        comment_recent: post.comment_recent ?? [],
+      });
+    }
+    return result;
+  }
+}

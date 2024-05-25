@@ -90,7 +90,7 @@ const NotifyPopup = ({
                         src="/big_logo.png"
                         fill
                         alt="icon avatar"
-                        objectFit="contain"
+                        className="object-contain"
                       />
                     </div>
                     <div className="flex flex-col justify-start gap-1 ">

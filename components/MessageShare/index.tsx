@@ -58,7 +58,7 @@ const MessageShare = ({ handleClose }: { handleClose: () => void }) => {
               maxWidth: 125,
               height: "auto",
             }}
-            objectFit="cover"
+            className="object-cover"
             alt="image"
           />
         </div>
@@ -80,7 +80,7 @@ const MessageShare = ({ handleClose }: { handleClose: () => void }) => {
                 maxWidth: 90,
                 height: "auto",
               }}
-              objectFit="cover"
+              className="object-cover"
               alt="image"
             />
           </div>
