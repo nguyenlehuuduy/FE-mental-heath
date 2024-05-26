@@ -306,7 +306,7 @@ export async function getDetailMyselfAccount(): Promise<DetailMyselfResponseForC
           path: item.path,
           post_id: item.postId,
           type_image: {
-            type_image_name: item.typeImage.typeImageName
+            type_image_name: item.typeImage?.typeImageName
           },
         }
       }),
