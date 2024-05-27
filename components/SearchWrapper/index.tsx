@@ -3,21 +3,26 @@
 import React from "react";
 import SearchAccount from "../SearchAccount";
 import SearchPost from "../SearchPost";
-import { SearchAccountForCard, SearchPostTypeForCard } from "@/service/searchService";
+import {
+  SearchAccountForCard,
+  SearchPostTypeForCard,
+} from "@/service/searchService";
 
 type PropsComponent = {
   listAccounts: SearchAccountForCard[];
   listPosts: SearchPostTypeForCard[];
-}
+  onItemSelect: () => void;
+};
 
 const SearchWrapper = ({
   listAccounts,
   listPosts,
+  onItemSelect,
 }: PropsComponent) => {
   return (
     <div className="w-[480px]">
-      <SearchAccount listAccounts={listAccounts} />
-      <SearchPost listPosts={listPosts} />
+      <SearchAccount onItemSelect={onItemSelect} listAccounts={listAccounts} />
+      <SearchPost onItemSelect={onItemSelect} listPosts={listPosts} />
     </div>
   );
 };

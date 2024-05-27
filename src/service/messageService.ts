@@ -54,6 +54,26 @@ export type MessageForRequest = {
   roomId: string;
 };
 
+export type MessageForUserRequest = {
+  contentMessage: string;
+  roomId: string;
+};
+
+interface MessageUserForResponse {
+  id: string;
+  ownerId: string;
+  owner: {
+    id: string;
+    fullName: string;
+    email: string;
+    avata: string;
+  };
+  contentText: string;
+  roomId: string;
+  created_at: string;
+  updated_at: string;
+}
+
 interface MessageBotForResponse {
   id: string;
   ownerId: string;
@@ -201,5 +221,13 @@ export async function getInfRoomMessage(
     };
 
     return result;
+  }
+}
+
+export async function sendMessage(body: MessageForUserRequest) {
+  const result = await callPostRequest("/room-message/send-message", body);
+  if (result.status === 201) {
+    const data: MessageUserForResponse = result.response;
+    return data;
   }
 }

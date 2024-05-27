@@ -1,0 +1,173 @@
+"use client";
+
+import { formatDate } from "@/lib/utils";
+import { Button, Input, Spin } from "antd";
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
+import { CallVideoIcon, InfoIcon, PhoneIcon } from "../../icons";
+import {
+  MessageForCard,
+  RoomMessageInfForCard,
+} from "@/service/messageService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/configureStore";
+import AvatarAccount from "../Avata";
+import { sendMessageForUser } from "./action";
+
+interface Account {
+  avata: string | null;
+  full_name: string;
+  id: string;
+  nick_name: string | null;
+}
+
+type PropsComponent = {
+  listMessage: Array<MessageForCard>;
+  infRoom: RoomMessageInfForCard;
+};
+
+const MessagesWithUserWrap = ({ listMessage, infRoom }: PropsComponent) => {
+  let infoFriend: Account | undefined;
+  const profile = useSelector((state: RootState) => state.auth.user);
+
+  const pageRef = useRef<HTMLDivElement>(null);
+
+  function scrollToBottom() {
+    if (pageRef) {
+      pageRef.current?.scrollIntoView({
+        behavior: "smooth",
+        inline: "end",
+        block: "end",
+      });
+    }
+  }
+
+  const [listMessages, setListMessages] =
+    useState<MessageForCard[]>(listMessage);
+  const [message, setMessage] = useState<string>("");
+
+  const handleSendMessage = async () => {
+    const res = await sendMessageForUser(message, infRoom.id);
+    setListMessages((prev) => [
+      ...prev,
+      {
+        content_text: res?.contentText ?? "",
+        created_at: new Date(),
+        id: res?.id ?? "",
+        owner: {
+          avata: profile?.email ?? "",
+          email: profile?.email ?? "",
+          full_name: profile?.full_name ?? "",
+          id: profile?.id ?? "",
+        },
+        owner_id: profile?.id ?? "",
+        room_id: infRoom.id,
+        updated_at: new Date(),
+      },
+    ]);
+    setMessage("");
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSendMessage();
+    }
+  };
+
+  infoFriend = infRoom.account_in_room.find(
+    (account) => account.id !== profile?.id,
+  );
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [listMessages]);
+  return (
+    <div className="max-w-[820px] w-full flex flex-col rounded-md h-[calc(100vh-70px)]">
+      <div className="flex flex-row justify-between gap-5 max-h-[76px] h-full px-5 py-2 bg-white border-l border-b border-r">
+        <div className="flex justify-center gap-4">
+          <div className="relative w-[50px] h-[50px] justify-center items-center">
+            <AvatarAccount
+              name={infoFriend?.full_name!}
+              filePath={infoFriend?.avata!}
+              height={50}
+              width={50}
+            />
+          </div>
+          <div className="flex flex-col justify-center">
+            <p className="font-medium">{infoFriend?.full_name ?? ""}</p>
+            <p className="font-normal text-[13px] text-[#666666]">
+              Đang hoạt động
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-row gap-6 items-center">
+          <div className="p-2  rounded-full border flex justify-center items-center">
+            <PhoneIcon width={20} height={20} />
+          </div>
+          <div className="p-2 rounded-full border flex justify-center items-center">
+            <CallVideoIcon width={20} height={20} />
+          </div>
+          <div className="p-2 rounded-full border flex justify-center items-center">
+            <InfoIcon width={20} height={20} />
+          </div>
+        </div>
+      </div>
+
+      {/* List message */}
+      <div className="w-full h-1/2 flex-1 flex-col overflow-auto p-5 ">
+        {listMessages.map((item, index) => (
+          <div
+            ref={pageRef}
+            key={item.id || index}
+            className={`flex  w-full flex-row ${item.owner_id === profile?.id && "justify-end"} items-start gap-3 pb-4`}
+          >
+            {item.owner_id !== profile?.id && (
+              <div className="relative h-[40px] w-[40px] rounded-full">
+                <AvatarAccount
+                  name={infoFriend?.full_name!}
+                  filePath={infoFriend?.avata!}
+                  height={40}
+                  width={40}
+                />
+              </div>
+            )}
+            <div className="flex flex-col max-w-[380px] h-auto gap-2">
+              <div className="flex flex-col justify-center max-w-[380px] bg-sky-500 rounded-md p-2">
+                <p className="text-base text-white font-normal">
+                  {item.content_text}
+                </p>
+              </div>
+              <div
+                className={`px-2 flex  ${item.owner_id === profile?.id && "justify-end"}`}
+              >
+                <p className="text-xs font-normal text-[#666666]">
+                  {formatDate(String(item.created_at), "HH:mm:ss")}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mx-4 mb-3 flex items-center gap-2">
+        <Input
+          autoFocus
+          size="large"
+          placeholder="Nhập tin nhắn ..."
+          name="contentText"
+          onChange={(e) => setMessage(e.target.value)}
+          value={message}
+          onKeyDown={handleKeyPress}
+        />
+        <Button
+          size="large"
+          htmlType="button"
+          onClick={() => handleSendMessage()}
+        >
+          Gửi
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default MessagesWithUserWrap;

@@ -57,5 +57,36 @@ export interface Pagination {
   totalPage?: number;
   totalRecord?: number;
   sortBy?: number;
-  orderBy?: number
+  orderBy?: number;
+}
+
+export interface IUser {
+  id: string;
+  fullName: string;
+  email: string;
+  avata: string;
+}
+
+export interface IMessage {
+  id: number;
+  owner: IUser;
+  roomId: number;
+  content: string;
+}
+
+export interface AddMessageDto {
+  content: string;
+  roomId: number;
+}
+
+export interface ServerToClientEvents {
+  message: (data: IMessage) => void;
+  isTyping: (name: string) => void;
+}
+
+export interface ClientToServerEvents {
+  message: (data: AddMessageDto) => void;
+  join: (roomId: number) => void;
+  leave: (roomId: number) => void;
+  isTyping: (roomId: number) => void;
 }
