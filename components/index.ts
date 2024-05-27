@@ -37,6 +37,7 @@ import ProfileBanner from "./ProfileBanner";
 import AvatarAccount from "./Avata";
 import PostByAccount from "./PostByAccount";
 import AccountContent from "./AccountContent";
+import NotFound from "./NotFound";
 
 export {
   Header,
@@ -78,4 +79,5 @@ export {
   AvatarAccount,
   PostByAccount,
   AccountContent,
+  NotFound
 };
