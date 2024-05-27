@@ -110,15 +110,25 @@ const PostCard = ({ item }: { item: PostForCard }) => {
           {item.image_post.map((image, index) => (
             <div
               key={index}
-              className={`relative  h-full ${item.image_post.length === 1 ? "w-full" : "w-1/2"}  rounded-md overflow-hidden `}
+              className={`relative h-auto p-2 ${
+                item.image_post.length === 1
+                  ? "w-full"
+                  : item.image_post.length === 2
+                    ? "w-1/2"
+                    : item.image_post.length === 3
+                      ? "w-1/3"
+                      : "w-1/4"
+              } rounded-md overflow-hidden`}
             >
               <Image
                 key={index}
                 src={image}
-                width={500}
-                height={500}
+                fill
+                quality={100}
                 alt="avata"
-                className="absolute object-contain h-auto w-full rounded-md -p-5"
+                objectFit="cover"
+                objectPosition="50% 50%"
+                className="rounded-md"
               />
             </div>
           ))}
