@@ -19,7 +19,7 @@ export type RoomBotMessageForCard = {
   name_room?: string;
 };
 
-interface MessageForResponse {
+export interface MessageForResponse {
   id: string;
   owner: {
     id: string;
