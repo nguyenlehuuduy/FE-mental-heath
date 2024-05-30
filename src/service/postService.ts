@@ -40,6 +40,36 @@ interface PostModel {
     created_at: string;
     content: string;
   }>;
+  all_comment?: Array<{
+    account: {
+      id: string;
+      name: string;
+      nick_name: string;
+      avata: string;
+    };
+    created_at: string;
+    content: string;
+  }>;
+  all_like_info?: Array<{
+    account: {
+      id: string;
+      name: string;
+      nick_name: string;
+      avata: string;
+    };
+    created_at: string;
+    content: string;
+  }>;
+  all_share_info?: Array<{
+    account: {
+      id: string;
+      name: string;
+      nick_name: string;
+      avata: string;
+    };
+    created_at: string;
+    content: string;
+  }>;
 }
 
 export type PostForCard = {
@@ -58,6 +88,36 @@ export type PostForCard = {
   };
   is_like: boolean;
   comment_recent: Array<{
+    account: {
+      id: string;
+      name: string;
+      nick_name: string;
+      avata: string;
+    };
+    created_at: string;
+    content: string;
+  }>;
+  all_comment?: Array<{
+    account: {
+      id: string;
+      name: string;
+      nick_name: string;
+      avata: string;
+    };
+    created_at: string;
+    content: string;
+  }>;
+  all_like_info?: Array<{
+    account: {
+      id: string;
+      name: string;
+      nick_name: string;
+      avata: string;
+    };
+    created_at: string;
+    content: string;
+  }>;
+  all_share_info?: Array<{
     account: {
       id: string;
       name: string;
@@ -226,4 +286,41 @@ export async function getPostOtherAccount(
     }
     return result;
   }
+}
+
+export async function getDetailPost(idPost: string) {
+  const res = await callGetRequest(
+    `/post/${idPost}`,
+    "get-detail-post",
+    "no-store",
+  );
+  if (res.status === 200) {
+    const post: PostModel = res.response;
+
+    const result: PostForCard = {
+      account: {
+        id: post.account.id,
+        name: post.account.fullName,
+        nick_name: post.account.nickName,
+        avata:
+          post.account.avata &&
+          `${process.env.API_BASE_URL}${post.account.avata}`,
+      },
+      content_text: post.contentText,
+      created_at: post.created_at,
+      image_post: post.images.map(
+        (item) => `${process.env.API_BASE_URL}${item.path}`,
+      ),
+      is_like: post.is_liked,
+      post_id: post.id,
+      total_comment: post.totalComment,
+      total_reaction: post.totalReaction,
+      total_share: post.totalShare,
+      comment_recent: post.all_comment ?? [],
+      all_like_info: post.all_like_info ?? [],
+      all_share_info: post.all_share_info ?? [],
+    };
+    return result;
+  }
+  throw new Error("Failed to fetch post details");
 }

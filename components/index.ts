@@ -40,6 +40,8 @@ import AccountContent from "./AccountContent";
 import MessagesWithUserWrap from "./MessagesWithUserWrap";
 import ProfessionalWrapper from "./ProfessionalWrapper";
 import ProfessionalCard from "./ProfessionalCard";
+import ModalDetailPost from "./ModalDetailPost";
+import PostSearchItem from "./PostSearchItem";
 
 export {
   Header,
@@ -84,4 +86,6 @@ export {
   MessagesWithUserWrap,
   ProfessionalWrapper,
   ProfessionalCard,
+  ModalDetailPost,
+  PostSearchItem,
 };
