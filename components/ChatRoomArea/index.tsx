@@ -22,15 +22,17 @@ export default function ChatRoomArea(props: PropsComponent) {
               router.push(`/message/${item.id}`);
             }}
             key={index}
-            className="flex items-center justify-start gap-2 cursor-pointer"
+            className="relative flex items-center justify-start gap-2 cursor-pointer"
           >
-            <Image
-              src={item.image_room}
-              width={50}
-              height={50}
-              alt="image user"
-              className="rounded-[50%]"
-            />
+            <div className="relative flex w-[50px] h-[50px]">
+              <Image
+                src={item.image_room}
+                fill
+                alt="image user"
+                objectFit="cover"
+                className="rounded-full"
+              />
+            </div>
             <p className="font-medium">{item.name_room}</p>
           </div>
         ))}
