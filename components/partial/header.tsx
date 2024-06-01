@@ -2,12 +2,7 @@
 import { Input, Popover } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  MessageIcon,
-  NotifyIcon,
-  SearchIcon,
-  SettingIcon,
-} from "../../icons";
+import { MessageIcon, NotifyIcon, SearchIcon, SettingIcon } from "../../icons";
 import NotifyPopup from "../NotifyPopup";
 import { MyselfForCard } from "@/service/accountService";
 import ProfilePopup from "../ProfilePopup";
@@ -20,7 +15,10 @@ import useDebounce from "../UseDebounce";
 import SearchWrapper from "../SearchWrapper";
 import { getAccountsByName, getPostsByName } from "../SearchWrapper/action";
 import AvatarAccount from "../Avata";
-import { SearchAccountForCard, SearchPostTypeForCard } from "@/service/searchService";
+import {
+  SearchAccountForCard,
+  SearchPostTypeForCard,
+} from "@/service/searchService";
 
 export default function Header({ profile }: { profile: MyselfForCard }) {
   const dispatch = useDispatch();
@@ -34,9 +32,9 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
   const [searchAccountResult, setSearchAccountResult] = useState<
     SearchAccountForCard[]
   >([]);
-  const [searchPostResult, setSearchPostResult] = useState<SearchPostTypeForCard[]>(
-    [],
-  );
+  const [searchPostResult, setSearchPostResult] = useState<
+    SearchPostTypeForCard[]
+  >([]);
 
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -95,6 +93,7 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
             <SearchWrapper
               listAccounts={searchAccountResult}
               listPosts={searchPostResult}
+              onItemSelect={() => setOpen(false)}
             />
           }
           open={open}

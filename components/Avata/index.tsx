@@ -31,13 +31,17 @@ export default function AvatarAccount(props: PropsComponent) {
   return (
     <Fragment>
       {props.filePath ? (
-        <Image
-          src={props.filePath}
-          width={props.width ?? 50}
-          height={props.height ?? 50}
-          alt="avatar"
-          className={`rounded-[50%]`}
-        />
+        <div
+          className={`relative w-[${props.width ?? 50}px] h-[${props.height ?? 50}px]`}
+        >
+          <Image
+            src={props.filePath}
+            fill
+            alt="avatar"
+            objectFit="cover"
+            className={`rounded-full`}
+          />
+        </div>
       ) : (
         <Avatar
           style={{

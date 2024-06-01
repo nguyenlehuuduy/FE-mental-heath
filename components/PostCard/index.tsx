@@ -11,6 +11,7 @@ import { SendIcon } from "../../icons";
 import AvatarAccount from "../Avata";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
+import { useRouter } from "next/navigation";
 
 const PostCard = ({ item }: { item: PostForCard }) => {
   const currentUser = useSelector((state: RootState) => state.auth.user);
@@ -68,10 +69,19 @@ const PostCard = ({ item }: { item: PostForCard }) => {
     }
   };
 
+  const router = useRouter();
+
+  const handleNavigateProfile = (idAccount: string) => {
+    router.push(`/profile/${idAccount}`);
+  };
+
   return (
     <div className="w-full bg-white rounded-md p-3 mb-2">
       <div className="flex items-center justify-between">
-        <div className="flex items-center min-w-[200px] gap-4 rounded-sm">
+        <div
+          onClick={() => handleNavigateProfile(item.account.id)}
+          className="flex items-center min-w-[200px] gap-4 rounded-sm cursor-pointer"
+        >
           <AvatarAccount
             filePath={item.account.avata}
             name={item.account.name}
@@ -110,15 +120,25 @@ const PostCard = ({ item }: { item: PostForCard }) => {
           {item.image_post.map((image, index) => (
             <div
               key={index}
-              className={`relative  h-full ${item.image_post.length === 1 ? "w-full" : "w-1/2"}  rounded-md overflow-hidden `}
+              className={`relative h-auto p-2 ${
+                item.image_post.length === 1
+                  ? "w-full"
+                  : item.image_post.length === 2
+                    ? "w-1/2"
+                    : item.image_post.length === 3
+                      ? "w-1/3"
+                      : "w-1/4"
+              } rounded-md overflow-hidden`}
             >
               <Image
                 key={index}
                 src={image}
-                width={500}
-                height={500}
+                fill
+                quality={100}
                 alt="avata"
-                className="absolute object-contain h-auto w-full rounded-md -p-5"
+                objectFit="cover"
+                objectPosition="50% 50%"
+                className="rounded-md"
               />
             </div>
           ))}

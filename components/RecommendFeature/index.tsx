@@ -2,12 +2,18 @@
 import { SuggestFollowForCard } from "@/service/followService";
 import { Recommend } from "@/util/TextContants";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type PropsComponent = {
   suggestFollow: Array<SuggestFollowForCard>;
 };
 const RecommendFeature = (props: PropsComponent) => {
+  const router = useRouter();
+
+  const handleNavigateProfile = (idAccount: string) => {
+    router.push(`/profile/${idAccount}`);
+  };
   return (
     <div className="w-full bg-white p-3 rounded-md ">
       <div className="w-full">
@@ -15,7 +21,11 @@ const RecommendFeature = (props: PropsComponent) => {
         <div className="flex flex-col gap-4 pt-4 max-h-[300px] overflow-y-auto">
           {props.suggestFollow &&
             props.suggestFollow.map((item) => (
-              <div key={item.id} className="flex items-center gap-2">
+              <div
+                onClick={() => handleNavigateProfile(item.id)}
+                key={item.id}
+                className="flex cursor-pointer items-center gap-2"
+              >
                 <Image
                   src={item.avata}
                   width={60}
