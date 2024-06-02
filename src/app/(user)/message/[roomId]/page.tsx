@@ -6,6 +6,7 @@ import {
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { COOKIE_ACCESS_TOKEN_KEY } from "@/lib/constants";
+import { getListNotification } from "@/service/notificationService";
 
 export default async function MessagePage({
   params,
@@ -23,6 +24,7 @@ export default async function MessagePage({
   const infRoom = await getInfRoomMessage(params.roomId);
   const cookieStore = cookies();
   const sessionKey = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value;
+
   revalidateTag("get-valid-message-chat");
   return (
     <div className="flex gap-2 w-full">
