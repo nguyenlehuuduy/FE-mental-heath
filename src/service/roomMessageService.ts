@@ -9,6 +9,8 @@ interface RoomMessageForResponse {
   accountInRoom: Array<string>;
   nameRoom: string;
   avatar: string;
+  lastMessage: string;
+  lastMessageTime: string;
 }
 
 export type RoomMessageForCard = {
@@ -19,6 +21,8 @@ export type RoomMessageForCard = {
   name_room: string;
   //TODO_115430: UPDATE IMAGE OF ROOM
   image_room: string;
+  lastMessage: string;
+  lastMessageTime: string;
 };
 
 export async function getAllRoomMessageAccount(): Promise<
@@ -36,6 +40,8 @@ export async function getAllRoomMessageAccount(): Promise<
         image_room: item.avatar,
         name_room: item.nameRoom,
         updated_at: item.updated_at,
+        lastMessage: item.lastMessage,
+        lastMessageTime: item.lastMessageTime,
       });
     }
     return listRoomMessage;

@@ -6,49 +6,19 @@ import React, { useEffect, useState } from "react";
 import { HeartIcon, SearchIcon } from "../../icons";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/image";
+import { RoomMessageForCard } from "@/service/roomMessageService";
+import AvatarAccount from "../Avata";
+import { useRouter } from "next/navigation";
+import { getTimeAgo } from "@/lib/utils";
 
-interface DataType {
-  gender: string;
-  name: {
-    title: string;
-    first: string;
-    last: string;
-  };
-  email: string;
-  picture: {
-    large: string;
-    medium: string;
-    thumbnail: string;
-  };
-  nat: string;
-}
+type PropsComponents = {
+  listRoomChat: RoomMessageForCard[];
+};
 
-const ChatList = () => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<DataType[]>([]);
+const ChatList = ({ listRoomChat }: PropsComponents) => {
+  const [data, setData] = useState<RoomMessageForCard[]>(listRoomChat);
 
-  const loadMoreData = () => {
-    if (loading) {
-      return;
-    }
-    setLoading(true);
-    fetch(
-      "https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo",
-    )
-      .then((res) => res.json())
-      .then((body) => {
-        setData([...data, ...body.results]);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    loadMoreData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const router = useRouter();
   return (
     <div className="flex flex-col  w-full h-screen">
       <div className="flex flex-col gap-3">
@@ -68,8 +38,8 @@ const ChatList = () => {
       <div className="overflow-auto h-screen">
         <InfiniteScroll
           dataLength={data.length}
-          next={loadMoreData}
-          hasMore={data.length < 50}
+          next={() => {}}
+          hasMore={data.length < 1}
           loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
           endMessage={<Divider plain>Hết tin nhắn</Divider>}
           scrollableTarget="scrollableDiv"
@@ -78,34 +48,39 @@ const ChatList = () => {
             dataSource={data}
             renderItem={(item) => (
               <List.Item
-                key={item.email}
+                key={item.id}
                 style={{
                   paddingLeft: 10,
                   paddingRight: 10,
                   cursor: "pointer",
                 }}
+                onClick={() => {
+                  router.push(`/message/${item.id}`);
+                }}
               >
                 <div className="flex flex-row w-full h-full justify-between py-3 gap-2">
-                  <div className="relative w-[44px] h-[44px] rounded-full flex justify-center items-center shrink-0">
-                    <Image
-                      src="/big_logo.png"
-                      fill
-                      alt="icon avatar"
-                      className="object-contain"
+                  <div className="relative w-[44px] h-[44px] rounded-full flex justify-center items-center">
+                    <AvatarAccount
+                      name={item.name_room}
+                      filePath={item.image_room}
+                      height={44}
+                      width={44}
                     />
                   </div>
-                  <div className="flex flex-col justify-start gap-1 max-w-[170px]">
-                    <p className="text-base font-bold text-[#000000CC] truncate">
-                      {item.name.title + item.name.first + item.name.last}
-                    </p>
-                    <p className="text-base font-normal text-[#666666] truncate">
-                      Thịnh và 10 people khác đã bình luận vào bài viết của bạn
+                  <div className="flex flex-row items-start  w-full justify-between">
+                    <div className="flex flex-col justify-start gap-1 max-w-[170px]">
+                      <p className="text-base font-bold text-[#000000CC] truncate">
+                        {item.name_room}
+                      </p>
+                      <p className="text-base font-normal text-[#666666] truncate">
+                        {item.lastMessage}
+                      </p>
+                    </div>
+
+                    <p className="text-xs text-[#666666] font-semibold">
+                      {getTimeAgo(item.lastMessageTime)}
                     </p>
                   </div>
-
-                  <p className="text-xs text-[#666666] font-semibold">
-                    22h35 PM
-                  </p>
                 </div>
               </List.Item>
             )}

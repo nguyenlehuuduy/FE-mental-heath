@@ -69,6 +69,7 @@ const ProfileBanner = ({
     infoAccount.follow_ship.status !== 3 ? (
       <IconAddFriend width={18} height={18} />
     ) : null;
+
   return (
     <div className="w-full bg-white rounded-md">
       <div className="relative w-full h-[200px] rounded-md overflow-hidden">
@@ -82,7 +83,7 @@ const ProfileBanner = ({
       </div>
       <div className="flex flex-col">
         <div className="flex py-2 px-4 gap-4">
-          <div className="w-[150px]">
+          <div className="relative w-[150px] h-[150px]">
             <AvatarAccount
               name={infoAccount.profile_other_account.user.full_name}
               filePath={infoAccount.profile_other_account.user.avata}
@@ -90,7 +91,6 @@ const ProfileBanner = ({
               width={150}
             />
           </div>
-
 
           <div className="flex flex-col justify-center gap-3 max-w-[500px] w-full">
             <p className="font-bold text-2xl">

@@ -32,7 +32,7 @@ export default function AvatarAccount(props: PropsComponent) {
     <Fragment>
       {props.filePath ? (
         <div
-          className={`relative w-[${props.width ?? 50}px] h-[${props.height ?? 50}px]`}
+          className={`relative ${props.width ? `w-[${props.width}px]` : "w-[50px]"} ${props.height ? `h-[${props.height}px]` : "h-[50px]"}`}
         >
           <Image
             src={props.filePath}
