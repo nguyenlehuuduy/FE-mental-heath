@@ -13,8 +13,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
 import AvatarAccount from "../Avata";
 import { sendMessageForUser } from "./action";
-import io, { Socket } from "socket.io-client";
 import { EVENTS } from "@/lib/constants";
+import useSocket from "../../hook/socket";
 
 interface Account {
   avata: string | null;
@@ -34,47 +34,15 @@ const MessagesWithUserWrap = ({
   infRoom,
   sessionKey,
 }: PropsComponent) => {
-  const socket = io("http://localhost:8005", {
-    transports: ["websocket"],
-    auth: {
-      token: sessionKey ?? "",
-    },
-  });
-  const [mySocket, setMySocket] = useState<Socket>(socket);
-  const [isConnected, setIsConnected] = useState(false);
-  const [transport, setTransport] = useState("N/A");
+  const currentId = useSelector((state: RootState) => state.auth.user);
+
   const [listMessages, setListMessages] =
     useState<MessageForCard[]>(listMessage);
   const [message, setMessage] = useState<string>("");
-
-  useEffect(() => {
-    if (socket.connected) {
-      onConnect();
-    }
-    function onConnect() {
-      setIsConnected(true);
-      setTransport(socket.io.engine.transport.name);
-      socket.io.engine.on("upgrade", (transport) => {
-        setTransport(transport.name);
-      });
-      socket.emit(EVENTS.CLIENT.JOIN_ROOM, infRoom.id);
-      setMySocket(socket);
-      console.log("connect: ", isConnected, "transport", transport);
-    }
-
-    function onDisconnect() {
-      setIsConnected(false);
-      setTransport("N/A");
-    }
-
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-    };
-  }, []);
+  const { mySocket, joinRoomMessage } = useSocket({
+    idUser: currentId?.id ?? "",
+    sessionKey: sessionKey ?? "",
+  });
 
   useEffect(() => {
     mySocket.on(EVENTS.CLIENT.SEND_ROOM_MESSAGE, (data: MessageForResponse) => {
@@ -117,6 +85,7 @@ const MessagesWithUserWrap = ({
     mySocket.emit(EVENTS.CLIENT.SEND_ROOM_MESSAGE, data);
     setMessage("");
   };
+  joinRoomMessage(infRoom.id);
   let infoFriend: Account | undefined;
   const profile = useSelector((state: RootState) => state.auth.user);
   const pageRef = useRef<HTMLDivElement>(null);

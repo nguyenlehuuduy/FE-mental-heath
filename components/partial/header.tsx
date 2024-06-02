@@ -1,4 +1,5 @@
 "use client";
+
 import { Input, Popover } from "antd";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,16 +16,30 @@ import useDebounce from "../UseDebounce";
 import SearchWrapper from "../SearchWrapper";
 import { getAccountsByName, getPostsByName } from "../SearchWrapper/action";
 import AvatarAccount from "../Avata";
+import { memo } from "react";
+
 import {
   SearchAccountForCard,
   SearchPostTypeForCard,
 } from "@/service/searchService";
+import {
+  NotificationForCard,
+} from "@/service/notificationService";
 
-export default function Header({ profile }: { profile: MyselfForCard }) {
+type PropsComponent = {
+  profile: MyselfForCard;
+  listNotification: Array<NotificationForCard>;
+  sessionKey: string;
+};
+
+export default memo(function Header({
+  profile,
+  listNotification,
+  sessionKey,
+}: PropsComponent) {
   const dispatch = useDispatch();
   dispatch(getCurrentUser(profile));
   const user = useSelector((state: RootState) => state.auth.user);
-
   const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const [open, setOpen] = useState(false);
@@ -48,7 +63,6 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
       setSearchAccountResult([]);
       return;
     }
-
     const fetchApi = async () => {
       const resultAccounts = await getAccountsByName(debounced);
       const resultPosts = await getPostsByName(debounced);
@@ -115,7 +129,7 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
           <div className="p-2 rounded-full border flex justify-center items-center">
             <MessageIcon width={20} height={20} />
           </div>
-          <NotifyPopup>
+          <NotifyPopup listNotifi={listNotification ?? []} sessionKey={sessionKey}>
             <div className="p-2 rounded-full border flex justify-center items-center cursor-pointer">
               <NotifyIcon width={20} height={20} />
             </div>
@@ -139,4 +153,5 @@ export default function Header({ profile }: { profile: MyselfForCard }) {
       </div>
     </header>
   );
-}
+}, (prevProps, nextProps) => JSON.stringify(prevProps) === JSON.stringify(nextProps))
+

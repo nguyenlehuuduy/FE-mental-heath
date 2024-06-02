@@ -13,7 +13,6 @@ class SocketService {
 
   connectWithAuthToken(token: string) {
     this.socket.auth = { token };
-    console.log("token", token);
     this.socket.connect();
   }
 
