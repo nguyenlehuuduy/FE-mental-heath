@@ -37,9 +37,6 @@ import ProfileBanner from "./ProfileBanner";
 import AvatarAccount from "./Avata";
 import PostByAccount from "./PostByAccount";
 import AccountContent from "./AccountContent";
-import MessagesWithUserWrap from "./MessagesWithUserWrap";
-import ProfessionalWrapper from "./ProfessionalWrapper";
-import ProfessionalCard from "./ProfessionalCard";
 import HeaderLanding from "./HeaderLanding";
 import AboutUs from "./AboutUs";
 import FooterLanding from "./FooterLanding";
@@ -83,9 +80,6 @@ export {
   AvatarAccount,
   PostByAccount,
   AccountContent,
-  MessagesWithUserWrap,
-  ProfessionalWrapper,
-  ProfessionalCard,
   HeaderLanding,
   AboutUs,
   FooterLanding

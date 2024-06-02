@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  
+  HeaderLanding,
   LandingPage1,
   LandingPage2,
   LandingPage3,
@@ -21,16 +21,16 @@ const LandingPage = () => {
         <LandingPage2 />
       </div>
       <div className="w-full h-[700px] bg-[#D7EFFF] px-5 py-5">
-        <LandingPage3/>
+        <LandingPage3 />
       </div>
       <div className="w-full h-[700px] bg-[#ffffff] px-5 py-5">
         <LandingPage4 />
       </div>
       <div className="w-full h-[700px] bg-[#D7EFFF] px-5 py-5">
-        <LandingPage5/>
+        <LandingPage5 />
       </div>
-      <div className="w-full h-[300px] bg-[#ffffff] px-5 py-5">
-        <LandingPage6/>
+      <div className="w-full h-[600px] bg-[#ffffff] px-5 py-5">
+        <LandingPage6 />
       </div>
     </div>
   );
