@@ -86,13 +86,13 @@ export {
   AvatarAccount,
   PostByAccount,
   AccountContent,
-  NotFound
+  NotFound,
   MessagesWithUserWrap,
   ProfessionalWrapper,
   ProfessionalCard,
   HeaderLanding,
   AboutUs,
-  FooterLanding
+  FooterLanding,
   ModalDetailPost,
   PostSearchItem,
 };
