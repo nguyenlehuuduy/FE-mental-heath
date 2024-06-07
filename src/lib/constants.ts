@@ -24,3 +24,10 @@ export const EVENTS = {
     ROOM_MESSAGE: "ROOM_MESSAGE",
   },
 };
+
+
+export const PERMISSION_POST = {
+  PUBLIC: 'genzmth@pms_p_345432',
+  PRIVATE: 'genzmth@pms_p_887123',
+  FOLLOW: 'genzmth@pms_p_6673892',
+}

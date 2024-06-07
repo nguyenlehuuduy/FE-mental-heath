@@ -1,4 +1,3 @@
-
 "use client";
 
 import { PostForCard } from "@/service/postService";
@@ -9,26 +8,30 @@ import ModalListFollowShip from "../ModalListFollowShip";
 import { InfoAnotherAccount } from "@/service/accountService";
 import ListImageAccount from "../ListImageAccount";
 import ListVideoAccount from "../ListVideoAccount";
+import { ImageGalleryForCard } from "@/service/imageService";
 
 type PropsComponent = {
   idAccount: string;
   profile: InfoAnotherAccount;
   listValidPostOfAccount: PostForCard[];
+  listImagePublicOfAccount: Array<ImageGalleryForCard>;
 };
 
 type Follow = {
-  id: string,
-  full_name: string,
-  avata: string,
-  nick_name: string
-}
+  id: string;
+  full_name: string;
+  avata: string;
+  nick_name: string;
+};
 
 const AccountContent = (props: PropsComponent) => {
   const [showFollowShip, setShowFollowShip] = useState<boolean>(false);
   const [dataFollowShip, setDataFollowShip] = useState<Array<Follow>>([]);
-  const [typeFollowShip, setTypeFollowShip] = useState<"follower" | "following">('follower');
+  const [typeFollowShip, setTypeFollowShip] = useState<
+    "follower" | "following"
+  >("follower");
   const [selectOptionNumber, setSelectOptionNumber] = useState<number>(1);
-  const { profile_other_account } = props.profile
+  const { profile_other_account } = props.profile;
 
   return (
     <div className="w-full flex mt-2 justify-between">
@@ -53,21 +56,30 @@ const AccountContent = (props: PropsComponent) => {
             </div>
           </div>
           <div className="flex w-full items-center gap-2 text-[14px] mb-2 justify-between px-2">
-            <div className="cursor-pointer" onClick={() => {
-              setDataFollowShip(profile_other_account.followings)
-              setShowFollowShip(true)
-              setTypeFollowShip("following")
-            }
-            } >
-              <span className="text-[18px] font-medium">{profile_other_account.object_count.followings ?? 0} </span>
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                setDataFollowShip(profile_other_account.followings);
+                setShowFollowShip(true);
+                setTypeFollowShip("following");
+              }}
+            >
+              <span className="text-[18px] font-medium">
+                {profile_other_account.object_count.followings ?? 0}{" "}
+              </span>
               Đang theo dõi
             </div>
-            <div className="cursor-pointer" onClick={() => {
-              setShowFollowShip(true)
-              setDataFollowShip(profile_other_account.follower)
-              setTypeFollowShip("follower")
-            }}>
-              <span className="text-[18px] font-medium">{profile_other_account.object_count.followers ?? 0} </span>
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                setShowFollowShip(true);
+                setDataFollowShip(profile_other_account.follower);
+                setTypeFollowShip("follower");
+              }}
+            >
+              <span className="text-[18px] font-medium">
+                {profile_other_account.object_count.followers ?? 0}{" "}
+              </span>
               Theo dõi bạn
             </div>
           </div>
@@ -97,11 +109,21 @@ const AccountContent = (props: PropsComponent) => {
               <label className="text-sm cursor-pointer">Ảnh</label>
             </div>
           </div>
-          {/* TODO_1619542024: DONT HAVE API FOR THIS TASK */}
-          {(selectOptionNumber === 1 && <ListImageAccount />) ||
+          {(selectOptionNumber === 1 && (
+            <ListImageAccount
+              listImagePublicOfAccount={props.listImagePublicOfAccount}
+            />
+          )) ||
             (selectOptionNumber === 2 && <ListVideoAccount />)}
         </div>
-        {showFollowShip && <ModalListFollowShip followShip={typeFollowShip} listFollowShip={dataFollowShip} closeModal={() => setShowFollowShip(false)} isOpen={showFollowShip} />}
+        {showFollowShip && (
+          <ModalListFollowShip
+            followShip={typeFollowShip}
+            listFollowShip={dataFollowShip}
+            closeModal={() => setShowFollowShip(false)}
+            isOpen={showFollowShip}
+          />
+        )}
       </div>
     </div>
   );

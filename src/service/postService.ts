@@ -40,36 +40,11 @@ interface PostModel {
     created_at: string;
     content: string;
   }>;
-  all_comment?: Array<{
-    account: {
-      id: string;
-      name: string;
-      nick_name: string;
-      avata: string;
-    };
-    created_at: string;
-    content: string;
-  }>;
-  all_like_info?: Array<{
-    account: {
-      id: string;
-      name: string;
-      nick_name: string;
-      avata: string;
-    };
-    created_at: string;
-    content: string;
-  }>;
-  all_share_info?: Array<{
-    account: {
-      id: string;
-      name: string;
-      nick_name: string;
-      avata: string;
-    };
-    created_at: string;
-    content: string;
-  }>;
+  permissionPost: {
+    id: string,
+    description: string,
+    code: string
+  },
 }
 
 export type PostForCard = {
@@ -97,36 +72,11 @@ export type PostForCard = {
     created_at: string;
     content: string;
   }>;
-  all_comment?: Array<{
-    account: {
-      id: string;
-      name: string;
-      nick_name: string;
-      avata: string;
-    };
-    created_at: string;
-    content: string;
-  }>;
-  all_like_info?: Array<{
-    account: {
-      id: string;
-      name: string;
-      nick_name: string;
-      avata: string;
-    };
-    created_at: string;
-    content: string;
-  }>;
-  all_share_info?: Array<{
-    account: {
-      id: string;
-      name: string;
-      nick_name: string;
-      avata: string;
-    };
-    created_at: string;
-    content: string;
-  }>;
+  permission_post: {
+    id: string;
+    description: string,
+    code: string
+  },
 };
 
 export async function getListValidPostByAccount(page?: number | 1) {
@@ -163,6 +113,7 @@ export async function getListValidPostByAccount(page?: number | 1) {
         total_reaction: post.totalReaction,
         total_share: post.totalShare,
         comment_recent: post.comment_recent ?? [],
+        permission_post: post.permissionPost
       });
     }
     return {
@@ -174,6 +125,7 @@ export async function getListValidPostByAccount(page?: number | 1) {
 export type PostForRequest = {
   contentText: string;
   imagePaths?: Array<string>;
+  permissionPostId?: string
 };
 
 export async function uploadPost(
@@ -242,6 +194,7 @@ export async function getPostMyProfile(page?: number | 1) {
         total_reaction: post.totalReaction,
         total_share: post.totalShare,
         comment_recent: post.comment_recent ?? [],
+        permission_post: post.permissionPost
       });
     }
     return result;
@@ -282,6 +235,8 @@ export async function getPostOtherAccount(
         total_reaction: post.totalReaction,
         total_share: post.totalShare,
         comment_recent: post.comment_recent ?? [],
+        permission_post: post.permissionPost
+
       });
     }
     return result;
@@ -316,7 +271,7 @@ export async function getDetailPost(idPost: string) {
       total_comment: post.totalComment,
       total_reaction: post.totalReaction,
       total_share: post.totalShare,
-      comment_recent: post.all_comment ?? [],
+      comment_recent: post.comment_recent ?? [],
       all_like_info: post.all_like_info ?? [],
       all_share_info: post.all_share_info ?? [],
     };

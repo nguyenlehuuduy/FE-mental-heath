@@ -1,12 +1,10 @@
-import {
-  AccountContent,
-  ProfileBanner,
-} from "../../../../../components";
+import { AccountContent, ProfileBanner } from "../../../../../components";
 import { getLoginAccount, getProfileAccount } from "@/service/accountService";
 import { revalidateTag } from "next/cache";
 import { unfollow } from "../../../../../components/RequestFollowers/action";
 import { getPostOtherAccount } from "@/service/postService";
 import { notFound, redirect } from "next/navigation";
+import { getAllImagePublicByAccount } from "@/service/imageService";
 
 export default async function ProfilePage({
   params,
@@ -15,7 +13,7 @@ export default async function ProfilePage({
 }) {
   const userInfo = await getLoginAccount();
   if (userInfo?.id === params.accountId) {
-    redirect("/myself")
+    redirect("/myself");
   }
 
   revalidateTag("get-account-profile");
@@ -28,8 +26,11 @@ export default async function ProfilePage({
     }
   };
   const getPostsByAccount = await getPostOtherAccount(params.accountId);
-  if (!infoAccount) {
-    notFound()
+  const listImagePublicOfAccount = await getAllImagePublicByAccount(
+    params.accountId,
+  );
+  if (!infoAccount || !listImagePublicOfAccount) {
+    notFound();
   }
 
   return (
@@ -39,6 +40,7 @@ export default async function ProfilePage({
         handleUnfollow={handleUnfollow}
       />
       <AccountContent
+        listImagePublicOfAccount={listImagePublicOfAccount}
         profile={infoAccount}
         idAccount={params.accountId}
         listValidPostOfAccount={getPostsByAccount!}
