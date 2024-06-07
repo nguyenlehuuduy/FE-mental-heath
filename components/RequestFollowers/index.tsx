@@ -5,6 +5,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
 import { useRouter } from "next/navigation";
+import { getTimeAgo } from "@/lib/utils";
+import AvatarAccount from "../Avata";
 
 type RequestFollowers = {
   id: string;
@@ -18,7 +20,7 @@ type RequestFollowers = {
     address: string;
     avatar: string;
   };
-  createdAt: Date;
+  createdAt: string;
 };
 
 const RequestFollowers = ({
@@ -53,19 +55,26 @@ const RequestFollowers = ({
                   <div
                     key={item.id}
                     onClick={() => handleNavigateProfile(item.sender.id)}
-                    className="flex items-center gap-2 cursor-pointer"
+                    className="flex flex-col items-center gap-2 cursor-pointer"
                   >
-                    <div className="relative w-[60px] h-[60px]">
-                      <Image
-                        src={item.sender.avatar}
-                        fill
-                        alt="logo"
-                        className="rounded-full object-cover"
-                      />
+                    <div className="w-full flex flex-row justify-between items-center">
+                      <div className="flex flex-row items-center gap-4 shrink-0">
+                        <div className="relative w-[60px] h-[60px]">
+                          <Image
+                            src={item.sender.avatar}
+                            fill
+                            alt="logo"
+                            className="rounded-full object-cover"
+                          />
+                        </div>
+                        <p className="font-medium">{item.sender.fullName}</p>
+                      </div>
+                      <p className="font-medium text-sm text-[#000000B3]">
+                        {getTimeAgo(item.createdAt)}
+                      </p>
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <p className="font-medium">{item.sender.fullName}</p>
-                      <div className="flex flex-row gap-4">
+                    <div className="flex flex-col w-full gap-2">
+                      <div className="flex flex-row w-full gap-4">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
@@ -75,18 +84,18 @@ const RequestFollowers = ({
                               user?.id ?? "",
                             );
                           }}
-                          className="px-3 py-1 bg-[#316cc5] rounded-lg text-white text-base font-semibold"
+                          className="px-3 py-1 w-full bg-[#0F52BA] rounded-lg text-white text-base font-semibold"
                         >
-                          Chấp nhận
+                          Đồng ý
                         </button>
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             handleRefuseRequestFollow(item.id);
                           }}
-                          className="px-3 py-1 bg-[#c53831] rounded-lg text-white text-base font-semibold"
+                          className="px-3 py-1 w-full bg-[#E4E6EB] rounded-lg text-base font-semibold"
                         >
-                          Từ chối
+                          Hủy bỏ
                         </button>
                       </div>
                     </div>

@@ -15,7 +15,7 @@ import SidebarChat from "./SidebarChat";
 import ChatList from "./ChatList";
 import MessageFrame from "./MessageFrame";
 import MessageShare from "./MessageShare";
-import ModalSetting from "./ModalSetting";
+import SettingPopup from "./SettingPopup";
 import Star from "./Star";
 import PostCard from "./PostCard";
 import CommentItem from "./CommentItem";
@@ -38,7 +38,14 @@ import AvatarAccount from "./Avata";
 import PostByAccount from "./PostByAccount";
 import AccountContent from "./AccountContent";
 import NotFound from "./NotFound";
-
+import MessagesWithUserWrap from "./MessagesWithUserWrap";
+import ProfessionalWrapper from "./ProfessionalWrapper";
+import ProfessionalCard from "./ProfessionalCard";
+import HeaderLanding from "./HeaderLanding";
+import AboutUs from "./AboutUs";
+import FooterLanding from "./FooterLanding";
+import ModalDetailPost from "./ModalDetailPost";
+import PostSearchItem from "./PostSearchItem";
 export {
   Header,
   Footer,
@@ -57,7 +64,7 @@ export {
   ChatList,
   MessageFrame,
   MessageShare,
-  ModalSetting,
+  SettingPopup,
   Star,
   PostCard,
   CommentItem,
@@ -80,4 +87,12 @@ export {
   PostByAccount,
   AccountContent,
   NotFound
+  MessagesWithUserWrap,
+  ProfessionalWrapper,
+  ProfessionalCard,
+  HeaderLanding,
+  AboutUs,
+  FooterLanding
+  ModalDetailPost,
+  PostSearchItem,
 };

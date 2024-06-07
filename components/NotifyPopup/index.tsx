@@ -1,126 +1,124 @@
 "use client";
-import { Avatar, Divider, List, Popconfirm, Skeleton } from "antd";
+
+import { Popconfirm, notification } from "antd";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { HeartIcon } from "../../icons";
+import {
+  NotificationForCard,
+  NotificationForResponse,
+} from "@/service/notificationService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/configureStore";
+import { EVENTS } from "@/lib/constants";
+import { NotificationPlacement } from "antd/es/notification/interface";
+import { socketService } from "@/socket";
 
-interface DataType {
-  gender: string;
-  name: {
-    title: string;
-    first: string;
-    last: string;
-  };
-  email: string;
-  picture: {
-    large: string;
-    medium: string;
-    thumbnail: string;
-  };
-  nat: string;
-}
-
-const NotifyPopup = ({
-  children,
-}: Readonly<{
+type PropsComponent = {
   children: React.ReactNode;
-}>) => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<DataType[]>([]);
-
-  const loadMoreData = () => {
-    if (loading) {
-      return;
-    }
-    setLoading(true);
-    fetch(
-      "https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo",
-    )
-      .then((res) => res.json())
-      .then((body) => {
-        setData([...data, ...body.results]);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    loadMoreData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  return (
-    <Popconfirm
-      placement="bottom"
-      title={<p className="text-lg font-bold">Thông báo</p>}
-      style={{
-        width: "100%",
-        padding: 0,
-      }}
-      showCancel={false}
-      cancelButtonProps={{ style: { display: "none" } }}
-      okButtonProps={{ style: { display: "none" } }}
-      icon={<div></div>}
-      description={
-        <div
-          id="scrollableDiv"
-          style={{
-            width: 290,
-            height: 400,
-            overflow: "auto",
-          }}
-        >
-          <InfiniteScroll
-            dataLength={data.length}
-            next={loadMoreData}
-            hasMore={data.length < 50}
-            loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-            endMessage={<Divider plain>Không còn thông báo nào</Divider>}
-            scrollableTarget="scrollableDiv"
-          >
-            <List
-              dataSource={data}
-              renderItem={(item) => (
-                <List.Item key={item.email}>
-                  <div className="flex flex-row w-full h-full justify-between py-3 gap-3">
-                    <div className="relative w-[44px] h-[44px] rounded-full flex justify-center items-center shrink-0">
-                      <Image
-                        src="/big_logo.png"
-                        fill
-                        alt="icon avatar"
-                        className="object-contain"
-                      />
-                    </div>
-                    <div className="flex flex-col justify-start gap-1 ">
-                      <p className="text-sm font-semibold">
-                        {item.name.title + item.name.first + item.name.last}
-                      </p>
-                      <p className="text-sm text-[#000000E6] font-normal">
-                        Thịnh và 10 people khác đã bình luận vào bài viết của
-                        bạn
-                      </p>
-                      <p className="text-sm text-[#000000B3] font-normal">
-                        10:20 PM
-                      </p>
-                    </div>
-
-                    <div className="flex flex-col h-full justify-between items-center gap-5 ">
-                      <div className="w-[10px] h-[10px] rounded-full bg-[#0F52BA]"></div>
-                      <HeartIcon width={18} height={18} />
-                    </div>
-                  </div>
-                </List.Item>
-              )}
-            />
-          </InfiniteScroll>
-        </div>
-      }
-    >
-      {children}
-    </Popconfirm>
-  );
+  listNotifi: Array<NotificationForCard>;
 };
 
-export default NotifyPopup;
+export default memo(
+  function NotifyPopup(props: PropsComponent) {
+    const user = useSelector((state: RootState) => state.auth.user);
+
+    useEffect(() => {
+      socketService.on(
+        EVENTS.CLIENT.JOIN_NOTIFICATION_IDENTIFY,
+        (data: NotificationForResponse) => {
+          const notifi: NotificationForCard = {
+            id: data.id,
+            comment_id: data.commentId,
+            created_at: data.created_at,
+            follower_id: data.created_at,
+            message_notifications: data.messageNotifications,
+            post_id: data.postId,
+            post_share_id: data.postShareId,
+            type_Notification: {
+              description: data?.typeNotification.description ?? "",
+              id: data?.typeNotification.id ?? "",
+              thumbnail_Noti: data?.typeNotification.thumbnailNoti ?? "",
+              type_Name: data?.typeNotification.typeName ?? "",
+            },
+            type_notification_id: data?.typeNotificationId,
+            updated_at: data.updated_at,
+          };
+          openNotification("topLeft", notifi);
+        },
+      );
+    }, []);
+
+    const Context = React.createContext({ name: "Thông báo" });
+    const [api, contextHolder] = notification.useNotification();
+    const openNotification = (
+      placement: NotificationPlacement,
+      data: NotificationForCard,
+    ) => {
+      api.info({
+        message: `Thông báo ${data.type_Notification.description}`,
+        description: (
+          <Context.Consumer>
+            {() => `Xin chào, ${data.message_notifications}!`}
+          </Context.Consumer>
+        ),
+        placement,
+      });
+    };
+
+    const contextValue = useMemo(() => ({ name: "Ant Design" }), []);
+    return (
+      <Context.Provider value={contextValue}>
+        {contextHolder}
+        <div>
+          <Popconfirm
+            placement="bottom"
+            title={<p className="text-lg font-bold">Thông báo</p>}
+            className="w-full"
+            showCancel={false}
+            cancelButtonProps={{ style: { display: "none" } }}
+            okButtonProps={{ style: { display: "none" } }}
+            icon={<div></div>}
+            description={
+              <div className="max-h-[500px] max-w-[320px] overflow-y-auto">
+                {props.listNotifi.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-row w-full h-full py-3 gap-3 "
+                  >
+                    <div className="relative w-[44px] h-[44px]  rounded-full flex shrink-0 justify-center items-center ">
+                      <Image
+                        src={item.type_Notification.thumbnail_Noti}
+                        fill
+                        alt="icon avatar"
+                        objectFit="contain"
+                      />
+                    </div>
+                    <div className="flex flex-col w-[70%] justify-start text-start gap-1 ">
+                      <p className="text-sm font-semibold">
+                        {item.type_Notification.type_Name}
+                      </p>
+                      <p className="text-sm text-[#000000E6] font-normal">
+                        {item.message_notifications}
+                      </p>
+                      <p className="text-sm text-[#000000B3] font-normal">
+                        {item.created_at}
+                      </p>
+                    </div>
+                    <div className="flex flex-col  h-full items-center gap-5 px-2 ">
+                      <div className="w-[10px] h-[10px] rounded-full bg-[#0F52BA]"></div>
+                      <HeartIcon width={20} height={18} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            }
+          >
+            {props.children}
+          </Popconfirm>
+        </div>
+      </Context.Provider>
+    );
+  },
+  (prevProps, nextProps) => prevProps === nextProps,
+);

@@ -1,82 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { Button } from "antd";
-import FormLogin from "../FormLogin";
-import FormRegister from "../FormRegister";
+
 const LandingPage1 = () => {
-  const [isOpenLogin, setIsOpenLogin] = useState(false);
-  const [isOpenRegister, setIsOpenRegister] = useState(false);
-
-  const openLogin = () => {
-    setIsOpenLogin(true);
-    setIsOpenRegister(false);
-  };
-
-  const openRegister = () => {
-    setIsOpenRegister(true);
-    setIsOpenLogin(false);
-  };
   return (
     <div className="w-full h-screen ">
-      <div className="w-full flex flex-row items-center justify-between">
-        <div className="flex relative aspect-video">
-          <Image
-            className="object-contain"
-            width={130}
-            height={50}
-            alt="logo"
-            src={"/logo.svg"}
-          />
-        </div>
-        <div className="flex space-x-20">
-          <a
-            href="#"
-            className="md:text-lg font-semibold text-center hover:text-blue-500"
-          >
-            Trang chủ
-          </a>
-          <a
-            href="#"
-            className="md:text-lg font-semibold text-center hover:text-blue-500"
-          >
-            Dịch vụ
-          </a>
-          <a
-            href="#"
-            className="md:text-lg font-semibold text-center hover:text-blue-500"
-          >
-            Kết nối
-          </a>
-          <a
-            href="#"
-            className="md:text-lg font-semibold text-center hover:text-blue-500"
-          >
-            Về chúng tôi
-          </a>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Button
-            htmlType="submit"
-            className="text-white text-base font-semibold md:w-[150px] md:h-[40px] bg-[#0A68EB]  border border-solid border-[#0A68EB] rounded-full"
-            onClick={openRegister}
-          >
-            Đăng ký
-          </Button>
-
-          <Button
-            htmlType="submit"
-            className="text-white text-base font-semibold md:w-[150px] md:h-[40px] bg-[#0A68EB]  border border-solid border-[#0A68EB] rounded-full"
-            onClick={openLogin}>
-            Đăng nhập
-          </Button>
-
-          
-        
-        </div>
-        
-      </div>
       <div className="flex flex-row items-center justify-between py-10">
+        
         <div className=" w-[50%] flex flex-row px-20 justify-center">
           <div className="flex flex-col items-center justify-center w-[634] space-y-4">
             <p className="text-3xl font-semibold">
@@ -113,8 +44,6 @@ const LandingPage1 = () => {
           />
         </div>
       </div>
-      <FormLogin isOpenLogin={isOpenLogin} closeModalLogin={() => setIsOpenLogin(false)} openRegister={openRegister} />
-      <FormRegister isOpenRegister={isOpenRegister} closeModalRegister={() => setIsOpenRegister(false)} openLogin={openLogin} />
     </div>
   );
 };

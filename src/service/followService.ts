@@ -37,8 +37,8 @@ export type RequestFollowerResponse = {
     birth: string;
     address: string;
   };
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 };
 
 export type RequestFollowers = {
@@ -53,7 +53,7 @@ export type RequestFollowers = {
     address: string;
     avatar: string;
   };
-  createdAt: Date;
+  createdAt: string;
 };
 
 export async function getAllSuggestFollowAccount(): Promise<

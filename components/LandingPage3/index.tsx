@@ -1,8 +1,14 @@
+"use client"
 import React from "react";
 import Image from "next/image";
 import { Button } from "antd";
+import { useRouter } from "next/navigation";
 
 export default function LandingPage3() {
+  const router = useRouter();
+  const handleAboutUsClick = () => {
+    router.push('/aboutus');
+  };
   return (
     <div className="flex flex-col py-6 px-10">
       <div className="flex flex-col items-center justify-center">
@@ -55,7 +61,7 @@ export default function LandingPage3() {
           <Button
           htmlType="submit"
           className="text-white text-base font-semibold md:w-[200px] md:h-[45px] bg-[#0A68EB]  border border-solid border-[#0A68EB] rounded-full"
-          
+          onClick={handleAboutUsClick}
         >
           Khám phá ngay thôi !!
         </Button>
