@@ -4,16 +4,25 @@ import {
   ClientToServerEvents,
   ServerToClientEvents,
 } from "../type";
+import { EVENTS } from "./lib/constants";
 
 class SocketService {
-  private readonly socket: Socket<ServerToClientEvents, ClientToServerEvents> =
-    io("http://localhost:3003", {
-      autoConnect: false,
-    });
+  private static instance: SocketService;
+  private socket: Socket;
+
+  private constructor(url: string = "http://localhost:8005") {
+    this.socket = io(url, { transports: ["websocket"] });
+  }
+
+  static getInstance(url?: string): SocketService {
+    if (!SocketService.instance) {
+      SocketService.instance = new SocketService(url);
+    }
+    return SocketService.instance;
+  }
 
   connectWithAuthToken(token: string) {
     this.socket.auth = { token };
-    console.log("token", token);
     this.socket.connect();
   }
 
@@ -21,8 +30,21 @@ class SocketService {
     this.socket.disconnect();
   }
 
-  sendMessage(data: AddMessageDto) {
-    this.socket.emit("message", data);
+  checkConnect() {
+    return this.socket.connected;
+  }
+
+  sendMessage(data: any) {
+    this.socket.emit(EVENTS.CLIENT.SEND_ROOM_MESSAGE, data);
+  }
+
+  joinRoom(roomId: any) {
+    this.socket.emit(EVENTS.CLIENT.JOIN_ROOM, roomId);
+    console.log("join vao room");
+  }
+
+  leaveRoom(roomId: any) {
+    this.socket.emit("leave", roomId);
   }
 
   notifyTyping(roomId: number) {
@@ -39,13 +61,25 @@ class SocketService {
     this.socket.on("isTyping", typingNotificationsHandler);
   }
 
-  joinRoom(roomId: number) {
-    this.socket.emit("join", roomId);
+  on(event: string, handler: (...args: any[]) => void) {
+    this.socket.on(event, handler);
   }
 
-  leaveRoom(roomId: number) {
-    this.socket.emit("leave", roomId);
+  off(event: string, handler: (...args: any[]) => void) {
+    this.socket.off(event, handler);
+  }
+
+  get transport() {
+    return this.socket.io.engine.transport.name;
+  }
+
+  onUpgrade(handler: (transport: any) => void) {
+    this.socket.io.engine.on("upgrade", handler);
+  }
+
+  emit(event: string, ...args: any[]) {
+    this.socket.emit(event, ...args);
   }
 }
 
-export const socketService = new SocketService();
+export const socketService = SocketService.getInstance();

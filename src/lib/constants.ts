@@ -16,6 +16,7 @@ export const EVENTS = {
     CREATE_ROOM: "CREATE_ROOM",
     SEND_ROOM_MESSAGE: "SEND_MESSAGE",
     JOIN_ROOM: "JOIN_ROOM",
+    JOIN_NOTIFICATION_IDENTIFY: "JOIN_NOTIFICATION",
   },
   SERVER: {
     ROOMS: "ROOMS",
@@ -23,3 +24,10 @@ export const EVENTS = {
     ROOM_MESSAGE: "ROOM_MESSAGE",
   },
 };
+
+
+export const PERMISSION_POST = {
+  PUBLIC: 'genzmth@pms_p_345432',
+  PRIVATE: 'genzmth@pms_p_887123',
+  FOLLOW: 'genzmth@pms_p_6673892',
+}

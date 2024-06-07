@@ -2,7 +2,7 @@
 
 import { abbreviateNumber, formatDate, getTimeAgo } from "@/lib/utils";
 import { PostForCard } from "@/service/postService";
-import { Avatar, Input } from "antd";
+import { Input } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 import CommentItem from "../CommentItem";
@@ -12,15 +12,26 @@ import AvatarAccount from "../Avata";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
 import { useRouter } from "next/navigation";
+import { PERMISSION_POST } from "@/lib/constants";
+import ModalDetailPost from "../ModalDetailPost";
 
 const PostCard = ({ item }: { item: PostForCard }) => {
   const currentUser = useSelector((state: RootState) => state.auth.user);
   const [commentContent, setCommentContent] = useState<string>("");
   const [isLike, setIsLike] = useState<boolean>(item.is_like);
   const [totalLike, setTotalLike] = useState<number>(item.total_reaction || 0);
+  const [openDetailPost, setOpenDetailPost] = useState<boolean>(false);
   const [totalComment, setTotalComment] = useState<number>(
     item.total_comment ?? 0,
   );
+  const [permissionPost, setPermissionPost] = useState<string>(
+    item.permission_post?.id ?? PERMISSION_POST.PRIVATE,
+  );
+
+  const handleShowDetailPost = () => {
+    setOpenDetailPost(!openDetailPost);
+  };
+
   const [recentComment, setRecentComment] = useState<
     Array<{
       account: {
@@ -33,6 +44,32 @@ const PostCard = ({ item }: { item: PostForCard }) => {
       content: string;
     }>
   >(item.comment_recent);
+
+  const RenderIconPermissionPost = () =>
+    (permissionPost === PERMISSION_POST.PUBLIC && (
+      <Image
+        src="/public_icon.svg"
+        width={16}
+        height={16}
+        alt="icon save post"
+      />
+    )) ||
+    (permissionPost === PERMISSION_POST.FOLLOW && (
+      <Image
+        src="/friend_icon.svg"
+        width={16}
+        height={16}
+        alt="icon save post"
+      />
+    )) ||
+    (permissionPost === PERMISSION_POST.PRIVATE && (
+      <Image
+        src="/private_icon.svg"
+        width={16}
+        height={16}
+        alt="icon save post"
+      />
+    ));
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentContent(e.target.value);
@@ -77,6 +114,9 @@ const PostCard = ({ item }: { item: PostForCard }) => {
 
   return (
     <div className="w-full bg-white rounded-md p-3 mb-2">
+      {openDetailPost && (
+        <ModalDetailPost id={item.post_id} showModal={handleShowDetailPost} />
+      )}
       <div className="flex items-center justify-between">
         <div
           onClick={() => handleNavigateProfile(item.account.id)}
@@ -89,7 +129,13 @@ const PostCard = ({ item }: { item: PostForCard }) => {
 
           <div>
             <p className="font-bold">{item.account.name}</p>
-            <span>{getTimeAgo(item.created_at)}</span>
+            <div className="flex gap-3 items-center">
+              <span>{getTimeAgo(item.created_at)}</span>
+              <div className="flex gap-2 items-center">
+                <RenderIconPermissionPost />
+                <span>{item.permission_post?.code ?? "riêng tư"}</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -119,6 +165,7 @@ const PostCard = ({ item }: { item: PostForCard }) => {
         <div className="w-full h-[400px] flex mb-3 gap-3">
           {item.image_post.map((image, index) => (
             <div
+              onClick={handleShowDetailPost}
               key={index}
               className={`relative h-auto p-2 ${
                 item.image_post.length === 1

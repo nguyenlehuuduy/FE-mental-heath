@@ -9,23 +9,27 @@ import { useState } from "react";
 import ListImageAccount from "../../../../components/ListImageAccount";
 import ListVideoAccount from "../../../../components/ListVideoAccount";
 import ModalListFollowShip from "../../../../components/ModalListFollowShip";
+import { ImageGalleryForCard } from "@/service/imageService";
 
 type PropsComponent = {
   profile: DetailMyselfResponseForCard;
   listValidPostOfAccount: PostForCard[];
+  listImagePost: Array<ImageGalleryForCard>;
 };
 type Follow = {
-  id: string,
-  full_name: string,
-  avata: string,
-  nick_name: string
-}
+  id: string;
+  full_name: string;
+  avata: string;
+  nick_name: string;
+};
 export default function MySelfPageView(props: PropsComponent) {
   const [selectOptionNumber, setSelectOptionNumber] = useState<number>(0);
   const [showFollowShip, setShowFollowShip] = useState<boolean>(false);
   const [dataFollowShip, setDataFollowShip] = useState<Array<Follow>>([]);
-  const [typeFollowShip, setTypeFollowShip] = useState<"follower" | "following">('follower');
-  const { user, follower, followings, image, object_count } = props.profile
+  const [typeFollowShip, setTypeFollowShip] = useState<
+    "follower" | "following"
+  >("follower");
+  const { user, follower, followings, object_count } = props.profile;
   return (
     <div className="w-full p-2">
       <div className="relative w-full h-[200px] rounded-md overflow-hidden">
@@ -49,10 +53,7 @@ export default function MySelfPageView(props: PropsComponent) {
             <div className="flex flex-col justify-center w-[70%]">
               <p className="text-[18px] font-medium text-[#505050]">
                 {user.nick_name
-                  ? user.full_name +
-                  "(" +
-                  user.nick_name +
-                  ")"
+                  ? user.full_name + "(" + user.nick_name + ")"
                   : user.full_name}
               </p>
               <p className="text-[#666666]">
@@ -88,21 +89,30 @@ export default function MySelfPageView(props: PropsComponent) {
               </div>
             </div>
             <div className="flex w-full items-center gap-2 text-[14px] mb-2 justify-between px-2">
-              <div className="cursor-pointer" onClick={() => {
-                setDataFollowShip(followings)
-                setShowFollowShip(true)
-                setTypeFollowShip("following")
-              }
-              } >
-                <span className="text-[18px] font-medium">{object_count.followings ?? 0} </span>
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setDataFollowShip(followings);
+                  setShowFollowShip(true);
+                  setTypeFollowShip("following");
+                }}
+              >
+                <span className="text-[18px] font-medium">
+                  {object_count.followings ?? 0}{" "}
+                </span>
                 Đang theo dõi
               </div>
-              <div className="cursor-pointer" onClick={() => {
-                setShowFollowShip(true)
-                setDataFollowShip(follower)
-                setTypeFollowShip("follower")
-              }}>
-                <span className="text-[18px] font-medium">{object_count.followers ?? 0} </span>
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  setShowFollowShip(true);
+                  setDataFollowShip(follower);
+                  setTypeFollowShip("follower");
+                }}
+              >
+                <span className="text-[18px] font-medium">
+                  {object_count.followers ?? 0}{" "}
+                </span>
                 Theo dõi bạn
               </div>
             </div>
@@ -140,12 +150,23 @@ export default function MySelfPageView(props: PropsComponent) {
             </div>
             {/* TODO_1619542024: DONT HAVE API FOR THIS TASK */}
             {(selectOptionNumber === 0 && <RecentActionList />) ||
-              (selectOptionNumber === 1 && <ListImageAccount />) ||
+              (selectOptionNumber === 1 && (
+                <ListImageAccount
+                  listImagePublicOfAccount={props.listImagePost ?? []}
+                />
+              )) ||
               (selectOptionNumber === 2 && <ListVideoAccount />)}
           </div>
         </div>
       </div>
-      {showFollowShip && <ModalListFollowShip followShip={typeFollowShip} listFollowShip={dataFollowShip} closeModal={() => setShowFollowShip(false)} isOpen={showFollowShip} />}
+      {showFollowShip && (
+        <ModalListFollowShip
+          followShip={typeFollowShip}
+          listFollowShip={dataFollowShip}
+          closeModal={() => setShowFollowShip(false)}
+          isOpen={showFollowShip}
+        />
+      )}
     </div>
   );
 }

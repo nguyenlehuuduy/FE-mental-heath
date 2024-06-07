@@ -5,15 +5,14 @@ import {
   NavFeature,
   RecommendFeature,
   HotArea,
-  PostWrap,
   RequestFollowerWrap,
 } from "../../../../components";
 import { getListHotFeature } from "@/service/featureService";
 import { getListHotContent } from "@/service/hotContentService";
 import { getAllSuggestFollowAccount } from "@/service/followService";
-import { getLoginAccount } from "@/service/accountService";
 import { revalidateTag } from "next/cache";
 import dynamic from "next/dynamic";
+import { getAllPermissionPost } from "@/service/permissionPostService";
 
 const DynamicPosts = dynamic(
   () => import("../../../../components/PostContent"),
@@ -28,12 +27,13 @@ export default async function Home() {
   const listHotContent = await getListHotContent();
   const suggestFollow = await getAllSuggestFollowAccount();
   const listValidPostOfAccount = await getListValidPostByAccount();
+  const listPermissionPost = await getAllPermissionPost();
 
   return (
     <div className="w-full flex justify-between gap-2">
       <div className="flex flex-col gap-1 pb-20 w-[68%]">
         <Advertisement />
-        <PostFeature />
+        <PostFeature listPermissionPost={listPermissionPost ?? []} />
         <DynamicPosts listValidPost={listValidPostOfAccount?.data ?? []} />
       </div>
       <div className="w-[32%] flex gap-1 right-0">

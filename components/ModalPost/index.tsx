@@ -3,31 +3,37 @@
 import Image from "next/image";
 import TextArea from "antd/es/input/TextArea";
 import { ImagesIcon, LinkIcon, ThreeDotIcon, VideoIcon } from "../../icons";
-import { Button, Modal } from "antd";
+import { Button, Input, Modal, Select } from "antd";
 import { useFormState } from "react-dom";
 import { ActionPostState, post } from "./action";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
 import AvatarAccount from "../Avata";
+import { PermissionPostForResponse } from "@/service/permissionPostService";
 
 interface Modal {
   isOpen: boolean;
   closeModal: () => void;
+  listPermissionPost: Array<PermissionPostForResponse>;
 }
 const defaultData = {
   contentText: "",
+  permisionPost: "",
 };
 const initialState: ActionPostState = {
   validate: defaultData,
   success: false,
 };
 
-const ModalPost = ({ isOpen, closeModal }: Modal) => {
+const ModalPost = ({ isOpen, closeModal, listPermissionPost }: Modal) => {
   const user = useSelector((state: RootState) => state.auth.user);
   const [data, formAction] = useFormState(post, initialState);
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [permisionPost, setPermisionPost] = useState<string>(
+    listPermissionPost[0]?.id ?? "",
+  );
   const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
@@ -107,6 +113,17 @@ const ModalPost = ({ isOpen, closeModal }: Modal) => {
           />
           <span>{data.validate?.contentText}</span>
           <span>{data.validate?.image}</span>
+          <Select
+            value={permisionPost}
+            className="w-[200px]"
+            defaultValue="PUBLIC"
+            onChange={(e) => setPermisionPost(e)}
+            options={listPermissionPost.map((item) => ({
+              label: item.code,
+              value: item.id,
+            }))}
+          />
+          <Input name="permission" className="hidden" value={permisionPost} />
         </div>
         <div>
           <input

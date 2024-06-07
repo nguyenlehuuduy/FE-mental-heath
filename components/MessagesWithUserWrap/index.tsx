@@ -13,8 +13,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
 import AvatarAccount from "../Avata";
 import { sendMessageForUser } from "./action";
-import io, { Socket } from "socket.io-client";
 import { EVENTS } from "@/lib/constants";
+import { socketService } from "@/socket";
 
 interface Account {
   avata: string | null;
@@ -26,76 +26,46 @@ interface Account {
 type PropsComponent = {
   listMessage: Array<MessageForCard>;
   infRoom: RoomMessageInfForCard;
-  sessionKey?: string;
 };
 
-const MessagesWithUserWrap = ({
-  listMessage,
-  infRoom,
-  sessionKey,
-}: PropsComponent) => {
-  const socket = io("http://localhost:8005", {
-    transports: ["websocket"],
-    auth: {
-      token: sessionKey ?? "",
-    },
-  });
-  const [mySocket, setMySocket] = useState<Socket>(socket);
-  const [isConnected, setIsConnected] = useState(false);
-  const [transport, setTransport] = useState("N/A");
+const MessagesWithUserWrap = ({ listMessage, infRoom }: PropsComponent) => {
+  const currentId = useSelector((state: RootState) => state.auth.user);
+
   const [listMessages, setListMessages] =
     useState<MessageForCard[]>(listMessage);
   const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
-    if (socket.connected) {
-      onConnect();
-    }
-    function onConnect() {
-      setIsConnected(true);
-      setTransport(socket.io.engine.transport.name);
-      socket.io.engine.on("upgrade", (transport) => {
-        setTransport(transport.name);
-      });
-      socket.emit(EVENTS.CLIENT.JOIN_ROOM, infRoom.id);
-      setMySocket(socket);
-      console.log("connect: ", isConnected, "transport", transport);
-    }
+    // Kết nối socket và tham gia một phòng sau khi kết nối thành công
+    socketService.joinRoom(infRoom.id);
 
-    function onDisconnect() {
-      setIsConnected(false);
-      setTransport("N/A");
-    }
-
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
+    socketService.on(
+      EVENTS.CLIENT.SEND_ROOM_MESSAGE,
+      (data: MessageForResponse) => {
+        setListMessages((prev) => [
+          ...prev,
+          {
+            content_text: data.contentText,
+            created_at: data.created_at,
+            id: data.id,
+            owner: {
+              avata: data.owner.avata,
+              email: data.owner.email,
+              full_name: data.owner.fullName,
+              id: data.owner.id,
+            },
+            owner_id: data.ownerId,
+            room_id: data.roomId,
+            updated_at: data.updated_at,
+          },
+        ]);
+      },
+    );
 
     return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
+      // Ngắt kết nối socket khi component unmounts
+      socketService.disconnect();
     };
-  }, []);
-
-  useEffect(() => {
-    mySocket.on(EVENTS.CLIENT.SEND_ROOM_MESSAGE, (data: MessageForResponse) => {
-      setListMessages((prev) => [
-        ...prev,
-        {
-          content_text: data.contentText,
-          created_at: data.created_at,
-          id: data.id,
-          owner: {
-            avata: data.owner.avata,
-            email: data.owner.email,
-            full_name: data.owner.fullName,
-            id: data.owner.id,
-          },
-          owner_id: data.ownerId,
-          room_id: data.roomId,
-          updated_at: data.updated_at,
-        },
-      ]);
-    });
   }, []);
 
   const handleSendMessage = async () => {
@@ -114,7 +84,7 @@ const MessagesWithUserWrap = ({
       roomId: infRoom.id,
       updated_at: new Date(),
     };
-    mySocket.emit(EVENTS.CLIENT.SEND_ROOM_MESSAGE, data);
+    socketService.sendMessage(data);
     setMessage("");
   };
   let infoFriend: Account | undefined;

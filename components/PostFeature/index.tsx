@@ -7,8 +7,13 @@ import ModalPost from "../ModalPost";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
 import AvatarAccount from "../Avata";
+import { PermissionPostForResponse } from "@/service/permissionPostService";
 
-const PostFeature = () => {
+type PropsComponent = {
+  listPermissionPost: Array<PermissionPostForResponse>;
+};
+
+const PostFeature = (props: PropsComponent) => {
   const user = useSelector((state: RootState) => state.auth.user);
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -64,7 +69,11 @@ const PostFeature = () => {
         </div>
       </div>
       {isOpen && (
-        <ModalPost isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+        <ModalPost
+          isOpen={isOpen}
+          closeModal={() => setIsOpen(false)}
+          listPermissionPost={props.listPermissionPost}
+        />
       )}
     </div>
   );

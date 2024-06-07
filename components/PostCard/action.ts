@@ -5,7 +5,6 @@ import {
   getListValidPostByAccount,
   likePost,
 } from "@/service/postService";
-import { revalidateTag } from "next/cache";
 
 export async function getValidPost(page: number) {
   const result = await getListValidPostByAccount(page);
