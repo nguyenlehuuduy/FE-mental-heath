@@ -1,9 +1,7 @@
-import { getTimeAgo } from "@/lib/utils";
+"use client";
+
 import { SearchPostTypeForCard } from "@/service/searchService";
-import Image from "next/image";
-import React from "react";
-import AvatarAccount from "../Avata";
-import Link from "next/link";
+import PostSearchItem from "../PostSearchItem";
 
 const SearchPost = ({
   listPosts,
@@ -22,50 +20,7 @@ const SearchPost = ({
           </p>
         ) : (
           listPosts.map((post, index) => (
-            <div
-              key={index}
-              className="flex justify-between gap-2 p-2 cursor-pointer"
-              onClick={onItemSelect}
-            >
-              <div className="flex gap-3">
-                <div className="w-[50px] h-[50px]">
-                  <AvatarAccount
-                    name={post.account.full_name}
-                    filePath={post.account.avata}
-                    height={50}
-                    width={50}
-                    key={index}
-                  />
-                </div>
-
-                <div className="flex flex-col">
-                  <Link
-                    href={`/profile/${post.account.id}`}
-                    className="truncate text-sm font-medium underline cursor-pointer"
-                  >
-                    {post.account.full_name}
-                  </Link>
-                  <p className="truncate text-base">{post.contentText}</p>
-                  <div className="flex gap-4">
-                    <span className="text-xs">
-                      {getTimeAgo(post.created_at)}
-                    </span>
-                    <p className="text-xs text-blue-600 underline cursor-pointer">
-                      Xem bài viết
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative w-[230px] rounded-md overflow-hidden">
-                <Image
-                  src={post.images[0]}
-                  fill
-                  alt="image post"
-                  className="object-cover"
-                />
-              </div>
-            </div>
+            <PostSearchItem key={index} post={post} />
           ))
         )}
       </div>

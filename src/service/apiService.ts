@@ -15,14 +15,18 @@ export interface ApiErrorData {
   message: string;
 }
 
-export async function callGetRequest(url: string, tag?: string) {
+export async function callGetRequest(
+  url: string,
+  tag?: string,
+  cache?: RequestCache,
+) {
   const cookieStore = cookies();
   const sessionKey = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY);
   const res = await fetch(`${API_PATH}${url}`, {
     method: "GET",
     headers: { Authorization: `Bearer ${sessionKey?.value}` },
     next: { revalidate: revalidateSeconds, tags: ["all", tag ?? ""] },
-    // cache: "no-store",
+    cache: cache,
   });
   const jo = await res.json();
 

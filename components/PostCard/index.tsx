@@ -13,18 +13,25 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
 import { useRouter } from "next/navigation";
 import { PERMISSION_POST } from "@/lib/constants";
+import ModalDetailPost from "../ModalDetailPost";
 
 const PostCard = ({ item }: { item: PostForCard }) => {
   const currentUser = useSelector((state: RootState) => state.auth.user);
   const [commentContent, setCommentContent] = useState<string>("");
   const [isLike, setIsLike] = useState<boolean>(item.is_like);
   const [totalLike, setTotalLike] = useState<number>(item.total_reaction || 0);
+  const [openDetailPost, setOpenDetailPost] = useState<boolean>(false);
   const [totalComment, setTotalComment] = useState<number>(
     item.total_comment ?? 0,
   );
   const [permissionPost, setPermissionPost] = useState<string>(
     item.permission_post?.id ?? PERMISSION_POST.PRIVATE,
   );
+
+  const handleShowDetailPost = () => {
+    setOpenDetailPost(!openDetailPost);
+  };
+
   const [recentComment, setRecentComment] = useState<
     Array<{
       account: {
@@ -107,6 +114,9 @@ const PostCard = ({ item }: { item: PostForCard }) => {
 
   return (
     <div className="w-full bg-white rounded-md p-3 mb-2">
+      {openDetailPost && (
+        <ModalDetailPost id={item.post_id} showModal={handleShowDetailPost} />
+      )}
       <div className="flex items-center justify-between">
         <div
           onClick={() => handleNavigateProfile(item.account.id)}
@@ -155,6 +165,7 @@ const PostCard = ({ item }: { item: PostForCard }) => {
         <div className="w-full h-[400px] flex mb-3 gap-3">
           {item.image_post.map((image, index) => (
             <div
+              onClick={handleShowDetailPost}
               key={index}
               className={`relative h-auto p-2 ${
                 item.image_post.length === 1

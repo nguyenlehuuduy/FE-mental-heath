@@ -54,6 +54,12 @@
   }
 }
 
+.title-modal .ant-modal-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+
 .shrinking-div {
   animation: shrink 60s linear forwards;
 }
