@@ -37,6 +37,7 @@ import ProfileBanner from "./ProfileBanner";
 import AvatarAccount from "./Avata";
 import PostByAccount from "./PostByAccount";
 import AccountContent from "./AccountContent";
+import NotFound from "./NotFound";
 import MessagesWithUserWrap from "./MessagesWithUserWrap";
 import ProfessionalWrapper from "./ProfessionalWrapper";
 import ProfessionalCard from "./ProfessionalCard";
@@ -85,6 +86,7 @@ export {
   AvatarAccount,
   PostByAccount,
   AccountContent,
+  NotFound
   MessagesWithUserWrap,
   ProfessionalWrapper,
   ProfessionalCard,
