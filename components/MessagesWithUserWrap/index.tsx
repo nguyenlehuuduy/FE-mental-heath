@@ -14,7 +14,7 @@ import { RootState } from "../../redux/configureStore";
 import AvatarAccount from "../Avata";
 import { sendMessageForUser } from "./action";
 import { EVENTS } from "@/lib/constants";
-import useSocket from "../../hook/socket";
+import { socketService } from "@/socket";
 
 interface Account {
   avata: string | null;
@@ -26,44 +26,46 @@ interface Account {
 type PropsComponent = {
   listMessage: Array<MessageForCard>;
   infRoom: RoomMessageInfForCard;
-  sessionKey?: string;
 };
 
-const MessagesWithUserWrap = ({
-  listMessage,
-  infRoom,
-  sessionKey,
-}: PropsComponent) => {
+const MessagesWithUserWrap = ({ listMessage, infRoom }: PropsComponent) => {
   const currentId = useSelector((state: RootState) => state.auth.user);
 
   const [listMessages, setListMessages] =
     useState<MessageForCard[]>(listMessage);
   const [message, setMessage] = useState<string>("");
-  const { mySocket, joinRoomMessage } = useSocket({
-    idUser: currentId?.id ?? "",
-    sessionKey: sessionKey ?? "",
-  });
 
   useEffect(() => {
-    mySocket.on(EVENTS.CLIENT.SEND_ROOM_MESSAGE, (data: MessageForResponse) => {
-      setListMessages((prev) => [
-        ...prev,
-        {
-          content_text: data.contentText,
-          created_at: data.created_at,
-          id: data.id,
-          owner: {
-            avata: data.owner.avata,
-            email: data.owner.email,
-            full_name: data.owner.fullName,
-            id: data.owner.id,
+    // Kết nối socket và tham gia một phòng sau khi kết nối thành công
+    socketService.joinRoom(infRoom.id);
+
+    socketService.on(
+      EVENTS.CLIENT.SEND_ROOM_MESSAGE,
+      (data: MessageForResponse) => {
+        setListMessages((prev) => [
+          ...prev,
+          {
+            content_text: data.contentText,
+            created_at: data.created_at,
+            id: data.id,
+            owner: {
+              avata: data.owner.avata,
+              email: data.owner.email,
+              full_name: data.owner.fullName,
+              id: data.owner.id,
+            },
+            owner_id: data.ownerId,
+            room_id: data.roomId,
+            updated_at: data.updated_at,
           },
-          owner_id: data.ownerId,
-          room_id: data.roomId,
-          updated_at: data.updated_at,
-        },
-      ]);
-    });
+        ]);
+      },
+    );
+
+    return () => {
+      // Ngắt kết nối socket khi component unmounts
+      socketService.disconnect();
+    };
   }, []);
 
   const handleSendMessage = async () => {
@@ -82,10 +84,9 @@ const MessagesWithUserWrap = ({
       roomId: infRoom.id,
       updated_at: new Date(),
     };
-    mySocket.emit(EVENTS.CLIENT.SEND_ROOM_MESSAGE, data);
+    socketService.sendMessage(data);
     setMessage("");
   };
-  joinRoomMessage(infRoom.id);
   let infoFriend: Account | undefined;
   const profile = useSelector((state: RootState) => state.auth.user);
   const pageRef = useRef<HTMLDivElement>(null);

@@ -4,9 +4,6 @@ import {
   getInfRoomMessage,
 } from "@/service/messageService";
 import { revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
-import { COOKIE_ACCESS_TOKEN_KEY } from "@/lib/constants";
-import { getListNotification } from "@/service/notificationService";
 
 export default async function MessagePage({
   params,
@@ -22,8 +19,6 @@ export default async function MessagePage({
   }
   const listMessage = await getAllMessageOfRoom(params.roomId);
   const infRoom = await getInfRoomMessage(params.roomId);
-  const cookieStore = cookies();
-  const sessionKey = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY)?.value;
 
   revalidateTag("get-valid-message-chat");
   return (
@@ -32,11 +27,7 @@ export default async function MessagePage({
         <ChatList />
       </div>
       <div className="w-[70%] bg-white rounded-md p-2">
-        <MessagesWithUserWrap
-          infRoom={infRoom!}
-          listMessage={listMessage!}
-          sessionKey={sessionKey}
-        />
+        <MessagesWithUserWrap infRoom={infRoom!} listMessage={listMessage!} />
       </div>
     </div>
   );
