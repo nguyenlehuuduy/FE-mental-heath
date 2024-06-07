@@ -1,6 +1,7 @@
 "use client";
 
 import { EVENTS } from "@/lib/constants";
+import { socketService } from "@/socket";
 import { useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
 
@@ -15,48 +16,36 @@ export default function useSocket({
   idUser,
   urlSocket = "http://localhost:8005",
 }: PropsComponent) {
-  const socket = io(urlSocket, {
-    transports: ["websocket"],
-    auth: {
-      token: sessionKey ?? "",
-    },
-  });
+  // Set the URL for the socket service
+  socketService.connectWithAuthToken(sessionKey);
 
-  const [mySocket, setMySocket] = useState<Socket>(socket);
-  const [isConnected, setIsConnected] = useState(false);
-  const [transport, setTransport] = useState("N/A");
+  const [mySocket, setMySocket] = useState<Socket>(socketService);
 
   useEffect(() => {
-    if (socket.connected) {
+    if (socketService.checkConnect()) {
       onConnect();
     }
+
     function onConnect() {
-      setIsConnected(true);
-      setTransport(socket.io.engine.transport.name);
-      socket.io.engine.on("upgrade", (transport) => {
-        setTransport(transport.name);
-      });
-      setMySocket(socket);
+      socketService.onUpgrade((transport) => {});
+      setMySocket(socketService as unknown as Socket);
       // JOIN NOTIFICATION IDENTIFY
-      mySocket.emit(EVENTS.CLIENT.JOIN_NOTIFICATION_IDENTIFY, idUser);
+      socketService.emit(EVENTS.CLIENT.JOIN_NOTIFICATION_IDENTIFY, idUser);
     }
 
-    function onDisconnect() {
-      setIsConnected(false);
-      setTransport("N/A");
-    }
+    function onDisconnect() {}
 
-    mySocket.on("connect", onConnect);
-    mySocket.on("disconnect", onDisconnect);
+    socketService.on("connect", onConnect);
+    socketService.on("disconnect", onDisconnect);
 
     return () => {
-      mySocket.off("connect", onConnect);
-      mySocket.off("disconnect", onDisconnect);
+      socketService.off("connect", onConnect);
+      socketService.off("disconnect", onDisconnect);
     };
-  }, []);
+  }, [idUser]);
 
   const joinRoomMessage = (idRoom: string) => {
-    mySocket.emit(EVENTS.CLIENT.JOIN_ROOM, idRoom);
+    socketService.joinRoom(idRoom);
   };
 
   return { mySocket, joinRoomMessage };
