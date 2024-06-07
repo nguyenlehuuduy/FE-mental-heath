@@ -272,8 +272,7 @@ export async function getDetailPost(idPost: string) {
       total_reaction: post.totalReaction,
       total_share: post.totalShare,
       comment_recent: post.comment_recent ?? [],
-      all_like_info: post.all_like_info ?? [],
-      all_share_info: post.all_share_info ?? [],
+      permission_post: post.permissionPost
     };
     return result;
   }
