@@ -25,7 +25,7 @@ export async function callGetRequest(
   const res = await fetch(`${API_PATH}${url}`, {
     method: "GET",
     headers: { Authorization: `Bearer ${sessionKey?.value}` },
-    next: { revalidate: revalidateSeconds, tags: ["all", tag ?? ""] },
+    next: cache !== "no-store" ? { revalidate: revalidateSeconds, tags: ["all", tag ?? ""] } : undefined,
     cache: cache,
   });
   const jo = await res.json();

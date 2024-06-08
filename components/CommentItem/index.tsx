@@ -1,31 +1,13 @@
 import { getTimeAgo } from "@/lib/utils";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React from "react";
 import AvatarAccount from "../Avata";
+import Link from "next/link";
+import { CommentForCard } from "@/service/commentService";
 
-interface CommentType {
-  account: {
-    id: string;
-    name: string;
-    nick_name: string;
-    avata: string;
-  };
-  created_at: string;
-  content: string;
-}
-
-const CommentItem = ({ comment }: { comment: CommentType }) => {
-  const router = useRouter();
-  const handleRedirectProfile = (id: string) => {
-    router.push(`/profile/${id}`);
-  };
+const CommentItem = ({ comment }: { comment: CommentForCard }) => {
   return (
-    <div className="flex gap-3 items-start mb-7">
-      <div
-        onClick={() => handleRedirectProfile(comment.account.id)}
-        className="relative w-[40px] h-[40px] cursor-pointer"
-      >
+    <div className="flex gap-4 items-start mb-5">
+      <div className="relative w-[40px] h-[40px]">
         <AvatarAccount
           name={comment.account.name}
           filePath={comment.account.avata}
@@ -33,15 +15,17 @@ const CommentItem = ({ comment }: { comment: CommentType }) => {
       </div>
 
       <div className="flex flex-col">
-        <p
-          onClick={() => handleRedirectProfile(comment.account.id)}
-          className="font-medium cursor-pointer"
+        <Link
+          href={`/profile/${comment.account.id}`}
+          className="font-medium hover:underline"
         >
           {comment.account.name}
-        </p>
+        </Link>
         <span>{comment.content}</span>
-        <div className="text-[14px] font-medium flex mt-2 gap-5">
-          <span>{getTimeAgo(comment.created_at)}</span>
+        <div className="text-[14px] flex gap-5">
+          <span className="text-gray-500 text-sm">
+            {getTimeAgo(comment.created_at)}
+          </span>
           <span>Thích</span>
           <span>Trả lời</span>
         </div>

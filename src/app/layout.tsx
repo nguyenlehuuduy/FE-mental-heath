@@ -14,8 +14,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Fragment>
-      <ProviderRedux>{children}</ProviderRedux>
-    </Fragment>
+    <html lang={"vn"}>
+      <body>
+        <Fragment>
+          <ProviderRedux>{children}</ProviderRedux>
+        </Fragment>
+      </body>
+    </html>
   );
 }

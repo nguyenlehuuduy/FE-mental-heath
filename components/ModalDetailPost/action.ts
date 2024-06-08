@@ -1,8 +1,8 @@
 "use server";
 
-import { getDetailPost } from "@/service/postService";
+import { getAllCommentByPostId } from "@/service/commentService";
 
-export const postDetail = async (idPost: string) => {
-  const res = await getDetailPost(idPost);
+export const getAllCommentOfPost = async (idPost: string) => {
+  const res = await getAllCommentByPostId(idPost);
   return res;
 };

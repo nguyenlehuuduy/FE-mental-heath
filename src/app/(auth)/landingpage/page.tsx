@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  HeaderLanding,
   LandingPage1,
   LandingPage2,
   LandingPage3,
@@ -12,7 +11,7 @@ import {
 const LandingPage = () => {
   return (
     <div>
-      <div className="w-full h-[700px] bg-[#D7EFFF]">
+      <div className="w-full h-[550px] bg-[#D7EFFF]">
         <div className="px-5 py-2">
           <LandingPage1 />
         </div>

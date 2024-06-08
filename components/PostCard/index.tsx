@@ -2,7 +2,7 @@
 
 import { abbreviateNumber, formatDate, getTimeAgo } from "@/lib/utils";
 import { PostForCard } from "@/service/postService";
-import { Input } from "antd";
+import { Input, Popover } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 import CommentItem from "../CommentItem";
@@ -11,9 +11,11 @@ import { SendIcon } from "../../icons";
 import AvatarAccount from "../Avata";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configureStore";
-import { useRouter } from "next/navigation";
 import { PERMISSION_POST } from "@/lib/constants";
 import ModalDetailPost from "../ModalDetailPost";
+import Link from "next/link";
+import ModalSettingPost from "../ModalSettingPost";
+import PopupSettingPost from "../ModalSettingPost";
 
 const PostCard = ({ item }: { item: PostForCard }) => {
   const currentUser = useSelector((state: RootState) => state.auth.user);
@@ -27,6 +29,8 @@ const PostCard = ({ item }: { item: PostForCard }) => {
   const [permissionPost, setPermissionPost] = useState<string>(
     item.permission_post?.id ?? PERMISSION_POST.PRIVATE,
   );
+  const [showModalSettingPost, setShowModalSettingPost] =
+    useState<boolean>(false);
 
   const handleShowDetailPost = () => {
     setOpenDetailPost(!openDetailPost);
@@ -77,8 +81,8 @@ const PostCard = ({ item }: { item: PostForCard }) => {
 
   const handleLikePost = async (idPost: string) => {
     isLike ? setTotalLike(totalLike - 1) : setTotalLike(totalLike + 1);
-    await setIsLike(!isLike);
-    like(idPost);
+    setIsLike(!isLike);
+    await like(idPost);
   };
 
   const handleCommentPost = async (idPost: string, commentContent: string) => {
@@ -106,29 +110,39 @@ const PostCard = ({ item }: { item: PostForCard }) => {
     }
   };
 
-  const router = useRouter();
-
-  const handleNavigateProfile = (idAccount: string) => {
-    router.push(`/profile/${idAccount}`);
-  };
-
   return (
     <div className="w-full bg-white rounded-md p-3 mb-2">
       {openDetailPost && (
-        <ModalDetailPost id={item.post_id} showModal={handleShowDetailPost} />
+        <ModalDetailPost
+          infoBasePost={item}
+          id={item.post_id}
+          showModal={handleShowDetailPost}
+          commentContent={commentContent}
+          isLike={isLike}
+          handleLikePost={() => handleLikePost(item.post_id)}
+          handleCommentChange={(e) => setCommentContent(e)}
+          handleCommentPost={() =>
+            handleCommentPost(item.post_id, commentContent)
+          }
+          handleKeyPress={(e) => handleKeyPress(e)}
+          totalComment={totalComment}
+          totalLike={totalLike}
+        />
       )}
       <div className="flex items-center justify-between">
-        <div
-          onClick={() => handleNavigateProfile(item.account.id)}
-          className="flex items-center min-w-[200px] gap-4 rounded-sm cursor-pointer"
-        >
+        <div className="flex items-center min-w-[200px] gap-4 rounded-sm">
           <AvatarAccount
             filePath={item.account.avata}
             name={item.account.name}
           />
 
           <div>
-            <p className="font-bold">{item.account.name}</p>
+            <Link
+              href={`/profile/${item.account.id}`}
+              className="font-bold  hover:underline"
+            >
+              {item.account.name}
+            </Link>
             <div className="flex gap-3 items-center">
               <span>{getTimeAgo(item.created_at)}</span>
               <div className="flex gap-2 items-center">
@@ -139,19 +153,28 @@ const PostCard = ({ item }: { item: PostForCard }) => {
           </div>
         </div>
 
-        <div className="flex gap-2 justify-center">
+        <div className="flex gap-4 justify-center">
           <Image
             src="/save_icon.svg"
             width={14}
             height={14}
             alt="icon save post"
           />
-          <Image
-            src="/more_icon.svg"
-            width={14}
-            height={14}
-            alt="icon save post"
-          />
+          <Popover
+            placement="rightTop"
+            content={<PopupSettingPost />}
+            trigger="click"
+          >
+            <Image
+              onClick={() => setShowModalSettingPost(true)}
+              className="cursor-pointer"
+              src="/more_icon.svg"
+              width={14}
+              height={14}
+              alt="icon save post"
+            />
+          </Popover>
+
           <Image
             src="/cancel_icon.svg"
             width={14}
@@ -162,19 +185,16 @@ const PostCard = ({ item }: { item: PostForCard }) => {
       </div>
       <div className="mt-3 flex flex-col gap-4">
         <span className="whitespace-pre-wrap">{item.content_text}</span>
-        <div className="w-full h-[400px] flex mb-3 gap-3">
+        <div className={`w-full flex mb-3 flex-wrap justify-evenly`}>
           {item.image_post.map((image, index) => (
             <div
               onClick={handleShowDetailPost}
               key={index}
-              className={`relative h-auto p-2 ${
-                item.image_post.length === 1
-                  ? "w-full"
-                  : item.image_post.length === 2
-                    ? "w-1/2"
-                    : item.image_post.length === 3
-                      ? "w-1/3"
-                      : "w-1/4"
+              className={`relative min-h-[500px] mb-2 -pb-[80px] ${
+                (item.image_post.length === 1 && "w-full") ||
+                (item.image_post.length === 2 && "w-[48%]") ||
+                (item.image_post.length === 3 && "w-[30%]") ||
+                (item.image_post.length === 4 && "w-[48%]")
               } rounded-md overflow-hidden`}
             >
               <Image
@@ -183,9 +203,7 @@ const PostCard = ({ item }: { item: PostForCard }) => {
                 fill
                 quality={100}
                 alt="avata"
-                objectFit="cover"
-                objectPosition="50% 50%"
-                className="rounded-md"
+                className="absolute w-full object-cover"
               />
             </div>
           ))}
