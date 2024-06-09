@@ -39,10 +39,10 @@ interface PostModel {
     content: string;
   }>;
   permissionPost: {
-    id: string,
-    description: string,
-    code: string
-  },
+    id: string;
+    description: string;
+    code: string;
+  };
 }
 
 export type PostForCard = {
@@ -72,9 +72,9 @@ export type PostForCard = {
   }>;
   permission_post: {
     id: string;
-    description: string,
-    code: string
-  },
+    description: string;
+    code: string;
+  };
 };
 
 export async function getListValidPostByAccount(page?: number | 1) {
@@ -110,8 +110,19 @@ export async function getListValidPostByAccount(page?: number | 1) {
         total_comment: post.totalComment,
         total_reaction: post.totalReaction,
         total_share: post.totalShare,
-        comment_recent: post.comment_recent ?? [],
-        permission_post: post.permissionPost
+        comment_recent:
+          post?.comment_recent?.map((item) => ({
+            ...item,
+            account: {
+              avata:
+                item.account.avata &&
+                process.env.API_BASE_URL + item.account.avata,
+              id: item.account.id,
+              name: item.account.name,
+              nick_name: item.account.nick_name,
+            },
+          })) ?? [],
+        permission_post: post.permissionPost,
       });
     }
     return {
@@ -123,7 +134,7 @@ export async function getListValidPostByAccount(page?: number | 1) {
 export type PostForRequest = {
   contentText: string;
   imagePaths?: Array<string>;
-  permissionPostId?: string
+  permissionPostId?: string;
 };
 
 export async function uploadPost(
@@ -191,8 +202,19 @@ export async function getPostMyProfile(page?: number | 1) {
         total_comment: post.totalComment,
         total_reaction: post.totalReaction,
         total_share: post.totalShare,
-        comment_recent: post.comment_recent ?? [],
-        permission_post: post.permissionPost
+        comment_recent:
+          post?.comment_recent?.map((item) => ({
+            ...item,
+            account: {
+              avata:
+                item.account.avata &&
+                process.env.API_BASE_URL + item.account.avata,
+              id: item.account.id,
+              name: item.account.name,
+              nick_name: item.account.nick_name,
+            },
+          })) ?? [],
+        permission_post: post.permissionPost,
       });
     }
     return result;
@@ -232,9 +254,19 @@ export async function getPostOtherAccount(
         total_comment: post.totalComment,
         total_reaction: post.totalReaction,
         total_share: post.totalShare,
-        comment_recent: post.comment_recent ?? [],
-        permission_post: post.permissionPost
-
+        comment_recent:
+          post?.comment_recent?.map((item) => ({
+            ...item,
+            account: {
+              avata:
+                item.account.avata &&
+                process.env.API_BASE_URL + item.account.avata,
+              id: item.account.id,
+              name: item.account.name,
+              nick_name: item.account.nick_name,
+            },
+          })) ?? [],
+        permission_post: post.permissionPost,
       });
     }
     return result;
@@ -258,18 +290,16 @@ export type DetailPostForResponse = {
   };
   created_at: string;
   updated_at: string;
-  reactions: Array<
-    {
-      account: {
-        avata?: string;
-        id: string;
-        fullName: string;
-        nickName?: string;
-      };
-      created_at: string;
-      updated_at: string;
-    }
-  >;
+  reactions: Array<{
+    account: {
+      avata?: string;
+      id: string;
+      fullName: string;
+      nickName?: string;
+    };
+    created_at: string;
+    updated_at: string;
+  }>;
   comments: Array<{
     account: {
       avata?: string;
@@ -307,7 +337,7 @@ export type DetailPostForResponse = {
     created_at: string;
     updated_at: string;
   }>;
-}
+};
 
 export type PostDetailForCard = {
   post_id: string;
@@ -347,12 +377,14 @@ export type PostDetailForCard = {
   }>;
   permission_post: {
     id: string;
-    description: string,
-    code: string
-  },
+    description: string;
+    code: string;
+  };
 };
 
-export async function getDetailPost(idPost: string): Promise<PostDetailForCard | undefined> {
+export async function getDetailPost(
+  idPost: string,
+): Promise<PostDetailForCard | undefined> {
   try {
     const res = await callGetRequest(
       `/post/${idPost}`,
@@ -364,28 +396,41 @@ export async function getDetailPost(idPost: string): Promise<PostDetailForCard |
 
       const result: PostDetailForCard = {
         account: {
-          avata: post.account.avata &&
+          avata:
+            post.account.avata &&
             `${process.env.API_BASE_URL}${post.account.avata}`,
           id: post.account.id,
           name: post.account.fullName,
-          nick_name: post.account.nickName ?? ""
+          nick_name: post.account.nickName ?? "",
         },
-        all_comment: post.all_comment,
+        all_comment:
+          post.all_comment.map((item) => ({
+            ...item,
+            account: {
+              avata:
+                item.account.avata &&
+                process.env.API_BASE_URL + item.account.avata,
+              id: item.account.id,
+              name: item.account.name,
+              nick_name: item.account.nick_name,
+            },
+          })) ?? [],
         all_like_info: post.all_like_info,
         content_text: post.contentText,
         created_at: formatDate(post.created_at, "DD/MM/YYYY"),
-        image_post: post.images.map(item => `${process.env.API_BASE_URL}${item.path}`),
+        image_post: post.images.map(
+          (item) => `${process.env.API_BASE_URL}${item.path}`,
+        ),
         is_like: post.is_liked,
         permission_post: post.permissionPost,
         post_id: post.id,
         total_comment: post.totalComment,
         total_reaction: post.totalReaction,
         total_share: post.totalShare,
-      }
+      };
       return result;
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-
 }

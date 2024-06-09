@@ -33,7 +33,7 @@ export async function getAllRoomMessageAccount(): Promise<
         id: item.id,
         account_in_room: item.accountInRoom,
         created_at: item.created_at,
-        image_room: item.avatar,
+        image_room: item.avatar && process.env.API_BASE_URL + item.avatar,
         name_room: item.nameRoom,
         updated_at: item.updated_at,
       });

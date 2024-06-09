@@ -56,10 +56,7 @@ export default function MySelfPageView(props: PropsComponent) {
                   ? user.full_name + "(" + user.nick_name + ")"
                   : user.full_name}
               </p>
-              <p className="text-[#666666]">
-                {user.about_me}
-                {user.about_me}
-              </p>
+              <p className="text-[#666666]">{user.about_me}</p>
               {/* TODO: favorite subject of account */}
               <div className="flex gap-3 mt-3 text-[#666666]">
                 <label>Nhạc cụ</label>

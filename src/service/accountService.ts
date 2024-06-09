@@ -1,8 +1,4 @@
-import { unstable_cache } from "next/cache";
-import { callGetRequest, callPostRequest } from "./apiService";
-import { socketService } from "@/socket";
-import { cookies } from "next/headers";
-import { COOKIE_ACCESS_TOKEN_KEY } from "@/lib/constants";
+import { callGetRequest, callPostRequest, callPutRequest } from "./apiService";
 
 interface MyselfResponse {
   id: string;
@@ -14,6 +10,11 @@ interface MyselfResponse {
   address: string;
   avata: string;
   phone: string;
+  banner: string;
+  favorite?: Array<{
+    id: string;
+    nameFavorite: string;
+  }>;
 }
 
 interface DetailMyselfResponse {
@@ -87,9 +88,12 @@ export type MyselfForCard = {
   birth: string;
   address: string;
   avata: string;
-  //TODO_2133430:not_have_banner_account
   banner: string;
   phone: string;
+  favorite?: Array<{
+    id: string;
+    name_favorite: string;
+  }>;
 };
 
 export const getLoginAccount = async () => {
@@ -100,11 +104,8 @@ export const getLoginAccount = async () => {
     return {
       about_me: data.aboutMe,
       address: data.address,
-      //TODO_1158430:not_have_avata_in_response
       avata: data.avata && process.env.API_BASE_URL + data.avata,
-      //TODO_2133430:not_have_banner_account
-      banner:
-        "https://i.pinimg.com/564x/73/3c/68/733c688bf6f725345c18190da00e159b.jpg",
+      banner: data.banner && process.env.API_BASE_URL + data.banner,
       birth: data.birth,
       email: data.email,
       full_name: data.fullName,
@@ -114,10 +115,6 @@ export const getLoginAccount = async () => {
     };
   }
 };
-
-const cachedProfile = unstable_cache(getLoginAccount, ["profile-cache"], {
-  revalidate: 3600,
-});
 
 export interface LoginRequest {
   email: string;
@@ -217,10 +214,12 @@ export async function getProfileAccount(
       user: {
         about_me: data.profileOtherAccount.user.aboutMe,
         address: data.profileOtherAccount.user.address,
-        avata: data.profileOtherAccount.user.avata,
-        //TODO_2133430:not_have_banner_account
+        avata:
+          data.profileOtherAccount.user.avata &&
+          process.env.API_BASE_URL + data.profileOtherAccount.user.avata,
         banner:
-          "https://i.pinimg.com/564x/73/3c/68/733c688bf6f725345c18190da00e159b.jpg",
+          data.profileOtherAccount.user.banner &&
+          process.env.API_BASE_URL + data.profileOtherAccount.user.banner,
         birth: data.profileOtherAccount.user.birth,
         email: data.profileOtherAccount.user.email,
         full_name: data.profileOtherAccount.user.fullName,
@@ -230,7 +229,7 @@ export async function getProfileAccount(
       },
       follower: data.profileOtherAccount.follower.map((item) => {
         return {
-          avata: item.avata,
+          avata: item.avata && process.env.API_BASE_URL + item.avata,
           full_name: item.fullName,
           id: item.id,
           nick_name: item.nickName,
@@ -238,7 +237,7 @@ export async function getProfileAccount(
       }),
       followings: data.profileOtherAccount.followings.map((item) => {
         return {
-          avata: item.avata,
+          avata: item.avata && process.env.API_BASE_URL + item.avata,
           full_name: item.fullName,
           id: item.id,
           nick_name: item.nickName,
@@ -280,20 +279,22 @@ export async function getDetailMyselfAccount(): Promise<
       user: {
         about_me: data.user.aboutMe,
         address: data.user.address,
-        avata: data.user.avata,
-        //TODO_2133430:not_have_banner_account
-        banner:
-          "https://i.pinimg.com/564x/73/3c/68/733c688bf6f725345c18190da00e159b.jpg",
+        avata: data.user.avata && process.env.API_BASE_URL + data.user.avata,
+        banner: data.user.banner && process.env.API_BASE_URL + data.user.banner,
         birth: data.user.birth,
         email: data.user.email,
         full_name: data.user.fullName,
         id: data.user.id,
         nick_name: data.user.nickName,
         phone: data.user.phone,
+        favorite: data.user.favorite?.map((item) => ({
+          id: item.id,
+          name_favorite: item.nameFavorite,
+        })),
       },
       follower: data.follower.map((item) => {
         return {
-          avata: item.avata,
+          avata: item.avata && process.env.API_BASE_URL + item.avata,
           full_name: item.fullName,
           id: item.id,
           nick_name: item.nickName,
@@ -301,7 +302,7 @@ export async function getDetailMyselfAccount(): Promise<
       }),
       followings: data.followings.map((item) => {
         return {
-          avata: item.avata,
+          avata: item.avata && process.env.API_BASE_URL + item.avata,
           full_name: item.fullName,
           id: item.id,
           nick_name: item.nickName,
@@ -327,5 +328,29 @@ export async function getDetailMyselfAccount(): Promise<
     };
   } catch (error) {
     console.error(error);
+  }
+}
+
+export type UserForUpdate = {
+  fullName: string;
+  phone: string;
+  aboutMe: string;
+  nickName: string;
+  birth: string;
+  address: string;
+  favorite: Array<string>;
+};
+
+export async function putInfoAccount(
+  account: UserForUpdate,
+): Promise<boolean | undefined> {
+  try {
+    const result = await callPutRequest("/user/update-account", account);
+    if (result.status === 200) {
+      return true;
+    }
+  } catch (error) {
+    console.error(error);
+    return;
   }
 }

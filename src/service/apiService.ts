@@ -25,7 +25,10 @@ export async function callGetRequest(
   const res = await fetch(`${API_PATH}${url}`, {
     method: "GET",
     headers: { Authorization: `Bearer ${sessionKey?.value}` },
-    next: cache !== "no-store" ? { revalidate: revalidateSeconds, tags: ["all", tag ?? ""] } : undefined,
+    next:
+      cache !== "no-store"
+        ? { revalidate: revalidateSeconds, tags: ["all", tag ?? ""] }
+        : undefined,
     cache: cache,
   });
   const jo = await res.json();
@@ -61,7 +64,6 @@ export async function callPostRequest(url: string, body: any) {
     const jo = await res.json();
     return { status: res.status, headers: res.headers, response: jo };
   } else {
-    // Trả về một đối tượng chỉ có trạng thái và tiêu đề
     return { status: res.status, headers: res.headers, response: null };
   }
 }
@@ -75,20 +77,16 @@ export async function callPutRequest<Response, Request>(
   response: Response;
 }> {
   const cookieStore = cookies();
-  const sessionKey = cookieStore.get(SESSION_KEY);
-
-  const headers: HeadersInit = [["Content-Type", "application/json"]];
-  if (sessionKey) {
-    headers.push(["Cookie", `${SESSION_KEY}=${sessionKey}`]);
-  }
-
+  const sessionKey = cookieStore.get(COOKIE_ACCESS_TOKEN_KEY);
   const res = await fetch(`${API_PATH}${url}`, {
-    method: "PUT",
-    headers: headers,
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${sessionKey?.value}`,
+    },
     body: JSON.stringify(body),
   });
   const jo = await res.json();
-
   return { status: res.status, headers: res.headers, response: jo };
 }
 

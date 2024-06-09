@@ -32,14 +32,13 @@ export default function AvatarAccount(props: PropsComponent) {
     <Fragment>
       {props.filePath ? (
         <div
-          className={`relative w-[${props.width ?? 50}px] h-[${props.height ?? 50}px]`}
+          className={`relative aspect-square w-[${props.width ?? 50}px] h-[${props.height ?? 50}px]`}
         >
           <Image
             src={props.filePath}
             fill
             alt="avatar"
-            objectFit="cover"
-            className={`rounded-full`}
+            className={`rounded-full absolute w-full object-cover`}
           />
         </div>
       ) : (

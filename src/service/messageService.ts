@@ -169,7 +169,8 @@ export async function getAllValidMessageInRoom(
         updated_at: item.updated_at,
         content_text: item.contentText,
         owner: {
-          avata: item.owner.avata,
+          avata:
+            item.owner.avata && process.env.API_BASE_URL + item.owner.avata,
           email: item.owner.email,
           full_name: item.owner.fullName,
           id: item.id,
@@ -209,7 +210,7 @@ export async function getInfRoomMessage(
     const result: RoomMessageInfForCard = {
       account_in_room: data.accountInRoom.map((item) => {
         return {
-          avata: item.avata,
+          avata: item.avata && process.env.API_BASE_URL + item.avata,
           full_name: item.fullName,
           id: item.id,
           nick_name: item.nickName,

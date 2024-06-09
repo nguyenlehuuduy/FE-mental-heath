@@ -73,7 +73,7 @@ const ProfileBanner = ({
     <div className="w-full bg-white rounded-md">
       <div className="relative w-full h-[200px] rounded-md overflow-hidden">
         <Image
-          src="https://i.pinimg.com/564x/73/3c/68/733c688bf6f725345c18190da00e159b.jpg"
+          src={infoAccount.profile_other_account.user.banner}
           fill
           className="object-cover"
           quality={100}
@@ -90,7 +90,6 @@ const ProfileBanner = ({
               width={150}
             />
           </div>
-
 
           <div className="flex flex-col justify-center gap-3 max-w-[500px] w-full">
             <p className="font-bold text-2xl">

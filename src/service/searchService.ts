@@ -64,7 +64,7 @@ export async function getSearchAccount(
         res.push({
           about_me: item.aboutMe,
           address: item.address,
-          avatar: item.avatar,
+          avatar: item.avatar && process.env.API_BASE_URL + item.avatar,
           full_name: item.fullName,
           id: item.id,
           nick_name: item.nickName,

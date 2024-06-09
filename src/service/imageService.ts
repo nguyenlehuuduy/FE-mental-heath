@@ -18,7 +18,7 @@ export type ImageForCard = {
 
 export type ImageForPost = {
   image: any;
-  permissionPostId: string
+  permissionPostId: string;
 };
 
 export async function uploadImage(
@@ -44,17 +44,19 @@ interface ImageGalleryForResponse {
   id: string;
   path: string;
   accountId: string;
-  postId: string
+  postId: string;
 }
 
 export type ImageGalleryForCard = {
   id: string;
   path: string;
   account_id: string;
-  post_id: string
-}
+  post_id: string;
+};
 
-export async function getAllImagePublicByAccount(idAccount: string): Promise<Array<ImageGalleryForCard> | undefined> {
+export async function getAllImagePublicByAccount(
+  idAccount: string,
+): Promise<Array<ImageGalleryForCard> | undefined> {
   try {
     const res = await callGetRequest(
       `/images/posts/${idAccount}`,
@@ -62,14 +64,14 @@ export async function getAllImagePublicByAccount(idAccount: string): Promise<Arr
     );
     if (res.status === 200) {
       const data: Array<ImageGalleryForResponse> = res.response;
-      const result: Array<ImageGalleryForCard> = []
+      const result: Array<ImageGalleryForCard> = [];
       for (const item of data) {
         result.push({
           account_id: item.accountId,
           id: item.id,
           path: `${process.env.API_BASE_URL}${item.path}`,
-          post_id: item.postId
-        })
+          post_id: item.postId,
+        });
       }
       return result;
     }
@@ -78,8 +80,9 @@ export async function getAllImagePublicByAccount(idAccount: string): Promise<Arr
   }
 }
 
-
-export async function getAllImagePublicByMyself(): Promise<Array<ImageGalleryForCard> | undefined> {
+export async function getAllImagePublicByMyself(): Promise<
+  Array<ImageGalleryForCard> | undefined
+> {
   try {
     const res = await callGetRequest(
       `/images/posts/myself`,
@@ -87,17 +90,61 @@ export async function getAllImagePublicByMyself(): Promise<Array<ImageGalleryFor
     );
     if (res.status === 200) {
       const data: Array<ImageGalleryForResponse> = res.response;
-      const result: Array<ImageGalleryForCard> = []
+      const result: Array<ImageGalleryForCard> = [];
       for (const item of data) {
         result.push({
           account_id: item.accountId,
           id: item.id,
           path: `${process.env.API_BASE_URL}${item.path}`,
-          post_id: item.postId
-        })
+          post_id: item.postId,
+        });
       }
       return result;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
 
+export async function uploadAvataAccount(
+  image: any,
+): Promise<ImageForCard | undefined> {
+  try {
+    const formData = new FormData();
+    formData.append("image", image);
+    const result = await submitMultiForm("/file/upload-avata", formData);
+    const data: ImageForResponse = result.response;
+    console.log(result);
+    if (result.status === 201) {
+      return {
+        field_name: data.fieldname,
+        file_name: data.filename,
+        mime_type: data.mimetype,
+        original_name: data.originalname,
+        size: data.size,
+      };
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function uploadBannerAccount(
+  image: any,
+): Promise<ImageForCard | undefined> {
+  try {
+    const formData = new FormData();
+    formData.append("image", image);
+    const result = await submitMultiForm("/file/upload-banner", formData);
+    const data: ImageForResponse = result.response;
+    if (result.status === 201) {
+      return {
+        field_name: data.fieldname,
+        file_name: data.filename,
+        mime_type: data.mimetype,
+        original_name: data.originalname,
+        size: data.size,
+      };
     }
   } catch (error) {
     console.error(error);

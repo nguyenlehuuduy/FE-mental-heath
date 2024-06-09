@@ -2,7 +2,6 @@
 import React from "react";
 import { Button, Popover } from "antd";
 import Image from "next/image";
-import { MyselfForCard } from "@/service/accountService";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { RootState } from "../../redux/configureStore";
@@ -31,14 +30,16 @@ const ProfileCard = () => {
             className="w-full object-cover h-[100px] rounded-md"
           />
         )}
-        <div className="absolute m-auto right-0 left-0 top-[50px] flex flex-col justify-center items-center text-center">
+        <div className="w-[80px] mx-auto mt-1">
           <AvatarAccount
             width={80}
             height={80}
             filePath={user?.avata}
             name={user?.full_name ?? "D"}
           />
+        </div>
 
+        <div className="absolute m-auto right-0 left-0 top-[190px] flex flex-col justify-center items-center text-center">
           <p className="font-medium text-[15px]">{user?.full_name}</p>
           <label>{user?.nick_name}</label>
           <div>{user?.about_me}</div>
