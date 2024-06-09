@@ -43,7 +43,7 @@ export default async function ProfilePage({
         listImagePublicOfAccount={listImagePublicOfAccount}
         profile={infoAccount}
         idAccount={params.accountId}
-        listValidPostOfAccount={getPostsByAccount!}
+        listValidPostOfAccount={getPostsByAccount ?? []}
       />
     </div>
   );

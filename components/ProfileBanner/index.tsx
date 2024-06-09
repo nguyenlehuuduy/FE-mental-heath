@@ -65,27 +65,30 @@ const ProfileBanner = ({
     }
   }
 
-  const icon =
-    infoAccount.follow_ship.status !== 3 ? (
-      <IconAddFriend width={18} height={18} />
-    ) : null;
+  const icon = infoAccount.follow_ship.status !== 3 && (
+    <IconAddFriend width={18} height={18} />
+  );
   return (
     <div className="w-full bg-white rounded-md">
-      <div className="relative w-full h-[200px] rounded-md overflow-hidden">
-        <Image
-          src={infoAccount.profile_other_account.user.banner}
-          fill
-          className="object-cover"
-          quality={100}
-          alt="banner account"
-        />
+      <div className="relative w-full h-[200px] rounded-md overflow-hidden bg-slate-200 flex items-center justify-center">
+        {infoAccount?.profile_other_account?.user?.banner ? (
+          <Image
+            src={infoAccount?.profile_other_account?.user?.banner}
+            fill
+            className="object-cover"
+            quality={100}
+            alt="banner account"
+          />
+        ) : (
+          <span className="text-gray-500">Chưa có thông tin banner</span>
+        )}
       </div>
       <div className="flex flex-col">
         <div className="flex py-2 px-4 gap-4">
           <div className="w-[150px]">
             <AvatarAccount
               name={infoAccount.profile_other_account.user.full_name}
-              filePath={infoAccount.profile_other_account.user.avata}
+              filePath={infoAccount?.profile_other_account.user?.avata}
               height={150}
               width={150}
             />
@@ -93,10 +96,10 @@ const ProfileBanner = ({
 
           <div className="flex flex-col justify-center gap-3 max-w-[500px] w-full">
             <p className="font-bold text-2xl">
-              {infoAccount.profile_other_account.user.full_name}
+              {infoAccount?.profile_other_account.user?.full_name}
             </p>
             <p className="text-sm text-[#393A3C]">
-              {infoAccount.profile_other_account.user.about_me}
+              {infoAccount?.profile_other_account.user?.about_me}
             </p>
             <div className="flex flex-row gap-4">
               <Button
