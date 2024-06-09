@@ -52,14 +52,18 @@ export default function SettingAccountPageView(props: PropsComponent) {
   };
   return (
     <div className="w-full p-2 bg-white rounded-md overflow-y-auto h-[calc(100vh-70px)]">
-      <div className="relative w-full h-[200px] rounded-md overflow-hidden">
-        <Image
-          src={user.banner}
-          fill
-          quality={100}
-          className="object-cover"
-          alt="banner account"
-        />
+      <div className="relative w-full h-[200px] rounded-md overflow-hidden flex items-center justify-center">
+        {user.banner ? (
+          <Image
+            src={user.banner}
+            fill
+            quality={100}
+            className="object-cover"
+            alt="banner account"
+          />
+        ) : (
+          <span className="text-gray-500">Chưa có thông tin banner</span>
+        )}
         <div
           className="absolute bottom-2 right-2 flex gap-3 bg-white rounded-md p-2 cursor-pointer"
           onClick={() => setShowUpdateBanner(true)}
