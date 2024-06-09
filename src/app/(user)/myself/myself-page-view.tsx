@@ -32,14 +32,18 @@ export default function MySelfPageView(props: PropsComponent) {
   const { user, follower, followings, object_count } = props.profile;
   return (
     <div className="w-full p-2">
-      <div className="relative w-full h-[200px] rounded-md overflow-hidden">
-        <Image
-          src={user.banner}
-          fill
-          quality={100}
-          className="object-cover"
-          alt="banner account"
-        />
+      <div className="relative w-full h-[200px] rounded-md overflow-hidden flex items-center justify-center">
+        {user.banner ? (
+          <Image
+            src={user.banner}
+            fill
+            quality={100}
+            className="object-cover"
+            alt="banner account"
+          />
+        ) : (
+          <span className="text-gray-500">Chưa có thông tin banner</span>
+        )}
       </div>
       <div className="w-full flex mt-2 justify-between">
         <div className="w-[65%] flex flex-col gap-y-1">
