@@ -46,6 +46,16 @@ import AboutUs from "./AboutUs";
 import FooterLanding from "./FooterLanding";
 import ModalDetailPost from "./ModalDetailPost";
 import PostSearchItem from "./PostSearchItem";
+import Friends from "./Friends";
+import FollowerList from "./FollowerList";
+import FollowingList from "./FollowingList";
+import RequestFollowList from "./RequestFollowList";
+import SuggestFollowList from "./SuggestFollowList";
+import FollowingItem from "./FollowingItem";
+import FollowerItem from "./FollowerItem";
+import RequestFollowerItem from "./RequestFollowItem";
+import SuggestFollowItem from "./SuggestFollowItem";
+
 export {
   Header,
   Footer,
@@ -95,4 +105,13 @@ export {
   FooterLanding,
   ModalDetailPost,
   PostSearchItem,
+  Friends,
+  FollowerList,
+  FollowingList,
+  RequestFollowList,
+  SuggestFollowList,
+  FollowingItem,
+  FollowerItem,
+  RequestFollowerItem,
+  SuggestFollowItem,
 };

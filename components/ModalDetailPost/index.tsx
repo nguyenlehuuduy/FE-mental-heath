@@ -44,7 +44,7 @@ export default function ModalDetailPost(props: Props) {
   const router = useRouter();
 
   useEffect(() => {
-    getPostForModal(props.infoBasePost.post_id).then((rs) => {
+    getPostForModal(props.id).then((rs) => {
       if (rs) {
         setListComment(rs);
       }
@@ -110,11 +110,7 @@ export default function ModalDetailPost(props: Props) {
               height={14}
               alt="icon save post"
             />
-            <Button
-              onClick={() =>
-                router.push(`/new-feeds/${props.infoBasePost.post_id}`)
-              }
-            >
+            <Button onClick={() => router.push(`/new-feeds/${props.id}`)}>
               xem toàn màn hình
             </Button>
           </div>

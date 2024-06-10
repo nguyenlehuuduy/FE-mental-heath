@@ -120,7 +120,7 @@ export default function MessageFrame(props: PropsComponent) {
             {item.owner_id !== props.profile.id && (
               <div className="relative h-[40px] w-[40px] rounded-full">
                 {/* TODO:avata update later */}
-                <Image src={"/later.png"} fill alt="avatar" />
+                <Image src="/big_logo.png" fill alt="avatar" />
               </div>
             )}
             <div className="flex flex-col max-w-[380px] h-auto gap-2">

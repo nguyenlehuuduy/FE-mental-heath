@@ -4,7 +4,8 @@ import {
   callPostRequest,
 } from "./apiService";
 
-interface SuggestFollowSuggestForResponse {
+export interface SuggestFollowSuggestForResponse {
+  idFollowShip: string;
   id: string;
   fullName: string;
   phone: string;
@@ -12,6 +13,8 @@ interface SuggestFollowSuggestForResponse {
   nickName: string;
   birth: string;
   address: string;
+  avata: string;
+  followStatus?: boolean;
 }
 
 export type SuggestFollowForCard = {
@@ -137,5 +140,19 @@ export async function refuseFollow(idRequest: string) {
 
 export async function unfollowAccount(idFollow: string) {
   const res = await callDeleteRequest(`/follow/unfollow/${idFollow}`);
+  console.log(res);
+
   return res.status;
+}
+
+export async function getListFollowing() {
+  const res = await callGetRequest("/follow/followings", "get-list-followings");
+  const data: SuggestFollowSuggestForResponse[] = res.response;
+  return data;
+}
+
+export async function getListFollower() {
+  const res = await callGetRequest("/follow/followers", "get-list-followers");
+  const data: SuggestFollowSuggestForResponse[] = res.response;
+  return data;
 }
