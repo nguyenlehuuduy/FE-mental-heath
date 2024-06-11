@@ -46,6 +46,15 @@ import AboutUs from "./AboutUs";
 import FooterLanding from "./FooterLanding";
 import ModalDetailPost from "./ModalDetailPost";
 import PostSearchItem from "./PostSearchItem";
+import BlogPage1 from "./BlogPageComponent/BlogPage1";
+import FeatureArticle from "./BlogPageComponent/FeatureArticle";
+import AllPostHomeBlog from "./BlogPageComponent/AllPostHomeBlog";
+import BlogPage3 from "./BlogPageComponent/BlogPage3";
+import BlogPage4 from "./BlogPageComponent/BlogPage4";
+import BlogPage5 from "./BlogPageComponent/BlogPage5";
+import BlogPage6 from "./BlogPageComponent/BlogPage6";
+import BlogPage7 from "./BlogPageComponent/BlogPage7";
+
 export {
   Header,
   Footer,
@@ -95,4 +104,12 @@ export {
   FooterLanding,
   ModalDetailPost,
   PostSearchItem,
+  BlogPage1,
+  FeatureArticle,
+  AllPostHomeBlog,
+  BlogPage3,
+  BlogPage4,
+  BlogPage5,
+  BlogPage6,
+  BlogPage7,
 };

@@ -20,7 +20,7 @@ export default function LoginLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className="relative bg-white w-full h-screen ">
+      <body className="relative bg-white w-full h-full ">
         <div className="px-4 bg-[#D7EFFF]">
           <HeaderLanding sessionKey={sessionKey} />
         </div>
