@@ -1,7 +1,7 @@
 "use client";
 
 import { EVENTS } from "@/lib/constants";
-import { socketService } from "@/socket";
+import { SocketService, socketService } from "@/socket";
 import { useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
 
@@ -19,7 +19,7 @@ export default function useSocket({
   // Set the URL for the socket service
   socketService.connectWithAuthToken(sessionKey);
 
-  const [mySocket, setMySocket] = useState<Socket>(socketService);
+  const [mySocket, setMySocket] = useState<SocketService>(socketService);
 
   useEffect(() => {
     if (socketService.checkConnect()) {
@@ -28,7 +28,7 @@ export default function useSocket({
 
     function onConnect() {
       socketService.onUpgrade((transport) => {});
-      setMySocket(socketService as unknown as Socket);
+      setMySocket(socketService);
       // JOIN NOTIFICATION IDENTIFY
       socketService.emit(EVENTS.CLIENT.JOIN_NOTIFICATION_IDENTIFY, idUser);
     }

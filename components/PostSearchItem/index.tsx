@@ -19,9 +19,9 @@ const PostSearchItem = ({ post }: { post: SearchPostTypeForCard }) => {
       className="flex justify-between gap-2 p-2 cursor-pointer"
       onClick={handleShowDetailPost}
     >
-      {openDetailPost && (
+      {/* {openDetailPost && (
         <ModalDetailPost id={post.id} showModal={handleShowDetailPost} />
-      )}
+      )} */}
       <div className="flex gap-3">
         <div className="w-[50px] h-[50px]">
           <AvatarAccount

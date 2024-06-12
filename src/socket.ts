@@ -6,7 +6,7 @@ import {
 } from "../type";
 import { EVENTS } from "./lib/constants";
 
-class SocketService {
+export class SocketService {
   private static instance: SocketService;
   private socket: Socket;
 

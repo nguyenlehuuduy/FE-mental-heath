@@ -7,7 +7,7 @@ const PostWrap = () => {
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
-        <PostContent />
+        {/* <PostContent /> */}
       </Suspense>
     </div>
   );
